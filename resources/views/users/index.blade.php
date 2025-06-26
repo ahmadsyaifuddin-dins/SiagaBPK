@@ -1,8 +1,8 @@
 <x-app-layout>
     <div class="p-6">
-        <h2 class="text-xl font-bold mb-4">👥 Kelola Relawan</h2>
+        <h2 class="text-xl font-bold mb-4">👥 Kelola Petugas</h2>
         <button onclick="openModal()" class="bg-green-600 text-white px-4 py-2 rounded mb-4">
-            + Tambah Relawan
+            + Tambah Petugas
         </button>
         <table class="table-auto w-full">
             <thead>
@@ -35,7 +35,7 @@
     <!-- Modal Tambah User -->
     <div id="modal-user" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
         <div class="bg-white p-6 rounded-lg w-full max-w-md">
-            <h2 class="text-lg font-bold mb-4">Tambah Relawan</h2>
+            <h2 class="text-lg font-bold mb-4">Tambah Petugas</h2>
             <form action="{{ route('users.store') }}" method="POST">
                 @csrf
                 <div class="mb-4">

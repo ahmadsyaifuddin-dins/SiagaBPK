@@ -23,7 +23,7 @@
                             {{ __('Jadwal Siaga') }}
                         </x-nav-link>
                         <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
-                            {{ __('Relawan') }}
+                            {{ __('Petugas') }}
                         </x-nav-link>
                     @endrole
                 </div>
@@ -84,6 +84,12 @@
             @role('admin')
                 <x-responsive-nav-link :href="route('insidens.index')" :active="request()->routeIs('insidens.index')">
                     {{ __('Insiden') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('jadwal_siaga.index')" :active="request()->routeIs('jadwal_siaga.index')">
+                    {{ __('Jadwal Siaga') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
+                    {{ __('Petugas') }}
                 </x-responsive-nav-link>
             @endrole
         </div>

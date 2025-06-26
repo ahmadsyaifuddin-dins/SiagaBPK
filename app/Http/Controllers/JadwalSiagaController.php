@@ -16,7 +16,7 @@ class JadwalSiagaController extends Controller
 
     public function create()
     {
-        $users = User::all();
+        $users = User::where('role', 'relawan')->get();
         return view('jadwal_siaga.create', compact('users'));
     }
 
