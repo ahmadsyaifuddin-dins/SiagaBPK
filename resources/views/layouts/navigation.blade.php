@@ -15,6 +15,17 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    @role('admin')
+                        <x-nav-link :href="route('insidens.index')" :active="request()->routeIs('insidens.index')">
+                            {{ __('Insiden') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('jadwal_siaga.index')" :active="request()->routeIs('jadwal_siaga.index')">
+                            {{ __('Jadwal Siaga') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
+                            {{ __('Relawan') }}
+                        </x-nav-link>
+                    @endrole
                 </div>
             </div>
 
@@ -70,6 +81,11 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            @role('admin')
+                <x-responsive-nav-link :href="route('insidens.index')" :active="request()->routeIs('insidens.index')">
+                    {{ __('Insiden') }}
+                </x-responsive-nav-link>
+            @endrole
         </div>
 
         <!-- Responsive Settings Options -->

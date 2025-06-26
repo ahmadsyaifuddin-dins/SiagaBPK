@@ -13,8 +13,13 @@ return new class extends Migration
     {
         Schema::create('insidens', function (Blueprint $table) {
             $table->id();
+            $table->string('lokasi');
+            $table->dateTime('waktu_kejadian');
+            $table->enum('status', ['Dilaporkan', 'Berangkat', 'Tiba di TKP', 'Selesai'])->default('Dilaporkan');
+            $table->string('foto')->nullable();
+            $table->text('catatan')->nullable();
             $table->timestamps();
-        });
+        });        
     }
 
     /**

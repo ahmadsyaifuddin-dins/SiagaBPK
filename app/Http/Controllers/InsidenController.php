@@ -3,63 +3,75 @@
 namespace App\Http\Controllers;
 
 use App\Models\Insiden;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class InsidenController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $data = Insiden::latest()->get();
+        return view('insidens.index', compact('data'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('insidens.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'lokasi' => 'required',
+            'waktu_kejadian' => 'required|date',
+            'status' => 'required',
+            'foto' => 'nullable|image|max:2048',
+            'catatan' => 'nullable'
+        ]);
+
+        if ($request->hasFile('foto')) {
+            $data['foto'] = $request->file('foto')->store('dokumentasi', 'public');
+        }
+
+        Insiden::create($data);
+        return redirect()->route('insidens.index')->with('success', 'Insiden berhasil ditambahkan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Insiden $insiden)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Insiden $insiden)
     {
-        //
+        return view('insidens.edit', compact('insiden'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Insiden $insiden)
     {
-        //
+        $data = $request->validate([
+            'lokasi' => 'required',
+            'waktu_kejadian' => 'required|date',
+            'status' => 'required',
+            'foto' => 'nullable|image|max:2048',
+            'catatan' => 'nullable'
+        ]);
+
+        if ($request->hasFile('foto')) {
+            $data['foto'] = $request->file('foto')->store('dokumentasi', 'public');
+        }
+
+        $insiden->update($data);
+        return redirect()->route('insidens.index')->with('success', 'Insiden berhasil diperbarui.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Insiden $insiden)
     {
-        //
+        $insiden->delete();
+        return redirect()->route('insidens.index')->with('success', 'Insiden berhasil dihapus.');
+    }
+
+
+    public function exportPdf()
+    {
+        $data = Insiden::latest()->get();
+        $pdf = Pdf::loadView('insidens.pdf', compact('data'));
+
+        return $pdf->download('laporan_insiden.pdf');
     }
 }
