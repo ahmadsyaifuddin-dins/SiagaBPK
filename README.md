@@ -126,6 +126,10 @@ npm install
 ```bash
 cp .env.example .env
 ```
+atau apabila cmd tua
+```bash
+copy .env.example .env
+```
 Lalu sesuaikan konfigurasi database di file .env:
 ```css
 DB_DATABASE=siagabpk
