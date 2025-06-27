@@ -199,6 +199,11 @@
                                                   Hapus
                                               </button>
                                           </form>
+                                          <a href="{{ route('insidens.show', $insiden->id) }}" 
+                                             class="inline-flex items-center gap-1 text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 transition-colors duration-150">
+                                              <i class="fa-solid fa-eye"></i>
+                                              Lihat
+                                          </a>
                                       </div>
                                   </td>
                               </tr>

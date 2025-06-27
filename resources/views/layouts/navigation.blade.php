@@ -25,7 +25,10 @@
                         <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
                             {{ __('Petugas') }}
                         </x-nav-link>
-                    @endrole
+                        @endrole
+                        <x-nav-link href="{{ route('laporan-lengkap') }}" :active="request()->routeIs('laporan-lengkap')">
+                            Laporan Lengkap
+                        </x-nav-link>                    
                 </div>
             </div>
 

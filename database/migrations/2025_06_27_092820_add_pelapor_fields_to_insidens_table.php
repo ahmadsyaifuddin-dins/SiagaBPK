@@ -12,18 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('insidens', function (Blueprint $table) {
-            $table->foreignId('dilaporkan_oleh')->nullable()->constrained('users')->nullOnDelete();
-            $table->string('jenis_insiden')->nullable();
-            $table->unsignedInteger('jumlah_korban')->nullable();
-            $table->string('kerugian')->nullable();
+            $table->string('nama_pelapor')->nullable();
+            $table->string('kontak_pelapor')->nullable();
         });
     }
 
     public function down(): void
     {
         Schema::table('insidens', function (Blueprint $table) {
-            $table->dropForeign(['dilaporkan_oleh']);
-            $table->dropColumn(['dilaporkan_oleh', 'jenis_insiden', 'jumlah_korban', 'kerugian']);
+            $table->dropColumn(['nama_pelapor', 'kontak_pelapor']);
         });
     }
 };

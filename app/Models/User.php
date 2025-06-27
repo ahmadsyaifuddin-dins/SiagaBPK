@@ -46,4 +46,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function insidenDilaporkan()
+    {
+        return $this->hasMany(Insiden::class, 'dilaporkan_oleh');
+    }
+
+    public function insidenDitugaskan()
+    {
+        return $this->belongsToMany(Insiden::class, 'insiden_user');
+    }
 }
