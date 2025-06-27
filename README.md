@@ -95,9 +95,9 @@ SiagaBPK adalah aplikasi berbasis web yang dikembangkan menggunakan Laravel 12. 
 
 Pastikan sudah terinstall:
 
-- PHP ≥ 8.2 cek di cmd php -v
-- Composer untuk cek composer di cmd bisa ketik composer --version
-- Node.js ≥ v18 (disarankan Node.js v22) untuk cek versi nodejs di cmd bisa ketik node -v
+- PHP ≥ 8.2 cek di cmd ketik: php -v
+- Composer untuk cek composer di cmd bisa ketik: composer --version
+- Node.js ≥ v18 (disarankan Node.js v22) untuk cek versi nodejs di cmd ketik: node -v
 - MySQL / MariaDB
 - Laragon download laragon 6 (https://github.com/leokhoa/laragon/releases/download/6.0.0/laragon-wamp.exe) pastikan pakai Phpmyadmin bukan heidisql (karna default database laragon heidisql)
 - dan untuk phpMyAdmin kalau belum silahkan install dulu di https://files.phpmyadmin.net/phpMyAdmin/5.2.2/phpMyAdmin-5.2.2-all-languages.zip
