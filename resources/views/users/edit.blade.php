@@ -17,8 +17,8 @@
                                 </svg>
                             </div>
                             <div>
-                                <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Edit Role Pengguna</h1>
-                                <p class="text-gray-600 dark:text-gray-400">Kelola hak akses anggota tim</p>
+                                <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Edit Data Petugas</h1>
+                                <p class="text-gray-600 dark:text-gray-400">Kelola data anggota tim pemadam kebakaran</p>
                             </div>
                         </div>
                     </div>
@@ -65,38 +65,144 @@
                             </h3>
                             
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div>
-                                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                                        <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <!-- Nama Lengkap -->
+                                <div class="md:col-span-2">
+                                    <label class="flex items-center text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                                         </svg>
-                                        Nama Lengkap
+                                        Nama Lengkap *
                                     </label>
-                                    <div class="relative">
-                                        <input type="text" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-700 text-gray-500 dark:text-gray-400" value="{{ $user->name }}">
-                                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
-                                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                                            </svg>
-                                        </div>
-                                    </div>
+                                    <input type="text" name="name" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:text-white transition-colors duration-200" placeholder="Masukkan nama lengkap" value="{{ $user->name }}" required>
                                 </div>
                                 
-                                <div>
-                                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                                        <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <!-- Email -->
+                                <div class="md:col-span-2">
+                                    <label class="flex items-center text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                                         </svg>
-                                        Email
+                                        Email *
                                     </label>
-                                    <div class="relative">
-                                        <input type="email" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed" value="{{ $user->email }}" disabled>
-                                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
-                                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                                            </svg>
-                                        </div>
-                                    </div>
+                                    <input type="email" name="email" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:text-white transition-colors duration-200" placeholder="nama@email.com" value="{{ $user->email }}" required>
+                                </div>
+
+                                <!-- Password -->
+                                <div class="md:col-span-2">
+                                    <label class="flex items-center text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                        </svg>
+                                        Password Baru (Kosongkan jika tidak ingin mengubah)
+                                    </label>
+                                    <input type="password" name="password" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:text-white transition-colors duration-200" placeholder="Minimal 8 karakter">
+                                </div>
+
+                                <!-- Jenis Kelamin -->
+                                <div>
+                                    <label class="flex items-center text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+                                        </svg>
+                                        Jenis Kelamin *
+                                    </label>
+                                    <select name="jenis_kelamin" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:text-white transition-colors duration-200" required>
+                                        <option value="">Pilih Jenis Kelamin</option>
+                                        <option value="Laki-laki" {{ $user->jenis_kelamin == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+                                        <option value="Perempuan" {{ $user->jenis_kelamin == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+                                    </select>
+                                </div>
+
+                                <!-- No. HP -->
+                                <div>
+                                    <label class="flex items-center text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                                        </svg>
+                                        No. HP *
+                                    </label>
+                                    <input type="text" name="no_hp" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:text-white transition-colors duration-200" placeholder="08xxxxxxxxxx" value="{{ $user->no_hp }}" required>
+                                </div>
+
+                                <!-- Tanggal Lahir -->
+                                <div>
+                                    <label class="flex items-center text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                        </svg>
+                                        Tanggal Lahir
+                                    </label>
+                                    <input type="date" name="tanggal_lahir" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:text-white transition-colors duration-200" value="{{ $user->tanggal_lahir }}">
+                                </div>
+
+                                <!-- Golongan Darah -->
+                                <div>
+                                    <label class="flex items-center text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                        </svg>
+                                        Golongan Darah
+                                    </label>
+                                    <select name="golongan_darah" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:text-white transition-colors duration-200">
+                                        <option value="">Pilih Golongan Darah</option>
+                                        <option value="A+" {{ $user->golongan_darah == 'A+' ? 'selected' : '' }}>A+</option>
+                                        <option value="A-" {{ $user->golongan_darah == 'A-' ? 'selected' : '' }}>A-</option>
+                                        <option value="B+" {{ $user->golongan_darah == 'B+' ? 'selected' : '' }}>B+</option>
+                                        <option value="B-" {{ $user->golongan_darah == 'B-' ? 'selected' : '' }}>B-</option>
+                                        <option value="AB+" {{ $user->golongan_darah == 'AB+' ? 'selected' : '' }}>AB+</option>
+                                        <option value="AB-" {{ $user->golongan_darah == 'AB-' ? 'selected' : '' }}>AB-</option>
+                                        <option value="O+" {{ $user->golongan_darah == 'O+' ? 'selected' : '' }}>O+</option>
+                                        <option value="O-" {{ $user->golongan_darah == 'O-' ? 'selected' : '' }}>O-</option>
+                                    </select>
+                                </div>
+
+                                <!-- Jabatan -->
+                                <div>
+                                    <label class="flex items-center text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                        </svg>
+                                        Jabatan
+                                    </label>
+                                    <select name="jabatan" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:text-white transition-colors duration-200">
+                                        <option value="">Pilih Jabatan</option>
+                                        <option value="Komandan" {{ $user->jabatan == 'Komandan' ? 'selected' : '' }}>Komandan</option>
+                                        <option value="Petugas Lapangan" {{ $user->jabatan == 'Petugas Lapangan' ? 'selected' : '' }}>Petugas Lapangan</option>
+                                        <option value="Danton" {{ $user->jabatan == 'Danton' ? 'selected' : '' }}>Danton</option>
+                                        <option value="Wakil Komandan" {{ $user->jabatan == 'Wakil Komandan' ? 'selected' : '' }}>Wakil Komandan</option>
+                                        <option value="Petugas Senior" {{ $user->jabatan == 'Petugas Senior' ? 'selected' : '' }}>Petugas Senior</option>
+                                        <option value="Petugas Junior" {{ $user->jabatan == 'Petugas Junior' ? 'selected' : '' }}>Petugas Junior</option>
+                                        <option value="Anggota Regu" {{ $user->jabatan == 'Anggota Regu' ? 'selected' : '' }}>Anggota Regu</option>
+                                        <option value="Petugas Medis" {{ $user->jabatan == 'Petugas Medis' ? 'selected' : '' }}>Petugas Medis</option>
+                                        <option value="Petugas Teknis" {{ $user->jabatan == 'Petugas Teknis' ? 'selected' : '' }}>Petugas Teknis</option>
+                                    </select>
+                                </div>
+
+                                <!-- Alamat -->
+                                <div class="md:col-span-2">
+                                    <label class="flex items-center text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        </svg>
+                                        Alamat
+                                    </label>
+                                    <textarea name="alamat" rows="3" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:text-white transition-colors duration-200">{{ $user->alamat }}</textarea>
+                                </div>
+
+                                <!-- Status Aktif -->
+                                <div>
+                                    <label class="flex items-center text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                        </svg>
+                                        Status Aktif
+                                    </label>
+                                    <select name="status_aktif" class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-red-500 dark:bg-gray-700 dark:text-white transition-colors duration-200">
+                                        <option value="1" {{ $user->status_aktif == 1 ? 'selected' : '' }}>Aktif</option>
+                                        <option value="0" {{ $user->status_aktif == 0 ? 'selected' : '' }}>Tidak Aktif</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
