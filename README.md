@@ -99,7 +99,7 @@ Pastikan sudah terinstall:
 - Composer untuk cek composer di cmd bisa ketik composer --version
 - Node.js ≥ v18 (disarankan Node.js v22) untuk cek versi nodejs di cmd bisa ketik node -v
 - MySQL / MariaDB
-- Laragon (pastikan pakai Phpmyadmin bukan heidisql)
+- Laragon (pastikan pakai Phpmyadmin bukan heidisql) download laragon 6 (https://github.com/leokhoa/laragon/releases/download/6.0.0/laragon-wamp.exe)
 kalau belum silahkan install dulu di https://files.phpmyadmin.net/phpMyAdmin/5.2.2/phpMyAdmin-5.2.2-all-languages.zip
 lalu di extract dulu zipnya letak in folder nya di laragon/etc/app/"paste disini" rename foldernya jadi phpMyAdmin
 
