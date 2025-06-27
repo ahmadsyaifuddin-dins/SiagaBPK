@@ -106,7 +106,7 @@ lalu di extract dulu zipnya letak in folder nya di laragon/etc/app/"paste disini
 ### 1. Clone Repo
 
 ```bash
-https://github.com/ahmadsyaifuddin-dins/SiagaBPK.git
+git clone https://github.com/ahmadsyaifuddin-dins/SiagaBPK.git
 ```
 ```bash
 cd siagabpk
