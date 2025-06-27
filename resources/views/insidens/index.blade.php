@@ -20,6 +20,7 @@
                   
                   <!-- Action Buttons -->
                   <div class="flex gap-3">
+                    @role('admin')
                       <a href="{{ route('insidens.create') }}" 
                          class="group relative inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200">
                           <svg class="w-5 h-5 group-hover:rotate-90 transition-transform duration-200" fill="currentColor" viewBox="0 0 20 20">
@@ -28,12 +29,13 @@
                           Tambah Insiden
                       </a>
                       <a href="{{ route('insidens.export.pdf') }}" target="_blank" 
-                         class="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200">
-                          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                              <path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clip-rule="evenodd"/>
-                          </svg>
-                          Export PDF
-                      </a>
+                      class="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200">
+                      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clip-rule="evenodd"/>
+                        </svg>
+                        Export PDF
+                    </a>
+                    @endrole
                   </div>
               </div>
           </div>
@@ -122,9 +124,7 @@
                               </th>
                               <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700">
                                   <div class="flex items-center gap-2">
-                                      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                          <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"/>
-                                      </svg>
+                                    <i class="fa-solid fa-gear"></i>
                                       Aksi
                                   </div>
                               </th>
@@ -183,6 +183,7 @@
                                   </td>
                                   <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                       <div class="flex items-center gap-3">
+                                        @role('admin')
                                           <a href="{{ route('insidens.edit', $insiden->id) }}" 
                                              class="inline-flex items-center gap-1 text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 transition-colors duration-150">
                                               <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -199,6 +200,7 @@
                                                   Hapus
                                               </button>
                                           </form>
+                                          @endrole
                                           <a href="{{ route('insidens.show', $insiden->id) }}" 
                                              class="inline-flex items-center gap-1 text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 transition-colors duration-150">
                                               <i class="fa-solid fa-eye"></i>
