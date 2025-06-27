@@ -308,32 +308,39 @@
     </div>
 
     <script>
-        // Radio button functionality
+        // Radio button functionality - Fixed version
         document.querySelectorAll('input[name="role"]').forEach(radio => {
             radio.addEventListener('change', function() {
-                // Remove selected styling from all labels
-                document.querySelectorAll('label[for^="role"]').forEach(label => {
-                    label.classList.remove('border-red-500', 'bg-red-50', 'dark:bg-red-900/20');
-                    label.classList.add('border-gray-200', 'dark:border-gray-600');
-                    
-                    // Reset circle styling
-                    const circle = label.querySelector('.w-5.h-5.border-2');
-                    if (circle) {
-                        circle.classList.remove('border-red-500', 'bg-red-500');
-                        circle.classList.add('border-gray-300', 'dark:border-gray-600');
-                        circle.innerHTML = '';
-                    }
-                    
-                    // Reset icon styling
-                    const icon = label.querySelector('.w-10.h-10 > svg');
-                    if (icon) {
-                        icon.classList.remove('text-white');
-                        icon.classList.add('text-gray-500');
-                    }
-                    const iconContainer = label.querySelector('.w-10.h-10');
-                    if (iconContainer) {
-                        iconContainer.classList.remove('bg-red-500');
-                        iconContainer.classList.add('bg-gray-300', 'dark:bg-gray-600');
+                // Remove selected styling from ALL role labels
+                document.querySelectorAll('label').forEach(label => {
+                    // Check if this label contains a role radio button
+                    const radioInLabel = label.querySelector('input[name="role"]');
+                    if (radioInLabel) {
+                        // Reset label styling
+                        label.classList.remove('border-red-500', 'bg-red-50', 'dark:bg-red-900/20');
+                        label.classList.add('border-gray-200', 'dark:border-gray-600');
+                        
+                        // Reset circle styling
+                        const circle = label.querySelector('.w-5.h-5.border-2');
+                        if (circle) {
+                            circle.classList.remove('border-red-500', 'bg-red-500');
+                            circle.classList.add('border-gray-300', 'dark:border-gray-600');
+                            circle.innerHTML = '';
+                        }
+                        
+                        // Reset icon container styling
+                        const iconContainer = label.querySelector('.w-10.h-10');
+                        if (iconContainer) {
+                            iconContainer.classList.remove('bg-red-500');
+                            iconContainer.classList.add('bg-gray-300', 'dark:bg-gray-600');
+                        }
+                        
+                        // Reset icon styling
+                        const icon = label.querySelector('.w-10.h-10 > svg');
+                        if (icon) {
+                            icon.classList.remove('text-white');
+                            icon.classList.add('text-gray-500');
+                        }
                     }
                 });
                 
@@ -350,18 +357,30 @@
                     circle.innerHTML = '<svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>';
                 }
                 
+                // Update icon container styling
+                const iconContainer = currentLabel.querySelector('.w-10.h-10');
+                if (iconContainer) {
+                    iconContainer.classList.remove('bg-gray-300', 'dark:bg-gray-600');
+                    iconContainer.classList.add('bg-red-500');
+                }
+                
                 // Update icon styling
                 const icon = currentLabel.querySelector('.w-10.h-10 > svg');
                 if (icon) {
                     icon.classList.remove('text-gray-500');
                     icon.classList.add('text-white');
                 }
-                const iconContainer = currentLabel.querySelector('.w-10.h-10');
-                if (iconContainer) {
-                    iconContainer.classList.remove('bg-gray-300', 'dark:bg-gray-600');
-                    iconContainer.classList.add('bg-red-500');
-                }
             });
+        });
+    
+        // Initialize proper styling on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Find the checked radio button and apply styling
+            const checkedRadio = document.querySelector('input[name="role"]:checked');
+            if (checkedRadio) {
+                // Trigger the change event to apply proper styling
+                checkedRadio.dispatchEvent(new Event('change'));
+            }
         });
     </script>
 </x-app-layout>
