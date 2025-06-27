@@ -140,7 +140,13 @@ DB_PASSWORD=
 ### 5. Generate Key & Migrasi Database
 ```bash
 php artisan key:generate
+```
+
+```bash
 php artisan migrate --seed
+```
+
+```bash
 php artisan storage:link
 ```
 
