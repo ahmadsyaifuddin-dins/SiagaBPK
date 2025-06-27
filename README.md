@@ -59,3 +59,96 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+# 🚒 SiagaBPK - Sistem Informasi Manajemen Penugasan dan Laporan Kebakaran
+
+SiagaBPK adalah aplikasi berbasis web yang dikembangkan menggunakan Laravel 12. Aplikasi ini dirancang untuk membantu Badan Pemadam Kebakaran (BPK) dalam mengelola laporan insiden, jadwal siaga petugas, dokumentasi, serta eksport data dalam bentuk PDF.
+
+---
+
+## 🔧 Fitur Utama
+
+- ✅ Manajemen Laporan Insiden Kebakaran
+  - Tambah, edit, dan lihat laporan
+  - Upload dokumentasi insiden (foto)
+  - Statistik insiden berdasarkan status
+- ✅ Jadwal Siaga Petugas
+  - Input jadwal bertugas harian
+  - Status siaga, tugas, istirahat
+- ✅ Kelola Data Petugas
+  - Role berdasarkan Laravel Spatie (Admin / Relawan)
+- ✅ Laporan Lengkap & Ekspor PDF
+  - Filter laporan berdasarkan tanggal & status
+  - Ekspor data ke PDF (laporan rekap / laporan lengkap)
+- ✅ Dashboard Statistik
+  - Statistik insiden real-time
+  - Total insiden, status terkini, dll
+- ✅ Role Akses
+  - Admin: CRUD penuh
+  - Relawan: akses hanya baca (read-only)
+
+---
+
+## ⚙️ Instalasi & Setup
+
+Pastikan sudah terinstall:
+
+- PHP ≥ 8.2
+- Composer
+- Node.js ≥ v18 (disarankan Node.js v22)
+- MySQL / MariaDB
+- Laragon (pastikan pakai Phpmyadmin bukan heidisql)
+kalau belum silahkan install dulu di https://files.phpmyadmin.net/phpMyAdmin/5.2.2/phpMyAdmin-5.2.2-all-languages.zip
+lalu di extract dulu zipnya letak in folder nya di laragon/etc/app/"paste disini" rename foldernya jadi phpMyAdmin
+
+### 1. Clone Repo
+
+```bash
+git clone https://github.com/username/siagabpk.git
+cd siagabpk
+```
+
+### 2. Install Dependency Laravel
+```bash
+composer install
+```
+
+### 3. Install Dependency Frontend
+```bash
+npm install
+```
+
+### 4. Salin dan Konfigurasi .env
+```bash
+cp .env.example .env
+```
+Lalu sesuaikan konfigurasi database di file .env:
+```css
+DB_DATABASE=siagabpk
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+### 5. Generate Key & Migrasi Database
+```bash
+php artisan key:generate
+php artisan migrate --seed
+php artisan storage:link
+```
+
+### 6. Jalankan Aplikasi (buka 2 windows cmd atau pakai cmder bawaan laragon)
+di cmd pertama
+```bash
+php artisan serve
+```
+cmd kedua
+```bash
+npm run dev
+```
+
+| Role    | Email                                       | Password |
+| ------- | ------------------------------------------- | -------- |
+| Admin   | [admin@bpk.com](mailto:admin@bpk.com)       | adminbpk123 |
+| Relawan | [lina@bpk.com](mailto:lina@bpk.com)         | relawanbpk123 |
+
