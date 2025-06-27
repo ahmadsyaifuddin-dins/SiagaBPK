@@ -107,6 +107,8 @@ lalu di extract dulu zipnya letak in folder nya di laragon/etc/app/"paste disini
 
 ```bash
 git clone https://github.com/username/siagabpk.git
+```
+```bash
 cd siagabpk
 ```
 
