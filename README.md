@@ -101,6 +101,7 @@ Pastikan sudah terinstall:
 - Laragon download laragon 6 (https://github.com/leokhoa/laragon/releases/download/6.0.0/laragon-wamp.exe) pastikan pakai Phpmyadmin bukan heidisql (karna default database laragon heidisql)
 - dan untuk phpMyAdmin kalau belum silahkan install dulu di https://files.phpmyadmin.net/phpMyAdmin/5.2.2/phpMyAdmin-5.2.2-all-languages.zip
 lalu di extract dulu zipnya letak in folder nya di laragon/etc/app/"paste disini" rename foldernya jadi phpMyAdmin
+- Opsional download Mariadb v11 https://mirror.citrahost.com/mariadb//mariadb-11.8.2/winx64-packages/mariadb-11.8.2-winx64.zip (extract lalu di paste in di folder laragon\data\"paste sini"
 
 ### 1. Clone Repo
 
