@@ -1,11 +1,11 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InsidenController;
 use App\Http\Controllers\JadwalSiagaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,13 +22,15 @@ Route::middleware('auth')->group(function () {
 
     // Users (Relawan bisa edit dan melihat detail id akun miliknya)
     Route::get('/users/{user}/edit', [UserController::class, 'edit'])
-    ->middleware('can:edit-user,user');
+        ->middleware('can:edit-user,user');
     Route::put('/users/{user}', [UserController::class, 'update'])
-    ->middleware('can:edit-user,user');
-    
+        ->middleware('can:edit-user,user');
+
     // Insidens (read only untuk relawan)
     Route::get('/insidens', [InsidenController::class, 'index'])->name('insidens.index');
-    Route::get('/insidens/{insiden}', [InsidenController::class, 'show'])->name('insidens.show');
+    Route::get('/insidens/{insiden}', [InsidenController::class, 'show'])
+        ->name('insidens.show')
+        ->where('insiden', '[0-9]+'); // hanya angka
 
     // Jadwal Siaga dan User (read only)
     Route::get('/jadwal_siaga', [JadwalSiagaController::class, 'index'])->name('jadwal_siaga.index');
