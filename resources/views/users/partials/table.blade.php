@@ -115,7 +115,7 @@
 
                                     <form action="{{ route('users.destroy', $u->id) }}" method="POST"
                                         class="inline-block"
-                                        onsubmit="return confirm('Yakin ingin menghapus petugas ini secara permanen?')">
+                                        onsubmit="confirmDelete(event, this, 'Yakin ingin menghapus petugas ini secara permanen?')">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"

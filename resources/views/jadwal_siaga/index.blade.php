@@ -163,18 +163,14 @@
                                                     Edit
                                                 </a>
                                                 <form action="{{ route('jadwal_siaga.destroy', $jadwal->id) }}"
-                                                    method="POST" class="inline">
+                                                    method="POST" class="inline-block"
+                                                    onsubmit="confirmDelete(event, this, 'Yakin hapus jadwal ini?')">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button onclick="return confirm('Yakin hapus jadwal ini?')"
+
+                                                    <button type="submit"
                                                         class="inline-flex items-center px-3 py-1 bg-red-100 hover:bg-red-200 dark:bg-red-900/30 dark:hover:bg-red-900/50 text-red-700 dark:text-red-300 text-xs font-medium rounded-lg transition-colors duration-150">
-                                                        <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor"
-                                                            viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                stroke-width="2"
-                                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                        </svg>
-                                                        Hapus
+                                                        <i class="fa-solid fa-trash-can mr-1.5"></i> Hapus
                                                     </button>
                                                 </form>
                                             @endif

@@ -46,6 +46,7 @@
             </main>
         </div>
     </div>
+    <x-sweetalert />
 </body>
 
 </html>

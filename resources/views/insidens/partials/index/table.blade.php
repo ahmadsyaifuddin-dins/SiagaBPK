@@ -102,10 +102,12 @@
                                         <i class="fa-solid fa-pen-to-square"></i> Edit
                                     </a>
                                     <form action="{{ route('insidens.destroy', $insiden->id) }}" method="POST"
-                                        class="inline">
-                                        @csrf @method('DELETE')
+                                        class="inline"
+                                        onsubmit="confirmDelete(event, this, 'Apakah Anda yakin ingin menghapus insiden ini?')">
+                                        @csrf
+                                        @method('DELETE')
+
                                         <button type="submit"
-                                            onclick="return confirm('Apakah Anda yakin ingin menghapus insiden ini?')"
                                             class="inline-flex items-center gap-1 text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 transition-colors duration-150">
                                             <i class="fa-solid fa-trash"></i> Hapus
                                         </button>
