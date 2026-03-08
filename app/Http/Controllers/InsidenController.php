@@ -116,7 +116,7 @@ class InsidenController extends Controller
     {
         $data = Insiden::with(['pelapor', 'petugas'])->latest()->get();
 
-        return view('insidens.laporan', compact('data'));
+        return view('laporan.laporan', compact('data'));
     }
 
     public function exportPdf()
@@ -131,7 +131,7 @@ class InsidenController extends Controller
     public function exportLaporanLengkapPdf()
     {
         $data = Insiden::with(['pelapor', 'petugas'])->latest()->get();
-        $pdf = Pdf::loadView('insidens.pdf-lengkap', compact('data'))->setPaper('a4', 'landscape');
+        $pdf = Pdf::loadView('laporan.pdf-lengkap', compact('data'))->setPaper('a4', 'landscape');
 
         // Gunakan stream() agar preview di browser dulu
         return $pdf->stream('laporan_lengkap_insiden.pdf');
