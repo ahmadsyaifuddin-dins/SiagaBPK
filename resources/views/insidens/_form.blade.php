@@ -71,11 +71,12 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div class="group">
-                <x-forms.label for="kerugian" value="Kerugian">
-                    <i class="fa-solid fa-money-bill-wave text-green-600"></i>
+                <x-forms.label for="kerugian" value="Taksiran Kerugian Material">
+                    <i class="fa-solid fa-sack-dollar text-red-500"></i>
                 </x-forms.label>
-                <x-forms.input type="text" name="kerugian" id="kerugian" placeholder="Misal: Kurang lebih 20 jutaan"
+                <x-forms.input-currency name="kerugian" id="kerugian" placeholder="Contoh: 15.000.000"
                     value="{{ old('kerugian', $insiden->kerugian ?? '') }}" />
+                <small class="text-xs text-gray-500 mt-1 block">Kosongkan jika tidak ada kerugian material.</small>
             </div>
 
             <div class="group">

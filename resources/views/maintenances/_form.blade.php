@@ -35,11 +35,11 @@
     </div>
 
     <div class="group">
-        <x-forms.label for="biaya" value="Total Biaya (Rp)" required="true">
+        <x-forms.label for="biaya" value="Total Biaya Servis" required="true">
             <i class="fa-solid fa-money-bill-wave text-emerald-600"></i>
         </x-forms.label>
-        <x-forms.input type="number" name="biaya" id="biaya" min="0" placeholder="500000"
-            value="{{ old('biaya', $maintenance->biaya ?? '0') }}" required />
+        <x-forms.input-currency name="biaya" id="biaya" placeholder="Contoh: 500.000"
+            value="{{ old('biaya', $maintenance->biaya ?? '') }}" required />
     </div>
 </div>
 
