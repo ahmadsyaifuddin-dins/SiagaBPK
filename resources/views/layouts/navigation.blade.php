@@ -57,7 +57,7 @@
                     {{ Auth::user()->name }}
                 </p>
                 <p class="text-xs text-gray-500 dark:text-gray-400 truncate">
-                    {{ ucfirst(Auth::user()->getRoleNames()->first() ?? 'Tidak ada role') }}
+                    {{ ucfirst(Auth::user()->role ?? 'Tidak ada role') }}
                 </p>
             </div>
         </div>

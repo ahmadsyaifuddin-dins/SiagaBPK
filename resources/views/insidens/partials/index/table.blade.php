@@ -96,7 +96,7 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             <div class="flex items-center gap-3">
-                                @role('admin')
+                                @if (auth()->user()->role === 'admin')
                                     <a href="{{ route('insidens.edit', $insiden->id) }}"
                                         class="inline-flex items-center gap-1 text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 transition-colors duration-150">
                                         <i class="fa-solid fa-pen-to-square"></i> Edit
@@ -110,7 +110,7 @@
                                             <i class="fa-solid fa-trash"></i> Hapus
                                         </button>
                                     </form>
-                                @endrole
+                                @endif
                                 <a href="{{ route('insidens.show', $insiden->id) }}"
                                     class="inline-flex items-center gap-1 text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 transition-colors duration-150">
                                     <i class="fa-solid fa-eye"></i> Lihat
@@ -130,12 +130,12 @@
                                     insiden</h3>
                                 <p class="text-gray-500 dark:text-gray-400 mb-6">Mulai dengan menambahkan insiden
                                     kebakaran pertama Anda.</p>
-                                @role('admin')
+                                @if (auth()->user()->role === 'admin')
                                     <a href="{{ route('insidens.create') }}"
                                         class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-150">
                                         <i class="fa-solid fa-plus"></i> Tambah Insiden Pertama
                                     </a>
-                                @endrole
+                                @endif
                             </div>
                         </td>
                     </tr>
