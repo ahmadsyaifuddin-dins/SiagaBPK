@@ -8,10 +8,8 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    // Bisa diarahkan langsung ke halaman login agar lebih rapi
-    return redirect()->route('login');
-});
-
+    return view('welcome');
+})->name('home');
 /*
 |--------------------------------------------------------------------------
 | LEVEL 1: AKSES SEMUA USER (Admin, Relawan, Masyarakat)
