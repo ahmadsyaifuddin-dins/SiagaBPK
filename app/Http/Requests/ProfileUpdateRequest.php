@@ -25,6 +25,7 @@ class ProfileUpdateRequest extends FormRequest
                 'max:255',
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
+            'no_hp' => ['required', 'string', 'min:10', 'max:16', 'regex:/^[0-9]+$/'],
         ];
     }
 }

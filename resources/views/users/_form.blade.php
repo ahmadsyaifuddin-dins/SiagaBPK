@@ -44,7 +44,8 @@
         <x-forms.label for="no_hp" value="No. Handphone" required="true">
             <i class="fa-solid fa-phone text-green-500"></i>
         </x-forms.label>
-        <x-forms.input type="text" name="no_hp" id="no_hp" placeholder="08xxxxxxxxxx"
+        <x-forms.input type="tel" name="no_hp" id="no_hp" placeholder="08xxxxxxxxxx" inputmode="numeric"
+            pattern="[0-9]*" minlength="10" maxlength="16" oninput="this.value = this.value.replace(/[^0-9]/g, '');"
             value="{{ old('no_hp', $user->no_hp ?? '') }}" required />
     </div>
 
