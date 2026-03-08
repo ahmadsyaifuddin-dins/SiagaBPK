@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InsidenController;
 use App\Http\Controllers\InventarisController;
 use App\Http\Controllers\JadwalSiagaController;
+use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -42,6 +43,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'role:admin,relawan'])->group(function () {
+
+    Route::resource('kegiatans', KegiatanController::class);
 
     // Insiden (Update status insiden - misal dari "Berangkat" ke "Selesai")
     Route::get('/insidens/{insiden}/edit', [InsidenController::class, 'edit'])->name('insidens.edit');

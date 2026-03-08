@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('kegiatans', function (Blueprint $table) {
             $table->id();
+            $table->string('judul_kegiatan');
+            $table->dateTime('tanggal_kegiatan'); // Pakai dateTime agar tahu jam kumpulnya
+            $table->string('lokasi');
+            $table->text('deskripsi');
+            $table->string('foto')->nullable();
+            $table->enum('status', ['Akan Datang', 'Selesai', 'Batal'])->default('Akan Datang');
             $table->timestamps();
         });
     }

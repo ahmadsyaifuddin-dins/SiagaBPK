@@ -41,6 +41,12 @@
                 <i class="fa-solid fa-calendar-days w-5 text-center"></i>
                 {{ __('Jadwal Siaga') }}
             </a>
+
+            <a href="{{ route('kegiatans.index') }}"
+                class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('kegiatans.*') ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
+                <i class="fa-solid fa-camera-retro w-5 text-center"></i>
+                {{ __('Dokumentasi Kegiatan') }}
+            </a>
         @endif
 
         @if (auth()->user()->role === 'admin')
