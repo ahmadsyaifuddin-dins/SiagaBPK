@@ -8,15 +8,15 @@ class StoreInsidenRequest extends FormRequest
 {
     public function authorize()
     {
-        return true; // Pastikan ini true
+        return true;
     }
 
     public function rules()
     {
         return [
-            'lokasi' => 'required|string',
+            'lokasi' => 'required|string|max:255',
             'waktu_kejadian' => 'required|date',
-            'status' => 'required|string',
+            'status' => 'nullable|string',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'catatan' => 'nullable|string',
             'nama_pelapor' => 'nullable|string',

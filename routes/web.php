@@ -8,60 +8,68 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    // Bisa diarahkan langsung ke halaman login agar lebih rapi
+    return redirect()->route('login');
 });
 
-// Dashboard umum
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+/*
+|--------------------------------------------------------------------------
+| LEVEL 1: AKSES SEMUA USER (Admin, Relawan, Masyarakat)
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'verified'])->group(function () {
 
-// Akses semua user (auth) termasuk relawan
-Route::middleware('auth')->group(function () {
+    // Dashboard Utama (Nanti UI-nya dibedakan di dalam Blade)
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    // Users (Relawan bisa edit dan melihat detail id akun miliknya)
-    Route::get('/users/{user}/edit', [UserController::class, 'edit'])
-        ->middleware('can:edit-user,user');
-    Route::put('/users/{user}', [UserController::class, 'update'])
-        ->middleware('can:edit-user,user');
-
-    // Insidens (read only untuk relawan)
-    Route::get('/insidens', [InsidenController::class, 'index'])->name('insidens.index');
-    Route::get('/insidens/{insiden}', [InsidenController::class, 'show'])
-        ->name('insidens.show')
-        ->where('insiden', '[0-9]+'); // hanya angka
-
-    // Jadwal Siaga dan User (read only)
-    Route::get('/jadwal_siaga', [JadwalSiagaController::class, 'index'])->name('jadwal_siaga.index');
-    Route::get('/users', [UserController::class, 'index'])->name('users.index');
-
-    // Laporan lengkap (read only)
-    Route::get('/laporan-lengkap', [InsidenController::class, 'laporan'])->name('laporan-lengkap');
-
-    // Profile routes
+    // Profile bawaan Breeze (Semua user berhak mengedit profil dan password mereka sendiri)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
-// Akses khusus admin
-Route::middleware(['auth', 'role:admin'])->group(function () {
-    // CRUD Insiden (tanpa resource)
+    // Insiden (Semua user boleh melihat list insiden dan melapor/create insiden baru)
+    Route::get('/insidens', [InsidenController::class, 'index'])->name('insidens.index');
     Route::get('/insidens/create', [InsidenController::class, 'create'])->name('insidens.create');
     Route::post('/insidens', [InsidenController::class, 'store'])->name('insidens.store');
+    Route::get('/insidens/{insiden}', [InsidenController::class, 'show'])
+        ->name('insidens.show')
+        ->where('insiden', '[0-9]+'); // hanya angka
+});
+
+/*
+|--------------------------------------------------------------------------
+| LEVEL 2: AKSES ADMIN & RELAWAN (Masyarakat Dilarang Masuk)
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'role:admin,relawan'])->group(function () {
+
+    // Insiden (Update status insiden - misal dari "Berangkat" ke "Selesai")
     Route::get('/insidens/{insiden}/edit', [InsidenController::class, 'edit'])->name('insidens.edit');
     Route::put('/insidens/{insiden}', [InsidenController::class, 'update'])->name('insidens.update');
+
+    // Jadwal Siaga (Relawan hanya butuh index/melihat jadwal piketnya)
+    Route::get('/jadwal_siaga', [JadwalSiagaController::class, 'index'])->name('jadwal_siaga.index');
+});
+
+/*
+|--------------------------------------------------------------------------
+| LEVEL 3: KHUSUS ADMIN SANG PENGUASA (Superuser)
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'role:admin'])->group(function () {
+
+    // Hapus Insiden (Hanya admin yang boleh menghapus data valid)
     Route::delete('/insidens/{insiden}', [InsidenController::class, 'destroy'])->name('insidens.destroy');
 
-    // Jadwal Siaga (CRUD)
+    // Jadwal Siaga (Hanya admin yang bisa membuat, mengedit, dan menghapus jadwal)
     Route::get('/jadwal_siaga/create', [JadwalSiagaController::class, 'create'])->name('jadwal_siaga.create');
     Route::post('/jadwal_siaga', [JadwalSiagaController::class, 'store'])->name('jadwal_siaga.store');
     Route::get('/jadwal_siaga/{jadwal_siaga}/edit', [JadwalSiagaController::class, 'edit'])->name('jadwal_siaga.edit');
     Route::put('/jadwal_siaga/{jadwal_siaga}', [JadwalSiagaController::class, 'update'])->name('jadwal_siaga.update');
     Route::delete('/jadwal_siaga/{jadwal_siaga}', [JadwalSiagaController::class, 'destroy'])->name('jadwal_siaga.destroy');
 
-    // User (CRUD)
+    // Kelola Petugas/Users (Full CRUD. Relawan tidak perlu lihat ini karena sudah pakai /profile)
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
     Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
     Route::post('/users', [UserController::class, 'store'])->name('users.store');
@@ -69,7 +77,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
 
-    // Export PDF
+    // Fitur Laporan (Hanya admin yang bisa melihat rekap dan mencetak dokumen PDF)
+    Route::get('/laporan-lengkap', [InsidenController::class, 'laporan'])->name('laporan-lengkap');
     Route::get('/laporan-lengkap/export/pdf', [InsidenController::class, 'exportLaporanLengkapPdf'])->name('laporan-lengkap.export.pdf');
     Route::get('/insidens/export/pdf', [InsidenController::class, 'exportPdf'])->name('insidens.export.pdf');
     Route::get('/jadwal_siaga/export/pdf', [JadwalSiagaController::class, 'exportPdf'])->name('jadwal_siaga.export.pdf');

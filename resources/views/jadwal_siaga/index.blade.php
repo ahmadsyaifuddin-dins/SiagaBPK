@@ -179,7 +179,8 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4" class="px-6 py-12 text-center">
+                                    <td colspan="{{ auth()->user()->role === 'admin' ? '4' : '3' }}"
+                                        class="px-6 py-12 text-center">
                                         <div class="flex flex-col items-center">
                                             <svg class="w-12 h-12 text-slate-400 dark:text-slate-500 mb-4"
                                                 fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -19,8 +19,8 @@ class UpdateUserRequest extends FormRequest
         return [
             'name' => 'required|string|max:100',
             'email' => 'required|email|unique:users,email,'.$userId,
-            'password' => 'nullable|string|min:8', // Nullable karena password tidak wajib diubah
-            'role' => 'required|string',
+            'password' => 'nullable|string|min:8',
+            'role' => 'required|in:admin,relawan,masyarakat',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
             'no_hp' => 'required|numeric',
             'tanggal_lahir' => 'nullable|date',

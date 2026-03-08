@@ -17,7 +17,7 @@ class StoreUserRequest extends FormRequest
             'name' => 'required|string|max:100',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8',
-            'role' => 'required|string',
+            'role' => 'required|in:admin,relawan,masyarakat',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
             'no_hp' => 'required|numeric',
             'tanggal_lahir' => 'nullable|date',

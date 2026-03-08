@@ -36,25 +36,30 @@ class InsidenController extends Controller
             $data['dilaporkan_oleh'] = Auth::id();
         }
 
-        // 2. Handling File Upload (Old School Method ke folder public/uploads/insiden)
+        // 2. Penyesuaian Hak Akses (Keamanan Ekstra)
+        if (Auth::user()->role === 'masyarakat') {
+            // Masyarakat cuma bisa berstatus 'Dilaporkan'
+            $data['status'] = 'Dilaporkan';
+        }
+
+        // 3. Handling File Upload
         if ($request->hasFile('foto')) {
             $file = $request->file('foto');
             $filename = time().'_'.$file->getClientOriginalName();
-            // Pindahkan file langsung ke public/uploads/insiden
             $file->move(public_path('uploads/insiden'), $filename);
-            // Simpan path-nya saja di database
             $data['foto'] = 'uploads/insiden/'.$filename;
         }
 
-        // 3. Simpan Data Insiden
+        // 4. Simpan Data Insiden
         $insiden = Insiden::create($data);
 
-        // 4. Sync Petugas (Many to Many)
-        if ($request->has('petugas')) {
+        // 5. Sync Petugas (Hanya jika Admin/Relawan yang menginputnya)
+        if ($request->has('petugas') && in_array(Auth::user()->role, ['admin', 'relawan'])) {
             $insiden->petugas()->sync($request->petugas);
         }
 
-        return redirect()->route('insidens.index')->with('success', 'Insiden berhasil ditambahkan.');
+        // Redirect dengan Pesan Sukses
+        return redirect()->route('insidens.index')->with('success', 'Insiden berhasil dilaporkan.');
     }
 
     public function show(Insiden $insiden)

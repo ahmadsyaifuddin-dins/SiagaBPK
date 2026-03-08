@@ -5,28 +5,31 @@ import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
 import Swal from 'sweetalert2';
 
+// 1. Daftarkan Alpine dan Swal ke Global Window agar bisa diakses dari Blade
 window.Alpine = Alpine;
+window.Swal = Swal;
 
 Alpine.start();
 
-// format waktu sekarang
+// Format waktu sekarang
 flatpickr("#waktu_kejadian", {
     enableTime: true,
     dateFormat: "Y-m-d H:i",
     defaultDate: new Date(),
 });
 
-// 1. Konfigurasi Global Toast Notifikasi (Untuk Sukses/Error)
+// 2. Konfigurasi Global Toast Notifikasi
 window.showToast = (icon, title) => {
-    const Toast = Swal.mixin({
+    // Pastikan kita memanggil window.Swal sekarang
+    const Toast = window.Swal.mixin({
         toast: true,
         position: 'top-end',
         showConfirmButton: false,
         timer: 3000,
         timerProgressBar: true,
         didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
+            toast.addEventListener('mouseenter', window.Swal.stopTimer)
+            toast.addEventListener('mouseleave', window.Swal.resumeTimer)
         }
     });
 
@@ -36,27 +39,27 @@ window.showToast = (icon, title) => {
     });
 };
 
-// 2. Konfigurasi Global Konfirmasi Hapus Data (Reusable)
+// 3. Konfigurasi Global Konfirmasi Hapus Data
 window.confirmDelete = (event, formElement, message = 'Data yang dihapus tidak dapat dikembalikan!') => {
-    event.preventDefault(); // Hentikan form submit langsung
+    event.preventDefault(); 
     
-    Swal.fire({
+    window.Swal.fire({
         title: 'Apakah Anda Yakin?',
         text: message,
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#ef4444', // red-500
-        cancelButtonColor: '#6b7280', // gray-500
+        confirmButtonColor: '#ef4444', 
+        cancelButtonColor: '#6b7280', 
         confirmButtonText: '<i class="fa-solid fa-trash-can mr-2"></i> Ya, Hapus!',
         cancelButtonText: '<i class="fa-solid fa-xmark mr-2"></i> Batal',
-        reverseButtons: true, // Tombol batal di kiri
+        reverseButtons: true, 
         customClass: {
             confirmButton: 'rounded-lg',
             cancelButton: 'rounded-lg'
         }
     }).then((result) => {
         if (result.isConfirmed) {
-            formElement.submit(); // Lanjutkan submit jika user klik 'Ya'
+            formElement.submit(); 
         }
     });
 };

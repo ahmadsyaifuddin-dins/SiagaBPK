@@ -13,12 +13,13 @@
         </div>
 
         <div class="flex gap-3">
+            <a href="{{ route('insidens.create') }}"
+                class="group relative inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200">
+                <i class="fa-solid fa-plus group-hover:rotate-90 transition-transform duration-200"></i>
+                Lapor Insiden Baru
+            </a>
+
             @if (auth()->user()->role === 'admin')
-                <a href="{{ route('insidens.create') }}"
-                    class="group relative inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200">
-                    <i class="fa-solid fa-plus group-hover:rotate-90 transition-transform duration-200"></i>
-                    Tambah Insiden
-                </a>
                 <a href="{{ route('insidens.export.pdf') }}" target="_blank"
                     class="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200">
                     <i class="fa-solid fa-file-pdf"></i>

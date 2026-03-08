@@ -93,6 +93,7 @@
                 @php $currentRole = old('role', $user->role ?? ''); @endphp
                 <option value="admin" {{ $currentRole === 'admin' ? 'selected' : '' }}>Admin</option>
                 <option value="relawan" {{ $currentRole === 'relawan' ? 'selected' : '' }}>Relawan</option>
+                <option value="masyarakat" {{ $currentRole === 'masyarakat' ? 'selected' : '' }}>Masyarakat</option>
             </x-forms.dropdown>
         </div>
     @endif

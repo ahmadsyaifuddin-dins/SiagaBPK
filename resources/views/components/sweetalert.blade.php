@@ -1,6 +1,5 @@
 @if (session('success'))
     <script type="module">
-        // type="module" memastikan script berjalan setelah app.js selesai di-load oleh Vite
         window.showToast('success', "{!! session('success') !!}");
     </script>
 @endif
@@ -11,14 +10,25 @@
     </script>
 @endif
 
-@if (session('warning'))
+@if ($errors->any())
     <script type="module">
-        window.showToast('warning', "{!! session('warning') !!}");
-    </script>
-@endif
+        let errorList = '';
+        @foreach ($errors->all() as $error)
+            errorList += '<li class="mb-1">{{ $error }}</li>';
+        @endforeach
 
-@if (session('info'))
-    <script type="module">
-        window.showToast('info', "{!! session('info') !!}");
+        // Gunakan window.Swal di sini
+        window.Swal.fire({
+            icon: 'error',
+            title: 'Oops! Validasi Gagal',
+            html: '<ul class="text-left text-sm text-red-600 bg-red-50 p-4 rounded-xl list-disc list-inside">' +
+                errorList + '</ul>',
+            confirmButtonColor: '#ef4444',
+            confirmButtonText: '<i class="fa-solid fa-check mr-2"></i> Mengerti',
+            customClass: {
+                popup: 'rounded-2xl',
+                confirmButton: 'rounded-xl px-6 py-2.5 font-semibold shadow-md'
+            }
+        });
     </script>
 @endif

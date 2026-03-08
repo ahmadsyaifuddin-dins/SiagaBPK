@@ -15,6 +15,7 @@
     </div>
 
     <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+
         <a href="{{ route('dashboard') }}"
             class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('dashboard') ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
             <i class="fa-solid fa-chart-pie w-5 text-center"></i>
@@ -22,36 +23,53 @@
         </a>
 
         <a href="{{ route('insidens.index') }}"
-            class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('insidens.index') ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
+            class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('insidens.*') ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
             <i class="fa-solid fa-fire-extinguisher w-5 text-center"></i>
             {{ __('Insiden') }}
         </a>
 
-        <a href="{{ route('jadwal_siaga.index') }}"
-            class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('jadwal_siaga.index') ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
-            <i class="fa-solid fa-calendar-days w-5 text-center"></i>
-            {{ __('Jadwal Siaga') }}
-        </a>
+        @if (in_array(auth()->user()->role, ['admin', 'relawan']))
+            <a href="{{ route('jadwal_siaga.index') }}"
+                class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('jadwal_siaga.*') ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
+                <i class="fa-solid fa-calendar-days w-5 text-center"></i>
+                {{ __('Jadwal Siaga') }}
+            </a>
+        @endif
 
-        <a href="{{ route('users.index') }}"
-            class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('users.index') ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
-            <i class="fa-solid fa-users w-5 text-center"></i>
-            {{ __('Petugas') }}
-        </a>
+        @if (auth()->user()->role === 'admin')
+            <a href="{{ route('users.index') }}"
+                class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('users.*') ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
+                <i class="fa-solid fa-users w-5 text-center"></i>
+                {{ __('Petugas') }}
+            </a>
 
-        <a href="{{ route('laporan-lengkap') }}"
-            class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('laporan-lengkap') ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
-            <i class="fa-solid fa-file-pdf w-5 text-center"></i>
-            Laporan Lengkap
-        </a>
+            <a href="{{ route('laporan-lengkap') }}"
+                class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('laporan-lengkap') ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
+                <i class="fa-solid fa-file-pdf w-5 text-center"></i>
+                Laporan Lengkap
+            </a>
+        @endif
+
     </nav>
 
     <div class="border-t border-gray-100 dark:border-gray-700 p-4">
         <div class="flex items-center gap-3 px-2 mb-3">
+            @php
+                $avatarColor = match (auth()->user()->role) {
+                    'admin'
+                        => 'bg-red-100 text-red-700 border-red-200 dark:bg-red-900 dark:text-red-300 dark:border-red-700',
+                    'relawan'
+                        => 'bg-green-100 text-green-700 border-green-200 dark:bg-green-900 dark:text-green-300 dark:border-green-700',
+                    default
+                        => 'bg-indigo-100 text-indigo-700 border-indigo-200 dark:bg-indigo-900 dark:text-indigo-300 dark:border-indigo-700',
+                };
+            @endphp
+
             <div
-                class="h-10 w-10 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center text-indigo-700 dark:text-indigo-300 font-bold border border-indigo-200 dark:border-indigo-700 shrink-0">
-                {{ substr(Auth::user()->name, 0, 1) }}
+                class="h-10 w-10 rounded-full flex items-center justify-center font-bold border shrink-0 {{ $avatarColor }}">
+                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
             </div>
+
             <div class="flex-1 min-w-0">
                 <p class="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">
                     {{ Auth::user()->name }}

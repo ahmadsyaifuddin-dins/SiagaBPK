@@ -10,28 +10,21 @@
                 <tr>
                     <th
                         class="px-6 py-4 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700">
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-location-dot"></i> Lokasi
-                        </div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-location-dot"></i> Lokasi</div>
                     </th>
                     <th
                         class="px-6 py-4 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700">
-                        <div class="flex items-center gap-2">
-                            <i class="fa-regular fa-clock"></i> Waktu Kejadian
-                        </div>
+                        <div class="flex items-center gap-2"><i class="fa-regular fa-clock"></i> Waktu Kejadian</div>
                     </th>
                     <th
                         class="px-6 py-4 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700">
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-circle-info"></i> Status
-                        </div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-circle-info"></i> Status</div>
                     </th>
                     <th
                         class="px-6 py-4 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700">
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-camera"></i> Foto Dokumentasi
-                        </div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-camera"></i> Foto Dokumentasi</div>
                     </th>
+
                     <th
                         class="px-6 py-4 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700">
                         <div class="flex items-center gap-2">
@@ -59,11 +52,9 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-900 dark:text-gray-100">
-                                {{ \Carbon\Carbon::parse($insiden->waktu_kejadian)->format('d M Y') }}
-                            </div>
+                                {{ \Carbon\Carbon::parse($insiden->waktu_kejadian)->format('d M Y') }}</div>
                             <div class="text-sm text-gray-500 dark:text-gray-400">
-                                {{ \Carbon\Carbon::parse($insiden->waktu_kejadian)->format('H:i') }}
-                            </div>
+                                {{ \Carbon\Carbon::parse($insiden->waktu_kejadian)->format('H:i') }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             @php
@@ -94,27 +85,32 @@
                                 </span>
                             @endif
                         </td>
+
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             <div class="flex items-center gap-3">
-                                @if (auth()->user()->role === 'admin')
+
+                                @if (in_array(auth()->user()->role, ['admin', 'relawan']))
                                     <a href="{{ route('insidens.edit', $insiden->id) }}"
                                         class="inline-flex items-center gap-1 text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 transition-colors duration-150">
                                         <i class="fa-solid fa-pen-to-square"></i> Edit
                                     </a>
+                                @endif
+
+                                @if (auth()->user()->role === 'admin')
                                     <form action="{{ route('insidens.destroy', $insiden->id) }}" method="POST"
                                         class="inline"
                                         onsubmit="confirmDelete(event, this, 'Apakah Anda yakin ingin menghapus insiden ini?')">
                                         @csrf
                                         @method('DELETE')
-
                                         <button type="submit"
                                             class="inline-flex items-center gap-1 text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 transition-colors duration-150">
                                             <i class="fa-solid fa-trash"></i> Hapus
                                         </button>
                                     </form>
                                 @endif
+
                                 <a href="{{ route('insidens.show', $insiden->id) }}"
-                                    class="inline-flex items-center gap-1 text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 transition-colors duration-150">
+                                    class="inline-flex items-center gap-1 text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300 transition-colors duration-150">
                                     <i class="fa-solid fa-eye"></i> Lihat
                                 </a>
                             </div>
@@ -132,12 +128,10 @@
                                     insiden</h3>
                                 <p class="text-gray-500 dark:text-gray-400 mb-6">Mulai dengan menambahkan insiden
                                     kebakaran pertama Anda.</p>
-                                @if (auth()->user()->role === 'admin')
-                                    <a href="{{ route('insidens.create') }}"
-                                        class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-150">
-                                        <i class="fa-solid fa-plus"></i> Tambah Insiden Pertama
-                                    </a>
-                                @endif
+                                <a href="{{ route('insidens.create') }}"
+                                    class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-150">
+                                    <i class="fa-solid fa-plus"></i> Tambah Insiden Pertama
+                                </a>
                             </div>
                         </td>
                     </tr>
