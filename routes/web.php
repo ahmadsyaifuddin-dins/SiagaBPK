@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InsidenController;
+use App\Http\Controllers\InventarisController;
 use App\Http\Controllers\JadwalSiagaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -58,6 +59,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     // Hapus Insiden (Hanya admin yang boleh menghapus data valid)
     Route::delete('/insidens/{insiden}', [InsidenController::class, 'destroy'])->name('insidens.destroy');
+
+    Route::resource('inventaris', InventarisController::class);
 
     // Jadwal Siaga (Hanya admin yang bisa membuat, mengedit, dan menghapus jadwal)
     Route::get('/jadwal_siaga/create', [JadwalSiagaController::class, 'create'])->name('jadwal_siaga.create');
