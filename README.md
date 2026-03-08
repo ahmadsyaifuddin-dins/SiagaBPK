@@ -168,8 +168,8 @@ npm run dev
 
 | Role    | Email                                       | Password |
 | ------- | ------------------------------------------- | -------- |
-| Admin   | [admin@bpk.com](mailto:admin@bpk.com)       | adminbpk123 |
-| Relawan | [lina@bpk.com](mailto:lina@bpk.com)         | relawanbpk123 |
+| Admin   | [admin@gmail.com](mailto:admin@gmail.com)       | password |
+| Relawan | [lina@gmail.com](mailto:lina@gmail.com)         | password |
 
 
 ### 📸 Screenshot UI
