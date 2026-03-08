@@ -56,10 +56,10 @@
                 {{ __('Inventaris & Armada') }}
             </a>
 
-            <a href="{{ route('laporan-lengkap') }}"
-                class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('laporan-lengkap') ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
-                <i class="fa-solid fa-file-pdf w-5 text-center"></i>
-                Laporan Lengkap
+            <a href="{{ route('reports.index') }}"
+                class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('reports.*') ? 'bg-red-50 text-red-700 dark:bg-red-900/50 dark:text-red-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
+                <i class="fa-solid fa-print w-5 text-center"></i>
+                {{ __('Pusat Laporan') }}
             </a>
         @endif
 

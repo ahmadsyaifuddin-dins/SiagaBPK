@@ -7,6 +7,7 @@ use App\Http\Controllers\JadwalSiagaController;
 use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -85,6 +86,16 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
 
     // Fitur Laporan (Hanya admin yang bisa melihat rekap dan mencetak dokumen PDF)
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports/insiden', [\App\Http\Controllers\ReportController::class, 'cetakInsiden'])->name('reports.cetak.insiden');
+    Route::get('/reports/kerugian', [\App\Http\Controllers\ReportController::class, 'cetakKerugian'])->name('reports.cetak.kerugian');
+    Route::get('/reports/kinerja', [\App\Http\Controllers\ReportController::class, 'cetakKinerja'])->name('reports.cetak.kinerja');
+    Route::get('/reports/jadwal', [\App\Http\Controllers\ReportController::class, 'cetakJadwal'])->name('reports.cetak.jadwal');
+    Route::get('/reports/inventaris', [\App\Http\Controllers\ReportController::class, 'cetakInventaris'])->name('reports.cetak.inventaris');
+    Route::get('/reports/maintenance', [\App\Http\Controllers\ReportController::class, 'cetakMaintenance'])->name('reports.cetak.maintenance');
+    Route::get('/reports/kegiatan', [\App\Http\Controllers\ReportController::class, 'cetakKegiatan'])->name('reports.cetak.kegiatan');
+    Route::get('/reports/kontak', [\App\Http\Controllers\ReportController::class, 'cetakKontak'])->name('reports.cetak.kontak');
+
     Route::get('/laporan-lengkap', [InsidenController::class, 'laporan'])->name('laporan-lengkap');
     Route::get('/laporan-lengkap/export/pdf', [InsidenController::class, 'exportLaporanLengkapPdf'])->name('laporan-lengkap.export.pdf');
     Route::get('/insidens/export/pdf', [InsidenController::class, 'exportPdf'])->name('insidens.export.pdf');

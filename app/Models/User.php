@@ -66,6 +66,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Insiden::class, 'insiden_user');
     }
 
+    public function insidens()
+    {
+        return $this->belongsToMany(Insiden::class, 'insiden_user', 'user_id', 'insiden_id');
+    }
+
     protected function noHp(): Attribute
     {
         return Attribute::make(
