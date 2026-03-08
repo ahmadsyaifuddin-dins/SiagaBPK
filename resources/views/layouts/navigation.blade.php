@@ -15,12 +15,19 @@
     </div>
 
     <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
-
         <a href="{{ route('dashboard') }}"
             class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('dashboard') ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
             <i class="fa-solid fa-chart-pie w-5 text-center"></i>
             {{ __('Dashboard') }}
         </a>
+
+        @if (auth()->user()->role === 'admin')
+            <a href="{{ route('users.index') }}"
+                class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('users.*') ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
+                <i class="fa-solid fa-users w-5 text-center"></i>
+                {{ __('Petugas') }}
+            </a>
+        @endif
 
         <a href="{{ route('insidens.index') }}"
             class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('insidens.*') ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
@@ -37,12 +44,6 @@
         @endif
 
         @if (auth()->user()->role === 'admin')
-            <a href="{{ route('users.index') }}"
-                class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('users.*') ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
-                <i class="fa-solid fa-users w-5 text-center"></i>
-                {{ __('Petugas') }}
-            </a>
-
             <a href="{{ route('inventaris.index') }}"
                 class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('inventaris.*') ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
                 <i class="fa-solid fa-truck-fast w-5 text-center"></i>

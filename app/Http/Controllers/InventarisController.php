@@ -26,6 +26,11 @@ class InventarisController extends Controller
         return view('inventaris.create', compact('autoKode'));
     }
 
+    public function show(Inventaris $inventari)
+    {
+        return view('inventaris.show', compact('inventari'));
+    }
+
     public function store(StoreInventarisRequest $request)
     {
         // Data sudah otomatis tervalidasi

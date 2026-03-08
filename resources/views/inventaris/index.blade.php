@@ -104,6 +104,12 @@
                                                 class="inline-flex items-center gap-1 text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 transition-colors duration-150">
                                                 <i class="fa-solid fa-pen-to-square"></i> Edit
                                             </a>
+
+                                            <a href="{{ route('inventaris.show', $item->id) }}"
+                                                class="inline-flex items-center gap-1 text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300 transition-colors duration-150">
+                                                <i class="fa-solid fa-eye"></i> Lihat
+                                            </a>
+
                                             <form action="{{ route('inventaris.destroy', $item->id) }}" method="POST"
                                                 class="inline"
                                                 onsubmit="confirmDelete(event, this, 'Yakin ingin menghapus aset ini secara permanen?')">

@@ -20,4 +20,12 @@ class Inventaris extends Model
         'keterangan',
         'foto',
     ];
+
+    /**
+     * Relasi One-to-Many: 1 Inventaris memiliki banyak Riwayat Servis (Maintenance)
+     */
+    public function maintenances()
+    {
+        return $this->hasMany(Maintenance::class, 'inventaris_id')->orderBy('tanggal_servis', 'desc');
+    }
 }
