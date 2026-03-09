@@ -60,18 +60,20 @@
             {{ __('Insiden') }}
         </a>
 
-        <div class="pt-4 pb-1">
-            <p class="px-4 text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Logistik & Giat
-            </p>
-        </div>
-
-        <a href="{{ route('inventaris.index') }}"
-            class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('inventaris.*') ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
-            <i class="fa-solid fa-truck-fast w-5 text-center"></i>
-            {{ __('Inventaris & Armada') }}
-        </a>
-
         @if (in_array(auth()->user()->role, ['admin', 'relawan']))
+            <div class="pt-4 pb-1">
+                <p class="px-4 text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Logistik &
+                    Giat</p>
+            </div>
+
+            @if (auth()->user()->role === 'admin')
+                <a href="{{ route('inventaris.index') }}"
+                    class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('inventaris.*') ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
+                    <i class="fa-solid fa-truck-fast w-5 text-center"></i>
+                    {{ __('Inventaris & Armada') }}
+                </a>
+            @endif
+
             <a href="{{ route('kegiatans.index') }}"
                 class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('kegiatans.*') ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
                 <i class="fa-solid fa-camera-retro w-5 text-center"></i>
