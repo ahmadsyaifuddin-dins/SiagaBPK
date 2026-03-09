@@ -261,7 +261,7 @@
 
             <div class="border-t border-gray-100 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
                 <p class="text-gray-400 text-sm">
-                    &copy; {{ date('Y') }} SiagaBPK. Hak Cipta Dilindungi Undang-Undang.
+                    &copy; 2026-{{ date('Y') }} SiagaBPK. Hak Cipta Dilindungi Undang-Undang.
                 </p>
                 <div class="flex gap-4">
                     <a href="#"
