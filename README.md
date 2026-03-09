@@ -152,10 +152,6 @@ php artisan key:generate
 php artisan migrate --seed
 ```
 
-```bash
-php artisan storage:link
-```
-
 ### 6. Jalankan Aplikasi (buka 2 windows cmd atau pakai cmder bawaan laragon)
 di cmd pertama
 ```bash
