@@ -64,48 +64,4 @@
         @endif
 
     </nav>
-
-    <div class="border-t border-gray-100 dark:border-gray-700 p-4">
-        <div class="flex items-center gap-3 px-2 mb-3">
-            @php
-                $avatarColor = match (auth()->user()->role) {
-                    'admin'
-                        => 'bg-red-100 text-red-700 border-red-200 dark:bg-red-900 dark:text-red-300 dark:border-red-700',
-                    'relawan'
-                        => 'bg-green-100 text-green-700 border-green-200 dark:bg-green-900 dark:text-green-300 dark:border-green-700',
-                    default
-                        => 'bg-indigo-100 text-indigo-700 border-indigo-200 dark:bg-indigo-900 dark:text-indigo-300 dark:border-indigo-700',
-                };
-            @endphp
-
-            <div
-                class="h-10 w-10 rounded-full flex items-center justify-center font-bold border shrink-0 {{ $avatarColor }}">
-                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
-            </div>
-
-            <div class="flex-1 min-w-0">
-                <p class="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">
-                    {{ Auth::user()->name }}
-                </p>
-                <p class="text-xs text-gray-500 dark:text-gray-400 truncate">
-                    {{ ucfirst(Auth::user()->role ?? 'Tidak ada role') }}
-                </p>
-            </div>
-        </div>
-
-        <div class="space-y-1">
-            <a href="{{ route('profile.edit') }}"
-                class="flex items-center gap-3 px-3 py-2 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200 rounded-md transition-colors">
-                <i class="fa-solid fa-user-gear w-4 text-center"></i> {{ __('Profile') }}
-            </a>
-
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit"
-                    class="flex w-full items-center gap-3 px-3 py-2 text-sm text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/30 rounded-md transition-colors">
-                    <i class="fa-solid fa-right-from-bracket w-4 text-center"></i> {{ __('Log Out') }}
-                </button>
-            </form>
-        </div>
-    </div>
 </aside>
