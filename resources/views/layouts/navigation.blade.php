@@ -7,14 +7,15 @@
 <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
     class="fixed inset-y-0 left-0 z-30 w-64 bg-white dark:bg-gray-800 border-r border-gray-100 dark:border-gray-700 transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-auto flex flex-col shadow-lg lg:shadow-none">
 
-    <div class="flex items-center justify-center h-16 border-b border-gray-100 dark:border-gray-700 px-4">
+    <div class="flex items-center justify-center h-16 border-b border-gray-100 dark:border-gray-700 px-4 shrink-0">
         <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
             <x-application-logo class="block h-8 w-auto fill-current text-indigo-600 dark:text-indigo-400" />
             <span class="font-bold text-xl tracking-wide text-gray-800 dark:text-gray-200">SiagaBPK</span>
         </a>
     </div>
 
-    <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+    <nav class="flex-1 px-4 py-4 space-y-1.5 overflow-y-auto">
+
         <a href="{{ route('dashboard') }}"
             class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('dashboard') ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
             <i class="fa-solid fa-chart-pie w-5 text-center"></i>
@@ -22,6 +23,11 @@
         </a>
 
         @if (auth()->user()->role === 'admin')
+            <div class="pt-4 pb-1">
+                <p class="px-4 text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Manajemen
+                    SDM</p>
+            </div>
+
             <a href="{{ route('users.index') }}"
                 class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('users.*') ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
                 <i class="fa-solid fa-users w-5 text-center"></i>
@@ -35,11 +41,10 @@
             </a>
         @endif
 
-        <a href="{{ route('insidens.index') }}"
-            class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('insidens.*') ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
-            <i class="fa-solid fa-fire-extinguisher w-5 text-center"></i>
-            {{ __('Insiden') }}
-        </a>
+        <div class="pt-4 pb-1">
+            <p class="px-4 text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Operasional
+                Lapangan</p>
+        </div>
 
         @if (in_array(auth()->user()->role, ['admin', 'relawan']))
             <a href="{{ route('jadwal_siaga.index') }}"
@@ -47,7 +52,26 @@
                 <i class="fa-solid fa-calendar-days w-5 text-center"></i>
                 {{ __('Jadwal Siaga') }}
             </a>
+        @endif
 
+        <a href="{{ route('insidens.index') }}"
+            class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('insidens.*') ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
+            <i class="fa-solid fa-fire-extinguisher w-5 text-center"></i>
+            {{ __('Insiden') }}
+        </a>
+
+        <div class="pt-4 pb-1">
+            <p class="px-4 text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Logistik & Giat
+            </p>
+        </div>
+
+        <a href="{{ route('inventaris.index') }}"
+            class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('inventaris.*') ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
+            <i class="fa-solid fa-truck-fast w-5 text-center"></i>
+            {{ __('Inventaris & Armada') }}
+        </a>
+
+        @if (in_array(auth()->user()->role, ['admin', 'relawan']))
             <a href="{{ route('kegiatans.index') }}"
                 class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('kegiatans.*') ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
                 <i class="fa-solid fa-camera-retro w-5 text-center"></i>
@@ -56,11 +80,10 @@
         @endif
 
         @if (auth()->user()->role === 'admin')
-            <a href="{{ route('inventaris.index') }}"
-                class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('inventaris.*') ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
-                <i class="fa-solid fa-truck-fast w-5 text-center"></i>
-                {{ __('Inventaris & Armada') }}
-            </a>
+            <div class="pt-4 pb-1">
+                <p class="px-4 text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Administrasi
+                </p>
+            </div>
 
             <a href="{{ route('reports.index') }}"
                 class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('reports.*') ? 'bg-red-50 text-red-700 dark:bg-red-900/50 dark:text-red-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
