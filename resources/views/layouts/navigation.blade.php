@@ -25,7 +25,13 @@
             <a href="{{ route('users.index') }}"
                 class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('users.*') ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
                 <i class="fa-solid fa-users w-5 text-center"></i>
-                {{ __('Petugas') }}
+                {{ __('Petugas BPK') }}
+            </a>
+
+            <a href="{{ route('masyarakat.index') }}"
+                class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('masyarakat.*') ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
+                <i class="fa-solid fa-users-viewfinder w-5 text-center"></i>
+                {{ __('Data Warga') }}
             </a>
         @endif
 

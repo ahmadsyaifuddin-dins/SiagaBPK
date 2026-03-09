@@ -11,7 +11,10 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::all();
+        $users = User::whereIn('role', ['admin', 'relawan'])
+            ->orderBy('role', 'asc')
+            ->orderBy('name', 'asc')
+            ->get();
 
         return view('users.index', compact('users'));
     }

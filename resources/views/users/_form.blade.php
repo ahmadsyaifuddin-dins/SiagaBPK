@@ -86,16 +86,16 @@
 
     @if (!isset($hideRole))
         <div class="group">
-            <x-forms.label for="role" value="Role Akses" required="true">
+            <x-forms.label for="role" value="Role / Hak Akses" required="true">
                 <i class="fa-solid fa-key text-yellow-500"></i>
             </x-forms.label>
             <x-forms.dropdown name="role" id="role" required>
-                <option value="">-- Pilih Role --</option>
+                <option value="">-- Pilih Role Petugas --</option>
                 @php $currentRole = old('role', $user->role ?? ''); @endphp
                 <option value="admin" {{ $currentRole === 'admin' ? 'selected' : '' }}>Admin</option>
                 <option value="relawan" {{ $currentRole === 'relawan' ? 'selected' : '' }}>Relawan</option>
-                <option value="masyarakat" {{ $currentRole === 'masyarakat' ? 'selected' : '' }}>Masyarakat</option>
             </x-forms.dropdown>
+            <small class="text-xs text-gray-500 mt-1 block">Tentukan hak akses untuk masuk ke dalam aplikasi.</small>
         </div>
     @endif
 
