@@ -47,12 +47,12 @@
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
     <div class="group">
-        <x-forms.label for="jenis_insiden" value="Jenis Insiden">
+        <x-forms.label for="jenis_insiden" value="Jenis Insiden" required="true">
             <i class="fa-solid fa-fire text-orange-500"></i>
         </x-forms.label>
         <x-forms.input type="text" name="jenis_insiden" id="jenis_insiden"
             placeholder="Kebakaran Rumah, Ada Ular didalam rumah, dll..."
-            value="{{ old('jenis_insiden', $insiden->jenis_insiden ?? '') }}" />
+            value="{{ old('jenis_insiden', $insiden->jenis_insiden ?? '') }}" required />
     </div>
 
     <div class="group">

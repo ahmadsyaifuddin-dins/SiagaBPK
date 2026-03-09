@@ -21,7 +21,7 @@ class StoreInsidenRequest extends FormRequest
             'catatan' => 'nullable|string',
             'nama_pelapor' => 'nullable|string',
             'kontak_pelapor' => 'nullable|string',
-            'jenis_insiden' => 'nullable|string',
+            'jenis_insiden' => 'required|string',
             'jumlah_korban' => 'nullable|integer',
             'kerugian' => 'nullable|string',
             'petugas' => 'nullable|array',
