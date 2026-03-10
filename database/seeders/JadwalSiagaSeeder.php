@@ -2,15 +2,15 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\JadwalSiaga;
 use App\Models\User;
+use Illuminate\Database\Seeder;
 
 class JadwalSiagaSeeder extends Seeder
 {
     public function run(): void
     {
-        $relawanIds = User::role('relawan')->pluck('id')->toArray();
+        $relawanIds = User::where('role', 'relawan')->pluck('id')->toArray();
 
         foreach (range(1, 14) as $i) {
             JadwalSiaga::create([

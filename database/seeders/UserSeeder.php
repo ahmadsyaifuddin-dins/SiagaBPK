@@ -5,18 +5,13 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Role;
 
 class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        // Buat role jika belum ada
-        Role::firstOrCreate(['name' => 'admin']);
-        Role::firstOrCreate(['name' => 'relawan']);
-
         // Admin
-        $admin = User::create([
+        User::create([
             'name' => 'Administrator',
             'email' => 'admin@gmail.com',
             'password' => Hash::make('password'),
@@ -29,9 +24,8 @@ class UserSeeder extends Seeder
             'golongan_darah' => 'O',
             'status_aktif' => true,
         ]);
-        $admin->assignRole('admin');
 
-        // Data relawan manusiawi
+        // Data relawan
         $relawans = [
             ['name' => 'Dewi Lestari', 'jenis_kelamin' => 'Perempuan', 'email' => 'dewi@gmail.com', 'jabatan' => 'Petugas Medis'],
             ['name' => 'Wiza Pramana Putra', 'jenis_kelamin' => 'Laki-laki', 'email' => 'wiza@gmail.com', 'jabatan' => 'Petugas Teknik'],
@@ -42,20 +36,19 @@ class UserSeeder extends Seeder
         ];
 
         foreach ($relawans as $index => $data) {
-            $user = User::create([
+            User::create([
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'password' => Hash::make('password'),
+                'role' => 'relawan',
                 'jenis_kelamin' => $data['jenis_kelamin'],
                 'no_hp' => '08'.rand(1000000000, 9999999999),
                 'tanggal_lahir' => now()->subYears(rand(22, 35))->format('Y-m-d'),
                 'alamat' => 'Jl. Relawan No.'.($index + 1),
                 'jabatan' => $data['jabatan'],
-                // 'jabatan' => collect(['Komandan','Wakil Komandan','Petugas Senior','Petugas Junior','Anggota Regu','Petugas Medis','Petugas Teknis','Petugas Lapangan','Danton'])->random(),
                 'golongan_darah' => collect(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'])->random(),
                 'status_aktif' => true,
             ]);
-            $user->assignRole('relawan');
         }
     }
 }

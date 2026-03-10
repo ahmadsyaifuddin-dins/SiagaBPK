@@ -2,17 +2,16 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Insiden;
 use App\Models\User;
-use Illuminate\Support\Str;
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
 
 class InsidenSeeder extends Seeder
 {
     public function run(): void
     {
-        $relawanIds = User::role('relawan')->pluck('id')->toArray();
+        $relawanIds = User::where('role', 'relawan')->pluck('id')->toArray();
         $lokasiKalsel = $this->generateKalselLocations();
         $namaWarga = $this->generateKalselNames();
 
@@ -37,7 +36,7 @@ class InsidenSeeder extends Seeder
                 'jumlah_korban' => $this->generateCasualties($jenisInsiden),
                 'kerugian' => $this->generateDamageCost($jenisInsiden),
                 'nama_pelapor' => $namaWarga[array_rand($namaWarga)],
-                'kontak_pelapor' => '08' . rand(100000000, 999999999),
+                'kontak_pelapor' => '08'.rand(100000000, 999999999),
                 'dilaporkan_oleh' => collect($relawanIds)->random(),
             ]);
 
@@ -301,6 +300,7 @@ class InsidenSeeder extends Seeder
         ];
 
         $range = $casualtyRanges[$jenisInsiden];
+
         return rand($range[0], $range[1]);
     }
 
@@ -327,6 +327,6 @@ class InsidenSeeder extends Seeder
         $range = $costRanges[$jenisInsiden];
         $amount = rand($range[0], $range[1]);
 
-        return $amount > 0 ? 'Rp ' . number_format($amount, 0, ',', '.') : 'Tidak ada kerugian material';
+        return $amount > 0 ? 'Rp '.number_format($amount, 0, ',', '.') : 'Tidak ada kerugian material';
     }
 }
