@@ -5,11 +5,10 @@
         </td>
 
         <td style="width: 70%; text-align: center; vertical-align: middle;">
-            <h2 style="margin: 0; font-size: 18px; font-weight: normal; letter-spacing: 1px;">PEMERINTAH KOTA BANJARMASIN
-            </h2>
-            <h1 style="margin: 0; font-size: 22px; font-weight: bold;">SISTEM INFORMASI SIAGA BPK</h1>
+            <h2 style="margin: 0; font-size: 18px; font-weight: normal; letter-spacing: 1px;">KTC FIRE BANJARMASIN</h2>
+            <h1 style="margin: 0; font-size: 22px; font-weight: bold;">SISTEM INFORMASI SIAGA BPK KTC FIRE</h1>
             <p style="margin: 5px 0 0 0; font-size: 12px; line-height: 1.4;">
-                Mako: Jl. Cepat Tanggap No. 113, Kode Pos 70123
+                Jln. Malkon Temon Komp. Taman Citra RT 12 Banjarmasin Utara
             </p>
         </td>
 

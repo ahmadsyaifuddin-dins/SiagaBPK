@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ config('app.name', 'SiagaBPK') }} - Layanan Cepat Tanggap Darurat</title>
+    <title>{{ config('app.name', 'SiagaBPK KTC FIRE') }} - Layanan Cepat Tanggap Darurat</title>
 
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700,800&display=swap" rel="stylesheet" />
@@ -25,8 +25,8 @@
                         class="w-10 h-10 bg-gradient-to-br from-red-600 to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-red-500/30">
                         <i class="fa-solid fa-fire-flame-curved text-white text-xl"></i>
                     </div>
-                    <span class="font-bold text-2xl tracking-tight text-gray-900">Siaga<span
-                            class="text-red-600">BPK</span></span>
+                    <span class="font-bold text-2xl tracking-tight text-gray-900">Siaga <span class="text-red-600">BPK
+                            KTC FIRE</span></span>
                 </div>
 
                 <div class="hidden md:flex items-center space-x-8">
@@ -148,7 +148,8 @@
     <section id="layanan" class="py-10 bg-white relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-3xl mx-auto mb-6">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Mengapa Menggunakan SiagaBPK?</h2>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Mengapa Menggunakan SiagaBPK KTC FIRE?
+                </h2>
                 <p class="text-gray-600 text-lg">Platform ini dirancang untuk mempermudah komunikasi antara masyarakat
                     dan petugas pemadam kebakaran demi meminimalisir kerugian.</p>
             </div>
@@ -219,8 +220,8 @@
                         <div class="w-10 h-10 bg-red-600 rounded-xl flex items-center justify-center">
                             <i class="fa-solid fa-fire-flame-curved text-white text-xl"></i>
                         </div>
-                        <span class="font-bold text-2xl text-gray-900">Siaga<span
-                                class="text-red-600">BPK</span></span>
+                        <span class="font-bold text-2xl text-gray-900">Siaga <span class="text-red-600">BPK KTC
+                                FIRE</span></span>
                     </div>
                     <p class="text-gray-500 leading-relaxed mb-6">Aplikasi manajemen dan pelaporan insiden kebakaran
                         terpadu yang dirancang untuk mempermudah kerja sama antara masyarakat dan petugas lapangan.</p>
@@ -245,7 +246,7 @@
                     <ul class="space-y-4">
                         <li class="flex items-start text-gray-500">
                             <i class="fa-solid fa-location-dot mt-1 mr-3 text-red-500"></i>
-                            Mako Pemadam Kebakaran,<br>Jl. Cepat Tanggap No. 113
+                            Jln. Malkon Temon Komp. Taman Citra RT 12 Banjarmasin Utara
                         </li>
                         <li class="flex items-center text-gray-500">
                             <i class="fa-solid fa-phone mr-3 text-red-500"></i>
@@ -261,7 +262,7 @@
 
             <div class="border-t border-gray-100 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
                 <p class="text-gray-400 text-sm">
-                    &copy; 2026-{{ date('Y') }} SiagaBPK. Hak Cipta Dilindungi Undang-Undang.
+                    &copy; 2026-{{ date('Y') }} SiagaBPK KTC FIRE. Hak Cipta Dilindungi Undang-Undang.
                 </p>
                 <div class="flex gap-4">
                     <a href="#"

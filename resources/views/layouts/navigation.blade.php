@@ -10,7 +10,7 @@
     <div class="flex items-center justify-center h-16 border-b border-gray-100 dark:border-gray-700 px-4 shrink-0">
         <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
             <x-application-logo class="block h-8 w-auto fill-current text-indigo-600 dark:text-indigo-400" />
-            <span class="font-bold text-xl tracking-wide text-gray-800 dark:text-gray-200">SiagaBPK</span>
+            <span class="font-bold text-xl tracking-wide text-gray-800 dark:text-gray-200">BPK KTC FIRE</span>
         </a>
     </div>
 
