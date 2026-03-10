@@ -269,7 +269,7 @@
                         class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 hover:bg-red-50 hover:text-red-600 transition-colors">
                         <i class="fa-brands fa-facebook-f"></i>
                     </a>
-                    <a href="#"
+                    <a href="https://www.instagram.com/ktcfirerescue_/" target="_blank"
                         class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-400 hover:bg-red-50 hover:text-red-600 transition-colors">
                         <i class="fa-brands fa-instagram"></i>
                     </a>
