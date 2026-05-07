@@ -6,6 +6,7 @@ use App\Http\Requests\StoreInsidenRequest;
 use App\Http\Requests\UpdateInsidenRequest;
 use App\Models\Insiden;
 use App\Models\User;
+use App\Services\FonnteService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -57,8 +58,36 @@ class InsidenController extends Controller
             $insiden->petugas()->sync($request->petugas);
         }
 
+        /* --- KODE ASLI (Kita beri komentar // dulu agar tidak tereksekusi) --- */
+        $petugas = User::where('role', 'petugas_lapangan')
+            ->whereNotNull('no_hp')
+            ->pluck('no_hp')
+            ->toArray();
+
+        $petugas = ['6285849910396'];
+
+        // Jika ada petugasnya, kirim WA
+        if (count($petugas) > 0) {
+            $waktu = \Carbon\Carbon::parse($insiden->waktu_kejadian)->translatedFormat('d F Y H:i');
+
+            $pesan = "🚨 *PANGGILAN DARURAT BPK KTC FIRE!* 🚨\n\n";
+            $pesan .= "Telah dilaporkan insiden baru, dimohon kepada seluruh anggota untuk segera merapat / mobilisasi!\n\n";
+            $pesan .= "📍 *Lokasi:* {$insiden->lokasi}\n";
+            $pesan .= '🔥 *Jenis:* '.($insiden->jenis_insiden ?? '-')."\n";
+            $pesan .= "⏰ *Waktu:* {$waktu} WITA\n\n";
+
+            if ($insiden->latitude && $insiden->longitude) {
+                $pesan .= "🗺️ *Rute Peta (GPS):*\nhttps://www.google.com/maps/search/?api=1&query={$insiden->latitude},{$insiden->longitude}\n\n";
+            }
+
+            $pesan .= '_Pesan ini dibuat otomatis oleh Sistem E-Fire SiagaBPK._';
+
+            // Panggil Service WA
+            FonnteService::sendMessage($petugas, $pesan);
+        }
+
         // Redirect dengan Pesan Sukses
-        return redirect()->route('insidens.index')->with('success', 'Insiden berhasil dilaporkan.');
+        return redirect()->route('insidens.index')->with('success', 'Insiden berhasil dilaporkan dan Notifikasi WA telah dikirim ke anggota.');
     }
 
     public function show(Insiden $insiden)

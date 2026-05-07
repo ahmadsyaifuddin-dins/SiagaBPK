@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
             'role' => 'kepala_bpk',
             'jenis_kelamin' => 'Laki-laki',
-            'no_hp' => '081111111111',
+            'no_hp' => '6281111111111',
             'tanggal_lahir' => '1970-01-01',
             'alamat' => 'Jl. Pangeran Antasari, Banjarmasin',
             'jabatan' => 'Kepala BPK',
@@ -32,7 +32,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
             'role' => 'admin',
             'jenis_kelamin' => 'Laki-laki',
-            'no_hp' => '082222222222',
+            'no_hp' => '6282222222222',
             'tanggal_lahir' => '1985-07-10',
             'alamat' => 'Jl. Brigadir Jenderal Hasan Basri No. 3',
             'jabatan' => 'Kepala Logistik',
@@ -42,9 +42,34 @@ class UserSeeder extends Seeder
 
         // 3. Petugas Lapangan
         $petugas = [
-            ['name' => 'Wiza Pramana Putra', 'jenis_kelamin' => 'Laki-laki', 'email' => 'wiza@gmail.com', 'jabatan' => 'Petugas Teknik'],
-            ['name' => 'Siti Rahmawati', 'jenis_kelamin' => 'Perempuan', 'email' => 'siti@gmail.com', 'jabatan' => 'Petugas Lapangan'],
-            ['name' => 'Aang Samudra', 'jenis_kelamin' => 'Laki-laki', 'email' => 'aang@gmail.com', 'jabatan' => 'Komandan Regu'],
+            [
+                'name' => 'Ahmad Syaifuddin',
+                'jenis_kelamin' => 'Laki-laki',
+                'email' => 'ahmadsyai598@gmail.com',
+                'jabatan' => 'Petugas Lapangan',
+                'no_hp' => '6285849910396', // NOMOR ASLI MU
+            ],
+            [
+                'name' => 'Muhammad Riza Maulana Ibsan (Eza)',
+                'jenis_kelamin' => 'Laki-laki',
+                'email' => 'eza@gmail.com',
+                'jabatan' => 'Petugas Teknik',
+                'no_hp' => '6285389115562',
+            ],
+            // [
+            //     'name' => 'Siti Rahmawati',
+            //     'jenis_kelamin' => 'Perempuan',
+            //     'email' => 'siti@gmail.com',
+            //     'jabatan' => 'Petugas Lapangan',
+            //     'no_hp' => '62813'.rand(10000000, 99999999), // Dummy Acak
+            // ],
+            // [
+            //     'name' => 'Aang Samudra',
+            //     'jenis_kelamin' => 'Laki-laki',
+            //     'email' => 'aang@gmail.com',
+            //     'jabatan' => 'Komandan Regu',
+            //     'no_hp' => '62841'.rand(10000000, 99999999), // Dummy Acak
+            // ],
         ];
 
         foreach ($petugas as $index => $data) {
@@ -54,7 +79,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'role' => 'petugas_lapangan',
                 'jenis_kelamin' => $data['jenis_kelamin'],
-                'no_hp' => '08'.rand(1000000000, 9999999999),
+                'no_hp' => $data['no_hp'],
                 'tanggal_lahir' => now()->subYears(rand(22, 35))->format('Y-m-d'),
                 'alamat' => 'Jl. Kayutangi No.'.($index + 1).', Banjarmasin',
                 'jabatan' => $data['jabatan'],
