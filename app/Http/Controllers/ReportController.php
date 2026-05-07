@@ -76,9 +76,9 @@ class ReportController extends Controller
 
     public function cetakKinerja()
     {
-        // Ambil data user (Admin & Relawan) beserta jumlah insiden yang mereka ikuti
+        // Ambil data user (Admin & petugas_lapangan) beserta jumlah insiden yang mereka ikuti
         // Urutkan dari yang paling rajin (insidens_count terbanyak)
-        $relawans = User::whereIn('role', ['admin', 'relawan'])
+        $relawans = User::whereIn('role', ['admin', 'petugas_lapangan'])
             ->withCount('insidens')
             ->orderByDesc('insidens_count')
             ->get();
@@ -150,9 +150,9 @@ class ReportController extends Controller
     public function cetakKontak()
     {
         // Ambil data user admin dan relawan yang statusnya masih aktif
-        $anggotas = User::whereIn('role', ['admin', 'relawan'])
+        $anggotas = User::whereIn('role', ['admin', 'petugas_lapangan'])
             ->where('status_aktif', 1)
-            ->orderBy('role', 'asc') // Admin di atas, baru relawan
+            ->orderBy('role', 'asc') // Admin di atas, baru petugas_lapangan
             ->orderBy('name', 'asc')
             ->get();
 

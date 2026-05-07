@@ -86,7 +86,7 @@
     </div>
 </div>
 
-@if (in_array(auth()->user()->role, ['admin', 'relawan']))
+@if (in_array(auth()->user()->role, ['admin', 'petugas_lapangan']))
     <div class="bg-gray-50 dark:bg-gray-800/50 p-4 rounded-xl border border-gray-200 dark:border-gray-700 mb-6">
         <h4 class="text-sm font-bold text-gray-700 dark:text-gray-300 mb-4 flex items-center">
             <i class="fa-solid fa-shield-halved text-indigo-500 mr-2"></i> Kolom Khusus Petugas

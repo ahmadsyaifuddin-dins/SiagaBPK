@@ -52,8 +52,8 @@ class InsidenController extends Controller
         // 4. Simpan Data Insiden
         $insiden = Insiden::create($data);
 
-        // 5. Sync Petugas (Hanya jika Admin/Relawan yang menginputnya)
-        if ($request->has('petugas') && in_array(Auth::user()->role, ['admin', 'relawan'])) {
+        // 5. Sync Petugas (Hanya jika Admin/petugas_lapangan yang menginputnya)
+        if ($request->has('petugas') && in_array(Auth::user()->role, ['admin', 'petugas_lapangan'])) {
             $insiden->petugas()->sync($request->petugas);
         }
 

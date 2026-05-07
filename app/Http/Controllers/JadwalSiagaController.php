@@ -18,7 +18,7 @@ class JadwalSiagaController extends Controller
 
     public function create()
     {
-        $users = User::where('role', 'relawan')->get();
+        $users = User::where('role', 'petugas_lapangan')->get();
 
         return view('jadwal_siaga.create', compact('users'));
     }
@@ -32,7 +32,7 @@ class JadwalSiagaController extends Controller
 
     public function edit(JadwalSiaga $jadwal_siaga)
     {
-        $users = User::where('role', 'relawan')->get();
+        $users = User::where('role', 'petugas_lapangan')->get();
 
         return view('jadwal_siaga.edit', compact('jadwal_siaga', 'users'));
     }

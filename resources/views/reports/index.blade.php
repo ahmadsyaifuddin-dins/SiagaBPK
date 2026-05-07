@@ -61,7 +61,8 @@
                         <i class="fa-solid fa-medal"></i>
                     </div>
                     <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">Kinerja Anggota</h3>
-                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-6 flex-grow">Rekapitulasi keaktifan relawan
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-6 flex-grow">Rekapitulasi keaktifan
+                        relawan/Petugas Lapangan
                         berdasarkan jumlah frekuensi turun ke lokasi kejadian.</p>
                     <a href="{{ route('reports.cetak.kinerja') }}" target="_blank"
                         class="w-full inline-block text-center py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold shadow-md transition-colors text-sm">

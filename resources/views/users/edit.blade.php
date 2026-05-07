@@ -41,7 +41,7 @@
                                     class="fa-solid fa-envelope mr-1"></i> {{ $user->email }}</p>
                             <div class="mt-2">
                                 <span
-                                    class="inline-flex px-3 py-1 text-xs font-semibold rounded-full {{ $user->role === 'relawan' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400' }}">
+                                    class="inline-flex px-3 py-1 text-xs font-semibold rounded-full {{ $user->role === 'petugas_lapangan' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400' }}">
                                     <i
                                         class="fa-solid {{ $user->role === 'admin' ? 'fa-user-gear' : 'fa-helmet-safety' }} mr-1.5 mt-0.5"></i>
                                     Role Saat Ini: {{ ucfirst($user->role ?? 'Belum Ada') }}
@@ -101,7 +101,7 @@
                             </label>
 
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                @foreach (['admin', 'relawan'] as $roleOption)
+                                @foreach (['admin', 'petugas_lapangan'] as $roleOption)
                                     <label
                                         class="relative flex items-center p-4 border-2 rounded-xl cursor-pointer transition-all duration-200"
                                         :class="selectedRole === '{{ $roleOption }}' ?
@@ -126,7 +126,7 @@
                                                     <div class="text-base font-bold text-gray-900 dark:text-white">
                                                         {{ ucfirst($roleOption) }}</div>
                                                     <div class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                                                        {{ $roleOption === 'relawan' ? 'Anggota lapangan' : 'Administrator sistem' }}
+                                                        {{ $roleOption === 'petugas_lapangan' ? 'Anggota lapangan' : 'Administrator sistem' }}
                                                     </div>
                                                 </div>
                                             </div>
