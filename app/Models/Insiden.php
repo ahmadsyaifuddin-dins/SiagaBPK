@@ -9,13 +9,14 @@ class Insiden extends Model
     protected $fillable = [
         'lokasi', 'waktu_kejadian', 'status', 'foto', 'catatan',
         'dilaporkan_oleh', 'nama_pelapor', 'kontak_pelapor',
-        'jenis_insiden', 'jumlah_korban', 'kerugian'
+        'jenis_insiden', 'jumlah_korban', 'kerugian',
+        'latitude', 'longitude',
     ];
-    
+
     protected $casts = [
         'waktu_kejadian' => 'datetime',
     ];
-    
+
     public function pelapor()
     {
         return $this->belongsTo(User::class, 'dilaporkan_oleh');

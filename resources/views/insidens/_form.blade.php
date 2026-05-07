@@ -28,11 +28,31 @@
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
     <div class="group">
-        <x-forms.label for="lokasi" value="Lokasi Kejadian" required="true">
+        <x-forms.label for="lokasi" value="Lokasi Kejadian (Jalan/Daerah)" required="true">
             <i class="fa-solid fa-location-dot text-red-500"></i>
         </x-forms.label>
-        <x-forms.input type="text" name="lokasi" id="lokasi" placeholder="Misal: Jl. Hasan Basri..."
-            value="{{ old('lokasi', $insiden->lokasi ?? '') }}" required />
+
+        <div class="flex gap-2">
+            <x-forms.input type="text" name="lokasi" id="lokasi" placeholder="Misal: Jl. Hasan Basri..."
+                value="{{ old('lokasi', $insiden->lokasi ?? '') }}" required class="w-full" />
+
+            <button type="button" onclick="getLocation()"
+                class="shrink-0 bg-blue-100 text-blue-700 hover:bg-blue-200 dark:bg-blue-900/40 dark:text-blue-400 dark:hover:bg-blue-800/50 px-3 py-2 rounded-lg border border-blue-200 dark:border-blue-800 font-medium transition-colors"
+                title="Deteksi Koordinat GPS">
+                <i id="gps-icon" class="fa-solid fa-location-crosshairs"></i>
+            </button>
+        </div>
+
+        <div class="flex gap-2 mt-2">
+            <input type="text" name="latitude" id="latitude" value="{{ old('latitude', $insiden->latitude ?? '') }}"
+                placeholder="Latitude (Otomatis)" readonly
+                class="w-1/2 bg-gray-100 dark:bg-gray-800 text-xs text-gray-500 dark:text-gray-400 border-gray-300 dark:border-gray-700 rounded-md cursor-not-allowed">
+            <input type="text" name="longitude" id="longitude"
+                value="{{ old('longitude', $insiden->longitude ?? '') }}" placeholder="Longitude (Otomatis)" readonly
+                class="w-1/2 bg-gray-100 dark:bg-gray-800 text-xs text-gray-500 dark:text-gray-400 border-gray-300 dark:border-gray-700 rounded-md cursor-not-allowed">
+        </div>
+        <small id="geo-status" class="text-xs text-gray-500 mt-1 block">Tekan ikon target untuk mendapatkan koordinat
+            presisi. (Wajib izinkan akses lokasi)</small>
     </div>
 
     <div class="group">
@@ -44,6 +64,8 @@
             required />
     </div>
 </div>
+
+@include('insidens.partials.geo-script')
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
     <div class="group">

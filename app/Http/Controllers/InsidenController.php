@@ -21,8 +21,7 @@ class InsidenController extends Controller
 
     public function create()
     {
-        // Hanya mengambil user dengan role 'relawan' (sesuai filter di form create.blade.php kamu sebelumnya)
-        $users = User::where('role', 'relawan')->get();
+        $users = User::where('role', 'petugas_lapangan')->get();
 
         return view('insidens.create', compact('users'));
     }
@@ -71,7 +70,7 @@ class InsidenController extends Controller
 
     public function edit(Insiden $insiden)
     {
-        $users = User::where('role', 'relawan')->get();
+        $users = User::where('role', 'petugas_lapangan')->get();
         $petugas_terpilih = $insiden->petugas->pluck('id')->toArray();
 
         return view('insidens.edit', compact('insiden', 'users', 'petugas_terpilih'));

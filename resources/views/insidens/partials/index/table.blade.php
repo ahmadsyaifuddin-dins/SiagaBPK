@@ -22,14 +22,11 @@
                     </th>
                     <th
                         class="px-6 py-4 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700">
-                        <div class="flex items-center gap-2"><i class="fa-solid fa-camera"></i> Foto Dokumentasi</div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-camera"></i> Foto</div>
                     </th>
-
                     <th
                         class="px-6 py-4 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700">
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-gear"></i> Aksi
-                        </div>
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-gear"></i> Aksi</div>
                     </th>
                 </tr>
             </thead>
@@ -47,6 +44,16 @@
                                 <div class="ml-4">
                                     <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
                                         {{ $insiden->lokasi }}</div>
+                                    @if ($insiden->latitude && $insiden->longitude)
+                                        <a href="https://www.google.com/maps/search/?api=1&query={{ $insiden->latitude }},{{ $insiden->longitude }}"
+                                            target="_blank"
+                                            class="inline-flex items-center gap-1.5 text-xs text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-semibold mt-1 transition-colors">
+                                            <i class="fa-solid fa-location-arrow"></i> Cek Peta
+                                        </a>
+                                    @else
+                                        <div class="text-xs text-gray-400 dark:text-gray-500 mt-1"><i
+                                                class="fa-solid fa-ban"></i> Tanpa GPS</div>
+                                    @endif
                                 </div>
                             </div>
                         </td>
@@ -85,17 +92,14 @@
                                 </span>
                             @endif
                         </td>
-
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             <div class="flex items-center gap-3">
-
                                 @if (in_array(auth()->user()->role, ['admin', 'relawan']))
                                     <a href="{{ route('insidens.edit', $insiden->id) }}"
                                         class="inline-flex items-center gap-1 text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 transition-colors duration-150">
                                         <i class="fa-solid fa-pen-to-square"></i> Edit
                                     </a>
                                 @endif
-
                                 @if (auth()->user()->role === 'admin')
                                     <form action="{{ route('insidens.destroy', $insiden->id) }}" method="POST"
                                         class="inline"
@@ -108,7 +112,6 @@
                                         </button>
                                     </form>
                                 @endif
-
                                 <a href="{{ route('insidens.show', $insiden->id) }}"
                                     class="inline-flex items-center gap-1 text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300 transition-colors duration-150">
                                     <i class="fa-solid fa-eye"></i> Lihat

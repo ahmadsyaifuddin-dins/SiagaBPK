@@ -17,7 +17,7 @@ class UpdateInsidenRequest extends FormRequest
             'lokasi' => 'required|string|max:255',
             'waktu_kejadian' => 'required|date',
             'status' => 'nullable|string',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'catatan' => 'nullable|string',
             'nama_pelapor' => 'nullable|string',
             'kontak_pelapor' => 'nullable|string',
@@ -26,6 +26,8 @@ class UpdateInsidenRequest extends FormRequest
             'kerugian' => 'nullable|string',
             'petugas' => 'nullable|array',
             'petugas.*' => 'exists:users,id',
+            'latitude' => 'nullable|string|max:50',
+            'longitude' => 'nullable|string|max:50',
         ];
     }
 }
