@@ -10,18 +10,20 @@
     <div class="flex items-center justify-center h-16 border-b border-gray-100 dark:border-gray-700 px-4 shrink-0">
         <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
             <x-application-logo class="block h-8 w-auto fill-current text-indigo-600 dark:text-indigo-400" />
-            <span class="font-bold text-xl tracking-wide text-gray-800 dark:text-gray-200">BPK KTC FIRE</span>
+            <span class="font-bold text-xl tracking-wide text-gray-800 dark:text-gray-200">BPK SIAGA</span>
         </a>
     </div>
 
     <nav class="flex-1 px-4 py-4 space-y-1.5 overflow-y-auto">
 
+        <!-- Semua Role Bisa Akses Dashboard -->
         <a href="{{ route('dashboard') }}"
             class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('dashboard') ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
             <i class="fa-solid fa-chart-pie w-5 text-center"></i>
             {{ __('Dashboard') }}
         </a>
 
+        <!-- Khusus Admin: Manajemen SDM -->
         @if (auth()->user()->role === 'admin')
             <div class="pt-4 pb-1">
                 <p class="px-4 text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Manajemen
@@ -31,36 +33,29 @@
             <a href="{{ route('users.index') }}"
                 class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('users.*') ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
                 <i class="fa-solid fa-users w-5 text-center"></i>
-                {{ __('Petugas BPK') }}
-            </a>
-
-            <a href="{{ route('masyarakat.index') }}"
-                class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('masyarakat.*') ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
-                <i class="fa-solid fa-users-viewfinder w-5 text-center"></i>
-                {{ __('Data Warga') }}
+                {{ __('Data Pegawai / Petugas') }}
             </a>
         @endif
 
-        <div class="pt-4 pb-1">
-            <p class="px-4 text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Operasional
-                Lapangan</p>
-        </div>
+        <!-- Admin & Petugas Lapangan: Operasional -->
+        @if (in_array(auth()->user()->role, ['admin', 'petugas_lapangan']))
+            <div class="pt-4 pb-1">
+                <p class="px-4 text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Operasional
+                    Lapangan</p>
+            </div>
 
-        @if (in_array(auth()->user()->role, ['admin', 'relawan']))
             <a href="{{ route('jadwal_siaga.index') }}"
                 class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('jadwal_siaga.*') ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
                 <i class="fa-solid fa-calendar-days w-5 text-center"></i>
                 {{ __('Jadwal Siaga') }}
             </a>
-        @endif
 
-        <a href="{{ route('insidens.index') }}"
-            class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('insidens.*') ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
-            <i class="fa-solid fa-fire-extinguisher w-5 text-center"></i>
-            {{ __('Insiden') }}
-        </a>
+            <a href="{{ route('insidens.index') }}"
+                class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('insidens.*') ? 'bg-indigo-50 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
+                <i class="fa-solid fa-fire-extinguisher w-5 text-center"></i>
+                {{ __('Insiden') }}
+            </a>
 
-        @if (in_array(auth()->user()->role, ['admin', 'relawan']))
             <div class="pt-4 pb-1">
                 <p class="px-4 text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Logistik &
                     Giat</p>
@@ -81,7 +76,8 @@
             </a>
         @endif
 
-        @if (auth()->user()->role === 'admin')
+        <!-- Admin & Kepala BPK: Laporan (Sesuai Aturan 5) -->
+        @if (in_array(auth()->user()->role, ['admin', 'kepala_bpk']))
             <div class="pt-4 pb-1">
                 <p class="px-4 text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Administrasi
                 </p>

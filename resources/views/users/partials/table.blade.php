@@ -8,7 +8,7 @@
                         class="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-300 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700">
                         <div class="flex items-center space-x-2">
                             <i class="fa-solid fa-user"></i>
-                            <span>Nama Petugas</span>
+                            <span>Nama Pengguna</span>
                         </div>
                     </th>
                     <th
@@ -29,7 +29,7 @@
                         class="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-300 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700">
                         <div class="flex items-center space-x-2">
                             <i class="fa-solid fa-heart-pulse"></i>
-                            <span>Status Aktif</span>
+                            <span>Status</span>
                         </div>
                     </th>
                     @if (auth()->user()->role === 'admin')
@@ -77,14 +77,21 @@
                                 $roleName = strtolower($u->role ?? '-');
                                 $roleColor = match ($roleName) {
                                     'admin' => 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400',
-                                    'relawan' => 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
-                                    'masyarakat'
-                                        => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400',
+                                    'kepala_bpk'
+                                        => 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400',
+                                    'petugas_lapangan'
+                                        => 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
                                     default => 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300',
+                                };
+                                $roleLabel = match ($roleName) {
+                                    'admin' => 'Admin Inventaris',
+                                    'kepala_bpk' => 'Kepala BPK',
+                                    'petugas_lapangan' => 'Petugas Lapangan',
+                                    default => 'Tidak Diketahui',
                                 };
                             @endphp
                             <span class="inline-flex px-3 py-1 text-xs font-semibold rounded-full {{ $roleColor }}">
-                                {{ ucfirst($roleName) }}
+                                {{ $roleLabel }}
                             </span>
                         </td>
 
@@ -117,7 +124,7 @@
 
                                     <form action="{{ route('users.destroy', $u->id) }}" method="POST"
                                         class="inline-block"
-                                        onsubmit="confirmDelete(event, this, 'Yakin ingin menghapus petugas ini secara permanen?')">
+                                        onsubmit="confirmDelete(event, this, 'Yakin ingin menghapus pengguna ini secara permanen?')">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"
@@ -141,14 +148,14 @@
                                     <i class="fa-solid fa-users-slash text-4xl text-gray-400 dark:text-gray-500"></i>
                                 </div>
                                 <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-1">Belum ada data
-                                    Petugas</h3>
-                                <p class="text-gray-500 dark:text-gray-400 mb-6 text-sm">Mulai dengan menambahkan
-                                    Petugas atau Relawan pertama Anda.</p>
+                                    Pengguna</h3>
+                                <p class="text-gray-500 dark:text-gray-400 mb-6 text-sm">Mulai dengan menambahkan Admin,
+                                    Petugas Lapangan, atau Kepala BPK.</p>
 
                                 @if (auth()->user()->role === 'admin')
                                     <button @click="isModalOpen = true"
                                         class="inline-flex items-center gap-2 bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 text-white px-5 py-2.5 rounded-xl font-medium transition-all shadow-sm hover:shadow-md">
-                                        <i class="fa-solid fa-user-plus"></i> Tambah Petugas
+                                        <i class="fa-solid fa-user-plus"></i> Tambah Pengguna
                                     </button>
                                 @endif
                             </div>

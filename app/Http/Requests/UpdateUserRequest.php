@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -13,21 +14,18 @@ class UpdateUserRequest extends FormRequest
 
     public function rules()
     {
-        // Mengambil ID user yang sedang diupdate dari parameter route
-        $userId = $this->route('user')->id;
-
         return [
             'name' => 'required|string|max:100',
-            'email' => 'required|email|unique:users,email,'.$userId,
+            'email' => ['required', 'email', Rule::unique('users')->ignore($this->user)],
             'password' => 'nullable|string|min:8',
-            'role' => 'required|in:admin,relawan,masyarakat',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
             'no_hp' => 'required|numeric',
             'tanggal_lahir' => 'nullable|date',
             'alamat' => 'nullable|string',
-            'jabatan' => 'nullable|in:Komandan,Petugas Lapangan,Danton,Wakil Komandan,Petugas Senior,Petugas Junior,Anggota Regu,Petugas Medis,Petugas Teknis',
+            'jabatan' => 'nullable|string',
             'golongan_darah' => 'nullable|in:A+,A-,B+,B-,AB+,AB-,O+,O-',
             'status_aktif' => 'required|boolean',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ];
     }
 }

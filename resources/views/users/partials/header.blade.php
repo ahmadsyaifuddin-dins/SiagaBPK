@@ -10,7 +10,8 @@
                 </div>
                 <div>
                     <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Kelola Petugas</h1>
-                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Manajemen tim pemadam kebakaran dan relawan
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Manajemen tim pemadam kebakaran dan petugas
+                        lapangan
                     </p>
                 </div>
             </div>

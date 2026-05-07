@@ -5,16 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
     public function index()
     {
-        $users = User::whereIn('role', ['admin', 'relawan'])
-            ->orderBy('role', 'asc')
-            ->orderBy('name', 'asc')
-            ->get();
+        $users = User::orderBy('role', 'asc')->orderBy('name', 'asc')->get();
 
         return view('users.index', compact('users'));
     }
@@ -24,10 +22,16 @@ class UserController extends Controller
         $data = $request->validated();
         $data['password'] = Hash::make($data['password']);
 
-        // Langsung simpan! Kolom 'role' otomatis ikut tersimpan
+        if ($request->hasFile('foto')) {
+            $file = $request->file('foto');
+            $filename = time().'_'.$file->getClientOriginalName();
+            $file->move(public_path('uploads/users'), $filename);
+            $data['foto'] = $filename;
+        }
+
         User::create($data);
 
-        return redirect()->route('users.index')->with('success', 'Data Petugas berhasil ditambahkan');
+        return redirect()->route('users.index')->with('success', 'Data Pengguna berhasil ditambahkan');
     }
 
     public function show(User $user)
@@ -50,10 +54,24 @@ class UserController extends Controller
             unset($data['password']);
         }
 
-        // Langsung update! Kolom 'role' otomatis ikut berubah
+        if ($request->hasFile('foto')) {
+            // Hapus foto lama jika ada
+            if ($user->foto && File::exists(public_path('uploads/users/'.$user->foto))) {
+                File::delete(public_path('uploads/users/'.$user->foto));
+            }
+
+            $file = $request->file('foto');
+            $filename = time().'_'.$file->getClientOriginalName();
+            $file->move(public_path('uploads/users'), $filename);
+            $data['foto'] = $filename;
+        }
+
+        // Jangan izinkan update role dari form edit
+        unset($data['role']);
+
         $user->update($data);
 
-        return redirect()->route('users.index')->with('success', 'Data Petugas berhasil diperbarui');
+        return redirect()->route('users.index')->with('success', 'Data Pengguna berhasil diperbarui');
     }
 
     public function destroy(User $user)

@@ -65,14 +65,28 @@
                                     class="inline-flex items-center gap-2 p-1 border border-transparent text-sm leading-4 font-medium rounded-full sm:rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
 
                                     @php
-                                        $avatarColor = match (auth()->user()->role) {
+                                        $userRole = auth()->user()->role;
+
+                                        // Penentuan Warna Avatar
+                                        $avatarColor = match ($userRole) {
                                             'admin' => 'bg-red-100 text-red-700 dark:bg-red-900/50 dark:text-red-400',
-                                            'relawan'
+                                            'kepala_bpk'
+                                                => 'bg-purple-100 text-purple-700 dark:bg-purple-900/50 dark:text-purple-400',
+                                            'petugas_lapangan'
                                                 => 'bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-400',
                                             default
                                                 => 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-400',
                                         };
+
+                                        // Penentuan Label Role yang Human-Readable
+                                        $roleLabel = match ($userRole) {
+                                            'admin' => 'Admin Inventaris',
+                                            'kepala_bpk' => 'Kepala BPK',
+                                            'petugas_lapangan' => 'Petugas Lapangan',
+                                            default => 'Pengguna',
+                                        };
                                     @endphp
+
                                     <div
                                         class="h-8 w-8 rounded-full flex items-center justify-center font-bold border border-gray-100 dark:border-gray-700 {{ $avatarColor }}">
                                         {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
@@ -80,9 +94,11 @@
 
                                     <div class="hidden sm:block text-left">
                                         <p class="text-sm font-semibold text-gray-900 dark:text-gray-100 leading-tight">
-                                            {{ Auth::user()->name }}</p>
+                                            {{ Auth::user()->name }}
+                                        </p>
                                         <p class="text-xs text-gray-500 dark:text-gray-400 leading-tight">
-                                            {{ ucfirst(Auth::user()->role) }}</p>
+                                            {{ $roleLabel }}
+                                        </p>
                                     </div>
 
                                     <svg class="hidden sm:block fill-current h-4 w-4 ml-1"

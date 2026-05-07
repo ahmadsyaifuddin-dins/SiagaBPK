@@ -11,7 +11,16 @@ class InsidenSeeder extends Seeder
 {
     public function run(): void
     {
-        $relawanIds = User::where('role', 'relawan')->pluck('id')->toArray();
+        // 1. Sesuaikan nama role dengan arsitektur baru
+        $petugasIds = User::where('role', 'petugas_lapangan')->pluck('id')->toArray();
+
+        // 2. Tambahkan validasi pencegahan error jika data user belum ada
+        if (empty($petugasIds)) {
+            $this->command->warn('Data Petugas Lapangan kosong! Pastikan UserSeeder dijalankan terlebih dahulu.');
+
+            return;
+        }
+
         $lokasiKalsel = $this->generateKalselLocations();
         $namaWarga = $this->generateKalselNames();
 
@@ -37,11 +46,14 @@ class InsidenSeeder extends Seeder
                 'kerugian' => $this->generateDamageCost($jenisInsiden),
                 'nama_pelapor' => $namaWarga[array_rand($namaWarga)],
                 'kontak_pelapor' => '08'.rand(100000000, 999999999),
-                'dilaporkan_oleh' => collect($relawanIds)->random(),
+                // 3. Gunakan array $petugasIds yang sudah diperbarui
+                'dilaporkan_oleh' => collect($petugasIds)->random(),
             ]);
 
-            // Tambahkan petugas ke insiden
-            $petugas = collect($relawanIds)->random(rand(1, 3));
+            // 4. Pastikan jumlah random tidak melebihi total petugas yang ada di database
+            $jumlahPetugasDitugaskan = rand(1, min(3, count($petugasIds)));
+            $petugas = collect($petugasIds)->random($jumlahPetugasDitugaskan);
+
             $insiden->petugas()->sync($petugas);
         }
     }

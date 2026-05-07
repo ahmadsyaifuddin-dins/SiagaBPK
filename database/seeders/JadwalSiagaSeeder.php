@@ -10,12 +10,22 @@ class JadwalSiagaSeeder extends Seeder
 {
     public function run(): void
     {
-        $relawanIds = User::where('role', 'relawan')->pluck('id')->toArray();
+        // 1. Sesuaikan pencarian dengan role baru: 'petugas_lapangan'
+        $petugasIds = User::where('role', 'petugas_lapangan')->pluck('id')->toArray();
+
+        // 2. Pasang pelindung anti-error jika data petugas belum ada
+        if (empty($petugasIds)) {
+            $this->command->warn('Data Petugas Lapangan kosong! Skip Seeder Jadwal Siaga.');
+
+            return;
+        }
 
         foreach (range(1, 14) as $i) {
             JadwalSiaga::create([
-                'user_id' => collect($relawanIds)->random(),
-                'tanggal' => now()->addDays($i),
+                // 3. Gunakan array $petugasIds yang sudah divalidasi
+                'user_id' => collect($petugasIds)->random(),
+                // Format tanggal dipertegas agar masuk ke MySQL dengan aman
+                'tanggal' => now()->addDays($i)->format('Y-m-d'),
                 'status' => collect(['Siaga', 'Tugas', 'Istirahat'])->random(),
             ]);
         }

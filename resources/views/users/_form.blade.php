@@ -19,7 +19,6 @@
         <x-forms.label for="password" value="Password" :required="!isset($user)">
             <i class="fa-solid fa-lock text-gray-500"></i>
         </x-forms.label>
-
         <x-forms.input type="password" name="password" id="password"
             placeholder="{{ isset($user) ? 'Kosongkan jika tidak ingin diubah' : 'Minimal 8 karakter' }}"
             :required="!isset($user)" />
@@ -66,7 +65,8 @@
             @foreach (['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'] as $goldar)
                 <option value="{{ $goldar }}"
                     {{ old('golongan_darah', $user->golongan_darah ?? '') == $goldar ? 'selected' : '' }}>
-                    {{ $goldar }}</option>
+                    {{ $goldar }}
+                </option>
             @endforeach
         </x-forms.dropdown>
     </div>
@@ -77,9 +77,11 @@
         </x-forms.label>
         <x-forms.dropdown name="jabatan" id="jabatan">
             <option value="">-- Pilih Jabatan --</option>
-            @foreach (['Komandan', 'Wakil Komandan', 'Danton', 'Petugas Senior', 'Petugas Junior', 'Petugas Lapangan', 'Anggota Regu', 'Petugas Medis', 'Petugas Teknis'] as $jab)
+            @foreach (['Kepala BPK', 'Kepala Logistik', 'Komandan Regu', 'Petugas Lapangan', 'Petugas Teknik', 'Petugas Medis'] as $jab)
                 <option value="{{ $jab }}"
-                    {{ old('jabatan', $user->jabatan ?? '') == $jab ? 'selected' : '' }}>{{ $jab }}</option>
+                    {{ old('jabatan', $user->jabatan ?? '') == $jab ? 'selected' : '' }}>
+                    {{ $jab }}
+                </option>
             @endforeach
         </x-forms.dropdown>
     </div>
@@ -87,22 +89,29 @@
     @if (!isset($hideRole))
         <div class="group">
             <x-forms.label for="role" value="Role / Hak Akses" required="true">
-                <i class="fa-solid fa-key text-yellow-500"></i>
+                <i class="fa-solid fa-user-shield text-yellow-500"></i>
             </x-forms.label>
-            <x-forms.dropdown name="role" id="role" required>
-                <option value="">-- Pilih Role Petugas --</option>
+            {{-- Dropdown di-disable jika sedang dalam mode Edit ($user isset) --}}
+            <x-forms.dropdown name="role" id="role" :disabled="isset($user)" required>
+                <option value="">-- Pilih Role --</option>
                 @php $currentRole = old('role', $user->role ?? ''); @endphp
-                <option value="admin" {{ $currentRole === 'admin' ? 'selected' : '' }}>Admin</option>
-                <option value="relawan" {{ $currentRole === 'relawan' ? 'selected' : '' }}>Relawan</option>
+                <option value="admin" {{ $currentRole === 'admin' ? 'selected' : '' }}>Admin
+                    Inventaris</option>
+                <option value="petugas_lapangan" {{ $currentRole === 'petugas_lapangan' ? 'selected' : '' }}>Petugas
+                    Lapangan</option>
+                <option value="kepala_bpk" {{ $currentRole === 'kepala_bpk' ? 'selected' : '' }}>Kepala BPK</option>
             </x-forms.dropdown>
-            <small class="text-xs text-gray-500 mt-1 block">Tentukan hak akses untuk masuk ke dalam aplikasi.</small>
+            <small class="text-xs text-gray-500 mt-1 block">
+                {{ isset($user) ? 'Hak akses tidak dapat diubah setelah data dibuat.' : 'Tentukan hak akses untuk masuk ke dalam aplikasi.' }}
+            </small>
         </div>
     @endif
 
-    <div class="md:col-span-2 group">
+    <div class="group">
         <x-forms.label for="status_aktif" value="Status Aktif" required="true">
             <i class="fa-solid fa-heart-pulse text-red-500"></i>
         </x-forms.label>
+        {{-- Opsi murni teks profesional, tanpa emoticon --}}
         <x-forms.dropdown name="status_aktif" id="status_aktif" required>
             <option value="1" {{ old('status_aktif', $user->status_aktif ?? '1') == '1' ? 'selected' : '' }}>Aktif
             </option>
