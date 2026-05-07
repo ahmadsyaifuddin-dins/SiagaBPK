@@ -15,7 +15,7 @@
                         class="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-300 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700">
                         <div class="flex items-center space-x-2">
                             <i class="fa-solid fa-envelope"></i>
-                            <span>Email</span>
+                            <span>Email/No. WA</span>
                         </div>
                     </th>
                     <th
