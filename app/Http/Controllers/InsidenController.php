@@ -60,14 +60,20 @@ class InsidenController extends Controller
 
         /* --- KODE ASLI (Kita beri komentar // dulu agar tidak tereksekusi) --- */
         $petugas = User::where('role', 'petugas_lapangan')
+            ->where('status_aktif', 1)
             ->whereNotNull('no_hp')
             ->pluck('no_hp')
             ->toArray();
 
-        $petugas = ['6285849910396'];
+        // Filter nomor yang panjangnya masuk akal (mencegah nomor dummy masuk API Fonnte dan bikin error)
+        $petugas_valid = array_filter($petugas, function ($nomor) {
+            return strlen($nomor) >= 10 && (substr($nomor, 0, 2) === '62' || substr($nomor, 0, 2) === '08');
+        });
+
+        // $petugas = ['6285849910396']; // buat testing
 
         // Jika ada petugasnya, kirim WA
-        if (count($petugas) > 0) {
+        if (count($petugas_valid) > 0) {
             $waktu = \Carbon\Carbon::parse($insiden->waktu_kejadian)->translatedFormat('d F Y H:i');
 
             $pesan = "🚨 *PANGGILAN DARURAT BPK KTC FIRE!* 🚨\n\n";
@@ -83,7 +89,7 @@ class InsidenController extends Controller
             $pesan .= '_Pesan ini dibuat otomatis oleh Sistem E-Fire SiagaBPK._';
 
             // Panggil Service WA
-            FonnteService::sendMessage($petugas, $pesan);
+            FonnteService::sendMessage($petugas_valid, $pesan);
         }
 
         // Redirect dengan Pesan Sukses
