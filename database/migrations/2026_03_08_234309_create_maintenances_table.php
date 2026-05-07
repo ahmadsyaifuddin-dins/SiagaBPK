@@ -10,13 +10,18 @@ return new class extends Migration
     {
         Schema::create('maintenances', function (Blueprint $table) {
             $table->id();
-            // Relasi ke tabel inventaris (Jika aset dihapus, riwayat servisnya ikut terhapus)
+            // Relasi ke tabel inventaris
             $table->foreignId('inventaris_id')->constrained('inventaris')->cascadeOnDelete();
-            $table->date('tanggal_servis');
-            $table->string('jenis_servis'); // Misal: 'Ganti Oli', 'Ganti Ban', 'Perbaikan Pompa'
-            $table->integer('biaya')->default(0); // Biaya perbaikan
-            $table->text('keterangan')->nullable(); // Detail yang diperbaiki
-            $table->string('nota_servis')->nullable(); // Foto nota/kuitansi
+
+            $table->date('tanggal_servis'); // Tanggal dijadwalkan / dilakukan servis
+            $table->string('jenis_servis'); // Misal: 'Isi Ulang APAR', 'Ganti Oli', dll
+
+            $table->enum('status', ['Terjadwal', 'Proses', 'Selesai', 'Batal'])->default('Terjadwal');
+
+            $table->integer('biaya')->nullable()->default(0); // Nullable karena kalau baru dijadwalkan belum ada biaya
+            $table->text('keterangan')->nullable();
+            $table->string('nota_servis')->nullable(); // Upload nota saat status diubah menjadi Selesai
+
             $table->timestamps();
         });
     }

@@ -1,4 +1,4 @@
-<div class="grid grid-cols-1 gap-6 mb-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
     <div class="group">
         <x-forms.label for="inventaris_id" value="Aset / Armada yang Diservis" required="true">
             <i class="fa-solid fa-truck-fast text-blue-500"></i>
@@ -15,11 +15,25 @@
             @endforeach
         </x-forms.dropdown>
     </div>
+
+    <div class="group">
+        <x-forms.label for="status" value="Status Maintenance" required="true">
+            <i class="fa-solid fa-spinner text-yellow-500"></i>
+        </x-forms.label>
+        <x-forms.dropdown name="status" id="status" required>
+            @php $currentStatus = old('status', $maintenance->status ?? 'Terjadwal'); @endphp
+            <option value="Terjadwal" {{ $currentStatus == 'Terjadwal' ? 'selected' : '' }}> Terjadwal (Rencana)
+            </option>
+            <option value="Proses" {{ $currentStatus == 'Proses' ? 'selected' : '' }}>Sedang Proses Servis</option>
+            <option value="Selesai" {{ $currentStatus == 'Selesai' ? 'selected' : '' }}>Selesai</option>
+            <option value="Batal" {{ $currentStatus == 'Batal' ? 'selected' : '' }}>Dibatalkan</option>
+        </x-forms.dropdown>
+    </div>
 </div>
 
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 border-t border-gray-200 dark:border-gray-700 pt-6">
     <div class="group">
-        <x-forms.label for="tanggal_servis" value="Tanggal Servis" required="true">
+        <x-forms.label for="tanggal_servis" value="Tanggal Servis / Jadwal" required="true">
             <i class="fa-solid fa-calendar-day text-green-500"></i>
         </x-forms.label>
         <x-forms.input type="date" name="tanggal_servis" id="tanggal_servis"
@@ -30,43 +44,48 @@
         <x-forms.label for="jenis_servis" value="Jenis Servis" required="true">
             <i class="fa-solid fa-wrench text-orange-500"></i>
         </x-forms.label>
-        <x-forms.input type="text" name="jenis_servis" id="jenis_servis" placeholder="Misal: Ganti Oli Mesin"
+        <x-forms.input type="text" name="jenis_servis" id="jenis_servis"
+            placeholder="Misal: Ganti Oli Mesin / Isi Ulang APAR"
             value="{{ old('jenis_servis', $maintenance->jenis_servis ?? '') }}" required />
     </div>
 
-    <div class="group">
-        <x-forms.label for="biaya" value="Total Biaya Servis" required="true">
+    <div class="group" x-data="{ status: '{{ old('status', $maintenance->status ?? 'Terjadwal') }}' }" x-init="$watch('status', value => { if (value !== 'Selesai') document.getElementById('biaya').value = ''; })">
+        <x-forms.label for="biaya" value="Total Biaya Servis">
             <i class="fa-solid fa-money-bill-wave text-emerald-600"></i>
         </x-forms.label>
-        <x-forms.input-currency name="biaya" id="biaya" placeholder="Contoh: 500.000"
-            value="{{ old('biaya', $maintenance->biaya ?? '') }}" required />
+        <x-forms.input-currency name="biaya" id="biaya" placeholder="Isi jika status 'Selesai'"
+            value="{{ old('biaya', $maintenance->biaya ?? '') }}" />
+        <small class="text-xs text-gray-500 mt-1 block">Kosongkan jika masih sekadar rencana/jadwal.</small>
     </div>
 </div>
 
-<div class="group mb-6">
-    <x-forms.label for="keterangan" value="Keterangan / Detail Perbaikan (Opsional)">
-        <i class="fa-solid fa-clipboard text-purple-500"></i>
-    </x-forms.label>
-    <x-forms.textarea name="keterangan" id="keterangan" rows="3"
-        placeholder="Catatan kerusakan, suku cadang yang diganti, nama bengkel...">{{ old('keterangan', $maintenance->keterangan ?? '') }}</x-forms.textarea>
-</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+    <div class="group">
+        <x-forms.label for="keterangan" value="Keterangan / Detail Perbaikan (Opsional)">
+            <i class="fa-solid fa-clipboard text-purple-500"></i>
+        </x-forms.label>
+        <x-forms.textarea name="keterangan" id="keterangan" rows="5"
+            placeholder="Catatan kerusakan, suku cadang yang diganti, nama bengkel, nama teknisi...">{{ old('keterangan', $maintenance->keterangan ?? '') }}</x-forms.textarea>
+    </div>
 
-<div class="group mb-6">
-    <x-forms.label value="Foto Nota / Kuitansi Servis (Opsional)">
-        <i class="fa-solid fa-receipt text-gray-500"></i>
-    </x-forms.label>
+    <div class="group">
+        <x-forms.label value="Foto Nota / Kuitansi Servis (Opsional)">
+            <i class="fa-solid fa-receipt text-gray-500"></i>
+        </x-forms.label>
 
-    @if (isset($maintenance) && $maintenance->nota_servis)
-        <div
-            class="mb-4 bg-gray-50 dark:bg-gray-700/50 p-4 rounded-xl inline-block border border-gray-200 dark:border-gray-600">
-            <p class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Nota Saat Ini:</p>
-            <img src="{{ asset($maintenance->nota_servis) }}" alt="Nota Servis"
-                class="h-40 object-cover rounded-lg shadow-sm border border-gray-300 dark:border-gray-600">
-            <p class="text-xs text-amber-600 dark:text-amber-400 mt-2 font-medium">
-                <i class="fa-solid fa-triangle-exclamation"></i> Upload gambar baru jika ingin menimpa nota ini.
-            </p>
-        </div>
-    @endif
+        @if (isset($maintenance) && $maintenance->nota_servis)
+            <div
+                class="mb-4 bg-gray-50 dark:bg-gray-700/50 p-4 rounded-xl border border-gray-200 dark:border-gray-600 flex flex-col items-center justify-center">
+                <p class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 w-full text-left">Nota Saat Ini:
+                </p>
+                <img src="{{ asset($maintenance->nota_servis) }}" alt="Nota Servis"
+                    class="h-32 w-auto object-contain rounded-lg shadow-sm border border-gray-300 dark:border-gray-600">
+                <p class="text-xs text-amber-600 dark:text-amber-400 mt-2 font-medium w-full text-left">
+                    <i class="fa-solid fa-triangle-exclamation"></i> Upload gambar baru jika ingin menimpa nota ini.
+                </p>
+            </div>
+        @endif
 
-    <x-forms.upload-gambar name="nota_servis" />
+        <x-forms.upload-gambar name="nota_servis" />
+    </div>
 </div>

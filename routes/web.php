@@ -70,6 +70,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     // Inventaris & Maintenance
     Route::resource('inventaris', InventarisController::class);
     Route::resource('maintenances', MaintenanceController::class)->except(['index', 'show']);
+    Route::get('/maintenances-calendar-data', [MaintenanceController::class, 'getCalendarData'])->name('maintenances.calendar.data');
 
     // Jadwal Siaga (Hanya admin yang bisa membuat, mengedit, dan menghapus jadwal)
     Route::get('/jadwal_siaga/create', [JadwalSiagaController::class, 'create'])->name('jadwal_siaga.create');

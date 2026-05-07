@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Maintenance;
-use App\Models\Inventaris;
 use App\Http\Requests\StoreMaintenanceRequest;
 use App\Http\Requests\UpdateMaintenanceRequest;
+use App\Models\Inventaris;
+use App\Models\Maintenance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -19,7 +19,7 @@ class MaintenanceController extends Controller
     {
         // Ambil semua aset untuk pilihan dropdown
         $inventaris = Inventaris::orderBy('nama_barang', 'asc')->get();
-        
+
         // Tangkap ID aset dari URL jika ada (biar user tidak usah milih manual lagi)
         $selected_inventaris_id = $request->query('inventaris_id');
 
@@ -37,9 +37,9 @@ class MaintenanceController extends Controller
         // 2. Upload Nota Servis (Old School)
         if ($request->hasFile('nota_servis')) {
             $file = $request->file('nota_servis');
-            $filename = time() . '_nota_' . $file->getClientOriginalName();
+            $filename = time().'_nota_'.$file->getClientOriginalName();
             $file->move(public_path('uploads/maintenance'), $filename);
-            $data['nota_servis'] = 'uploads/maintenance/' . $filename;
+            $data['nota_servis'] = 'uploads/maintenance/'.$filename;
         }
 
         // 3. Simpan Data
@@ -56,6 +56,7 @@ class MaintenanceController extends Controller
     public function edit(Maintenance $maintenance)
     {
         $inventaris = Inventaris::orderBy('nama_barang', 'asc')->get();
+
         return view('maintenances.edit', compact('maintenance', 'inventaris'));
     }
 
@@ -73,15 +74,45 @@ class MaintenanceController extends Controller
             }
 
             $file = $request->file('nota_servis');
-            $filename = time() . '_nota_' . $file->getClientOriginalName();
+            $filename = time().'_nota_'.$file->getClientOriginalName();
             $file->move(public_path('uploads/maintenance'), $filename);
-            $data['nota_servis'] = 'uploads/maintenance/' . $filename;
+            $data['nota_servis'] = 'uploads/maintenance/'.$filename;
         }
 
         $maintenance->update($data);
 
         return redirect()->route('inventaris.show', $maintenance->inventaris_id)
             ->with('success', 'Data pemeliharaan berhasil diperbarui!');
+    }
+
+    public function getCalendarData()
+    {
+        // Ambil semua data maintenance beserta relasi nama barangnya
+        $maintenances = \App\Models\Maintenance::with('inventaris')->get();
+
+        $events = [];
+
+        foreach ($maintenances as $main) {
+            // Tentukan warna event di kalender berdasarkan status
+            $color = match ($main->status) {
+                'Terjadwal' => '#3b82f6', // Biru
+                'Proses' => '#eab308', // Kuning
+                'Selesai' => '#22c55e', // Hijau
+                'Batal' => '#ef4444', // Merah
+                default => '#6b7280', // Abu-abu
+            };
+
+            $events[] = [
+                'id' => $main->id,
+                'title' => $main->inventaris->nama_barang.' ('.$main->jenis_servis.')',
+                'start' => $main->tanggal_servis,
+                'color' => $color,
+                // Saat event di-klik, arahkan ke halaman detail barang untuk melihat riwayat lengkap
+                'url' => route('inventaris.show', $main->inventaris_id),
+            ];
+        }
+
+        return response()->json($events);
     }
 
     /**

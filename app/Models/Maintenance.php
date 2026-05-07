@@ -13,6 +13,7 @@ class Maintenance extends Model
         'inventaris_id',
         'tanggal_servis',
         'jenis_servis',
+        'status',
         'biaya',
         'keterangan',
         'nota_servis',

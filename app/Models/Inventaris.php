@@ -16,14 +16,18 @@ class Inventaris extends Model
         'nama_barang',
         'kategori',
         'jumlah',
+        'stok_minimum',
         'kondisi',
+        'tanggal_kadaluarsa',
+        'qr_code',
         'keterangan',
         'foto',
     ];
 
-    /**
-     * Relasi One-to-Many: 1 Inventaris memiliki banyak Riwayat Servis (Maintenance)
-     */
+    protected $casts = [
+        'tanggal_kadaluarsa' => 'date',
+    ];
+
     public function maintenances()
     {
         return $this->hasMany(Maintenance::class, 'inventaris_id')->orderBy('tanggal_servis', 'desc');
