@@ -33,7 +33,7 @@ class KegiatanSeeder extends Seeder
                 'lokasi' => 'Mako BPK KTC Fire',
                 'deskripsi' => 'Agenda rutin mingguan untuk pemanasan mesin armada, pengecekan tekanan kompresor pompa air portabel, dan pembersihan area posko.',
                 'foto' => null,
-                'status' => 'Terjadwal',
+                'status' => 'Selesai',
             ],
         ];
 
