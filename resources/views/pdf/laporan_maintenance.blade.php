@@ -6,6 +6,7 @@
     <div style="text-align: center; margin-bottom: 20px;">
         <h3 style="margin: 0; text-decoration: underline; text-transform: uppercase;">LAPORAN BIAYA PEMELIHARAAN & SERVIS
             ARMADA</h3>
+        <p style="margin: 5px 0; font-weight: bold;">Periode: {{ $namaBulan }} {{ $tahun }}</p>
         <p style="margin: 5px 0 0 0; font-size: 11px;">Rekapitulasi Pengeluaran Bengkel | Dicetak pada:
             {{ now()->translatedFormat('l, d F Y H:i') }}</p>
     </div>
