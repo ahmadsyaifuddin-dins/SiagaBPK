@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
             InsidenSeeder::class,
             JadwalSiagaSeeder::class,
             InventarisSeeder::class,
+            KegiatanSeeder::class,
         ]);
     }
 }
