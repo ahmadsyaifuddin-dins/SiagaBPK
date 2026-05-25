@@ -6,8 +6,50 @@
         </h3>
     </div>
     <div class="p-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 pb-8 border-b border-gray-100 dark:border-gray-700">
+            <div class="flex items-start space-x-3">
+                <div class="p-2.5 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg shrink-0">
+                    <i class="fa-solid fa-user-shield text-indigo-600 dark:text-indigo-400 text-lg"></i>
+                </div>
+                <div class="flex-1 mt-1">
+                    <p class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-0.5">Nama
+                        Pelapor (Warga/Instansi)</p>
+                    <p class="text-gray-900 dark:text-white font-medium">
+                        {{ $insiden->nama_pelapor ?? 'Tidak diketahui (Anonim)' }}</p>
+                    @if ($insiden->pelapor)
+                        <p class="text-xs text-gray-400 mt-1">* Diterima oleh: {{ $insiden->pelapor->name }}</p>
+                    @endif
+                </div>
+            </div>
+
+            <div class="flex-1 mt-1">
+                <p class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-0.5">Kontak
+                    Pelapor</p>
+                @if ($insiden->kontak_pelapor)
+                    @php
+                        // 1. Bersihkan nomor dari spasi atau strip (misal: 0812-3456 -> 08123456)
+                        $rawNumber = preg_replace('/[^0-9]/', '', $insiden->kontak_pelapor);
+
+                        // 2. Jika depannya 08, ubah 0 menjadi 62
+                        if (substr($rawNumber, 0, 2) === '08') {
+                            $waNumber = '62' . substr($rawNumber, 1);
+                        } else {
+                            $waNumber = $rawNumber;
+                        }
+                    @endphp
+
+                    <a href="https://wa.me/{{ $waNumber }}" target="_blank"
+                        class="inline-flex items-center text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 font-medium hover:underline">
+                        {{ $insiden->kontak_pelapor }} <i class="fa-brands fa-whatsapp ml-1"></i>
+                    </a>
+                @else
+                    <p class="text-gray-900 dark:text-white font-medium">-</p>
+                @endif
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="space-y-6">
                 <div
                     class="flex items-start space-x-3 bg-gray-50 dark:bg-gray-900/50 p-4 rounded-xl border border-gray-100 dark:border-gray-700">
@@ -89,7 +131,7 @@
                     </div>
                 </div>
             </div>
-
         </div>
+
     </div>
 </div>

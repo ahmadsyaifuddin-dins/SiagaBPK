@@ -1,30 +1,34 @@
 @auth
     <input type="hidden" name="dilaporkan_oleh" value="{{ auth()->id() }}">
     <div
-        class="text-sm text-gray-600 dark:text-gray-300 mb-6 bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-100 dark:border-blue-800">
-        <i class="fa-solid fa-user-check text-blue-500 mr-2"></i>
-        Dilaporkan oleh: <span class="font-bold text-blue-700 dark:text-blue-400">{{ auth()->user()->name }}
-            ({{ ucfirst(auth()->user()->role) }})
-        </span>
-    </div>
-@else
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <div class="group">
-            <x-forms.label for="nama_pelapor" value="Nama Pelapor (Umum)" required="true">
-                <i class="fa-solid fa-user text-blue-500"></i>
-            </x-forms.label>
-            <x-forms.input type="text" name="nama_pelapor" id="nama_pelapor"
-                value="{{ old('nama_pelapor', $insiden->nama_pelapor ?? '') }}" required />
-        </div>
-        <div class="group">
-            <x-forms.label for="kontak_pelapor" value="Kontak Pelapor" required="true">
-                <i class="fa-solid fa-phone text-blue-500"></i>
-            </x-forms.label>
-            <x-forms.input type="text" name="kontak_pelapor" id="kontak_pelapor"
-                value="{{ old('kontak_pelapor', $insiden->kontak_pelapor ?? '') }}" required />
+        class="text-sm text-gray-600 dark:text-gray-300 mb-6 bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-100 dark:border-blue-800 flex items-center">
+        <i class="fa-solid fa-user-shield text-blue-500 mr-3 text-lg"></i>
+        <div>
+            <span class="block text-xs text-gray-500 dark:text-gray-400">Penerima Laporan / Petugas Jaga:</span>
+            <span class="font-bold text-blue-700 dark:text-blue-400">{{ auth()->user()->name }}
+                ({{ ucfirst(auth()->user()->role) }})</span>
         </div>
     </div>
 @endauth
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+    <div class="group">
+        <x-forms.label for="nama_pelapor" value="Nama Pelapor (Warga / Instansi)" required="true">
+            <i class="fa-solid fa-user text-blue-500"></i>
+        </x-forms.label>
+        <x-forms.input type="text" name="nama_pelapor" id="nama_pelapor"
+            value="{{ old('nama_pelapor', $insiden->nama_pelapor ?? '') }}" required
+            placeholder="Masukkan nama pelapor..." />
+    </div>
+    <div class="group">
+        <x-forms.label for="kontak_pelapor" value="Kontak Pelapor (No. HP/WA)" required="true">
+            <i class="fa-solid fa-phone text-green-500"></i>
+        </x-forms.label>
+        <x-forms.input type="text" name="kontak_pelapor" id="kontak_pelapor"
+            value="{{ old('kontak_pelapor', $insiden->kontak_pelapor ?? '') }}" required
+            placeholder="Contoh: 08123456789" />
+    </div>
+</div>
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
     <div class="group">
@@ -57,7 +61,7 @@
 
     <div class="group">
         <x-forms.label for="waktu_kejadian" value="Waktu Kejadian" required="true">
-            <i class="fa-solid fa-clock text-green-500"></i>
+            <i class="fa-solid fa-clock text-orange-500"></i>
         </x-forms.label>
         <x-forms.input type="datetime-local" name="waktu_kejadian" id="waktu_kejadian"
             value="{{ old('waktu_kejadian', isset($insiden) ? date('Y-m-d\TH:i', strtotime($insiden->waktu_kejadian)) : now()->format('Y-m-d\TH:i')) }}"
