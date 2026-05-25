@@ -26,7 +26,6 @@
                     'colorClass' => 'bg-orange-100 text-orange-600',
                     'route' => 'reports.cetak.insiden',
                     'hasFilter' => true,
-                    'tahunList' => $tahunInsiden,
                     'btnColor' => 'bg-red-600 hover:bg-red-700',
                 ])
 
@@ -37,7 +36,6 @@
                     'colorClass' => 'bg-red-100 text-red-600',
                     'route' => 'reports.cetak.kerugian',
                     'hasFilter' => true,
-                    'tahunList' => $tahunInsiden,
                     'btnColor' => 'bg-red-600 hover:bg-red-700',
                 ])
 
@@ -48,7 +46,6 @@
                     'colorClass' => 'bg-blue-100 text-blue-600',
                     'route' => 'reports.cetak.kinerja',
                     'hasFilter' => true,
-                    'tahunList' => $tahunInsiden,
                     'btnColor' => 'bg-blue-600 hover:bg-blue-700',
                 ])
 
@@ -59,7 +56,6 @@
                     'colorClass' => 'bg-emerald-100 text-emerald-600',
                     'route' => 'reports.cetak.jadwal',
                     'hasFilter' => true,
-                    'tahunList' => $tahunInsiden,
                     'btnColor' => 'bg-emerald-600 hover:bg-emerald-700',
                 ])
 
@@ -70,7 +66,6 @@
                     'colorClass' => 'bg-teal-100 text-teal-600',
                     'route' => 'reports.cetak.maintenance',
                     'hasFilter' => true,
-                    'tahunList' => $tahunInsiden,
                     'btnColor' => 'bg-teal-600 hover:bg-teal-700',
                 ])
 
@@ -81,7 +76,6 @@
                     'colorClass' => 'bg-pink-100 text-pink-600',
                     'route' => 'reports.cetak.kegiatan',
                     'hasFilter' => true,
-                    'tahunList' => $tahunInsiden,
                     'btnColor' => 'bg-pink-600 hover:bg-pink-700',
                 ])
 

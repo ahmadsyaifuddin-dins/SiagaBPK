@@ -21,19 +21,18 @@
     @if ($hasFilter)
         <form action="{{ route($route) }}" method="GET" target="_blank" class="space-y-3">
             <div class="grid grid-cols-2 gap-2">
-                <select name="bulan" required
-                    class="text-[10px] py-1.5 rounded-lg border-gray-200 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-300 focus:ring-blue-500">
-                    @foreach (range(1, 12) as $m)
-                        <option value="{{ $m }}" {{ date('n') == $m ? 'selected' : '' }}>
-                            {{ \Carbon\Carbon::create()->month($m)->translatedFormat('F') }}</option>
-                    @endforeach
-                </select>
-                <select name="tahun" required
-                    class="text-[10px] py-1.5 rounded-lg border-gray-200 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-300 focus:ring-blue-500">
-                    @foreach ($tahunList as $thn)
-                        <option value="{{ $thn }}">{{ $thn }}</option>
-                    @endforeach
-                </select>
+                <div>
+                    <label class="text-[10px] text-gray-500 dark:text-gray-400 font-semibold mb-1 block">Dari Tanggal
+                        (Opsional)</label>
+                    <input type="date" name="start_date"
+                        class="w-full text-[10px] py-1.5 rounded-lg border-gray-200 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-300 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="text-[10px] text-gray-500 dark:text-gray-400 font-semibold mb-1 block">Sampai
+                        (Opsional)</label>
+                    <input type="date" name="end_date"
+                        class="w-full text-[10px] py-1.5 rounded-lg border-gray-200 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-300 focus:ring-blue-500">
+                </div>
             </div>
             <button type="submit"
                 class="w-full py-2 {{ $btnColor }} text-white rounded-xl font-bold shadow-md transition-all text-xs">

@@ -6,7 +6,7 @@
     <div style="text-align: center; margin-bottom: 20px;">
         <h3 style="margin: 0; text-decoration: underline; text-transform: uppercase;">LAPORAN KINERJA & KEAKTIFAN ANGGOTA
         </h3>
-        <p style="margin: 5px 0; font-weight: bold;">Periode: {{ $namaBulan }} {{ $tahun }}</p>
+        <p style="margin: 5px 0; font-weight: bold;">Periode: {{ $periode }}</p>
         <p style="margin: 5px 0 0 0; font-size: 11px;">Berdasarkan Frekuensi Turun ke Lapangan | Dicetak pada:
             {{ now()->translatedFormat('l, d F Y H:i') }}</p>
     </div>
@@ -50,7 +50,10 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="6" class="text-center" style="padding: 20px;">Belum ada data relawan.</td>
+                    <td colspan="6" class="text-center"
+                        style="padding: 30px; background-color: #f9fafb; color: #6b7280;">
+                        <em>Tidak ada relawan yang terdaftar <strong>pada periode {{ $periode }}</strong>.</em>
+                    </td>
                 </tr>
             @endforelse
         </tbody>

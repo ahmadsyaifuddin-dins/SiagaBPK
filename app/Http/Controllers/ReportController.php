@@ -4,11 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Insiden;
 use App\Models\Inventaris;
-use App\Models\JadwalSiaga;
 use App\Models\Maintenance;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf; // Pastikan library ini sudah terinstal
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
@@ -37,94 +35,152 @@ class ReportController extends Controller
     // =========================================================================
     public function cetakInsiden(Request $request)
     {
-        $bulan = $request->query('bulan');
-        $tahun = $request->query('tahun');
+        $startDate = $request->query('start_date');
+        $endDate = $request->query('end_date');
 
-        // Query dengan filter bulan dan tahun
-        $insidens = Insiden::whereMonth('waktu_kejadian', $bulan)
-            ->whereYear('waktu_kejadian', $tahun)
-            ->orderBy('waktu_kejadian', 'asc')
-            ->get();
+        $query = Insiden::query();
 
-        // PERBAIKAN DI SINI: Tambahkan (int) sebelum $bulan
-        $namaBulan = Carbon::create()->month((int) $bulan)->translatedFormat('F');
+        if ($startDate && $endDate) {
+            // Tambahkan waktu 00:00:00 dan 23:59:59 agar full 1 hari tercakup
+            $query->whereBetween('waktu_kejadian', [$startDate.' 00:00:00', $endDate.' 23:59:59']);
+            $periode = \Carbon\Carbon::parse($startDate)->translatedFormat('d M Y').' s/d '.\Carbon\Carbon::parse($endDate)->translatedFormat('d M Y');
+        } else {
+            $periode = 'Semua Waktu (All Time)';
+        }
 
-        $pdf = Pdf::loadView('pdf.laporan_insiden', compact('insidens', 'namaBulan', 'tahun'))
+        $insidens = $query->orderBy('waktu_kejadian', 'asc')->get();
+
+        $pdf = Pdf::loadView('pdf.laporan_insiden', compact('insidens', 'periode'))
             ->setPaper('a4', 'landscape');
 
-        return $pdf->stream("Laporan_Insiden_{$namaBulan}_{$tahun}.pdf");
+        return $pdf->stream('Laporan_Insiden.pdf');
     }
 
     public function cetakKerugian(Request $request)
     {
-        $bulan = $request->query('bulan');
-        $tahun = $request->query('tahun');
+        $startDate = $request->query('start_date');
+        $endDate = $request->query('end_date');
 
-        $insidens = Insiden::whereIn('status', ['Tiba di TKP', 'Selesai'])
-            ->whereMonth('waktu_kejadian', $bulan)
-            ->whereYear('waktu_kejadian', $tahun)
-            ->orderBy('waktu_kejadian', 'asc')
-            ->get();
+        $query = Insiden::whereIn('status', ['Tiba di TKP', 'Selesai']);
+
+        if ($startDate && $endDate) {
+            $query->whereBetween('waktu_kejadian', [$startDate.' 00:00:00', $endDate.' 23:59:59']);
+            $periode = \Carbon\Carbon::parse($startDate)->translatedFormat('d M Y').' s/d '.\Carbon\Carbon::parse($endDate)->translatedFormat('d M Y');
+        } else {
+            $periode = 'Semua Waktu (All Time)';
+        }
+
+        $insidens = $query->orderBy('waktu_kejadian', 'asc')->get();
 
         $totalKerugian = 0;
         $totalKorban = 0;
 
         foreach ($insidens as $insiden) {
             if ($insiden->kerugian) {
-                // Membersihkan string Rp agar bisa dijumlahkan
                 $angkaMurni = preg_replace('/[^0-9]/', '', $insiden->kerugian);
                 $totalKerugian += (int) $angkaMurni;
             }
             $totalKorban += (int) $insiden->jumlah_korban;
         }
 
-        $namaBulan = \Carbon\Carbon::create()->month((int) $bulan)->translatedFormat('F');
-
-        $pdf = Pdf::loadView('pdf.laporan_kerugian', compact('insidens', 'totalKerugian', 'totalKorban', 'namaBulan', 'tahun'))
+        $pdf = Pdf::loadView('pdf.laporan_kerugian', compact('insidens', 'totalKerugian', 'totalKorban', 'periode'))
             ->setPaper('a4', 'landscape');
 
-        return $pdf->stream("Laporan_Statistik_Kerugian_{$namaBulan}_{$tahun}.pdf");
+        return $pdf->stream('Laporan_Statistik_Kerugian.pdf');
     }
 
     public function cetakKinerja(Request $request)
     {
-        $bulan = $request->query('bulan');
-        $tahun = $request->query('tahun');
+        $startDate = $request->query('start_date');
+        $endDate = $request->query('end_date');
 
-        // Mengambil user dan menghitung jumlah insiden yang mereka ikuti HANYA di bulan/tahun terpilih
-        $relawans = User::whereIn('role', ['admin', 'petugas_lapangan'])
-            ->withCount(['insidens' => function ($query) use ($bulan, $tahun) {
-                $query->whereMonth('waktu_kejadian', $bulan)
-                    ->whereYear('waktu_kejadian', $tahun);
-            }])
-            ->orderByDesc('insidens_count')
-            ->get();
+        if ($startDate && $endDate) {
+            $relawans = User::whereIn('role', ['admin', 'petugas_lapangan'])
+                ->withCount(['insidens' => function ($query) use ($startDate, $endDate) {
+                    $query->whereBetween('waktu_kejadian', [$startDate.' 00:00:00', $endDate.' 23:59:59']);
+                }])
+                ->orderByDesc('insidens_count')
+                ->get();
+            $periode = \Carbon\Carbon::parse($startDate)->translatedFormat('d M Y').' s/d '.\Carbon\Carbon::parse($endDate)->translatedFormat('d M Y');
+        } else {
+            $relawans = User::whereIn('role', ['admin', 'petugas_lapangan'])
+                ->withCount('insidens')
+                ->orderByDesc('insidens_count')
+                ->get();
+            $periode = 'Semua Waktu (All Time)';
+        }
 
-        $namaBulan = \Carbon\Carbon::create()->month((int) $bulan)->translatedFormat('F');
-
-        $pdf = Pdf::loadView('pdf.laporan_kinerja', compact('relawans', 'namaBulan', 'tahun'))
+        $pdf = Pdf::loadView('pdf.laporan_kinerja', compact('relawans', 'periode'))
             ->setPaper('a4', 'portrait');
 
-        return $pdf->stream("Laporan_Kinerja_Anggota_{$namaBulan}_{$tahun}.pdf");
+        return $pdf->stream('Laporan_Kinerja_Anggota.pdf');
     }
 
     public function cetakJadwal(Request $request)
     {
-        $bulan = $request->query('bulan');
-        $tahun = $request->query('tahun');
+        $startDate = $request->query('start_date');
+        $endDate = $request->query('end_date');
 
-        $jadwals = JadwalSiaga::with('user')
-            ->whereMonth('tanggal', $bulan)
-            ->whereYear('tanggal', $tahun)
-            ->orderBy('tanggal', 'asc')
-            ->get();
+        $query = \App\Models\JadwalSiaga::with('user');
 
-        $namaBulan = \Carbon\Carbon::create()->month((int) $bulan)->translatedFormat('F');
+        if ($startDate && $endDate) {
+            $query->whereBetween('tanggal', [$startDate, $endDate]);
+            $periode = \Carbon\Carbon::parse($startDate)->translatedFormat('d M Y').' s/d '.\Carbon\Carbon::parse($endDate)->translatedFormat('d M Y');
+        } else {
+            $periode = 'Semua Waktu (All Time)';
+        }
 
-        $pdf = Pdf::loadView('pdf.laporan_jadwal', compact('jadwals', 'namaBulan', 'tahun'))
+        $jadwals = $query->orderBy('tanggal', 'asc')->get();
+
+        $pdf = Pdf::loadView('pdf.laporan_jadwal', compact('jadwals', 'periode'))
             ->setPaper('a4', 'portrait');
 
-        return $pdf->stream("Laporan_Jadwal_Piket_{$namaBulan}_{$tahun}.pdf");
+        return $pdf->stream('Laporan_Jadwal_Piket.pdf');
+    }
+
+    public function cetakMaintenance(Request $request)
+    {
+        $startDate = $request->query('start_date');
+        $endDate = $request->query('end_date');
+
+        $query = Maintenance::with('inventaris');
+
+        if ($startDate && $endDate) {
+            $query->whereBetween('tanggal_servis', [$startDate, $endDate]);
+            $periode = \Carbon\Carbon::parse($startDate)->translatedFormat('d M Y').' s/d '.\Carbon\Carbon::parse($endDate)->translatedFormat('d M Y');
+        } else {
+            $periode = 'Semua Waktu (All Time)';
+        }
+
+        $maintenances = $query->orderBy('tanggal_servis', 'asc')->get();
+        $totalBiaya = $maintenances->where('status', 'Selesai')->sum('biaya');
+
+        $pdf = Pdf::loadView('pdf.laporan_maintenance', compact('maintenances', 'totalBiaya', 'periode'))
+            ->setPaper('a4', 'portrait');
+
+        return $pdf->stream('Laporan_Maintenance.pdf');
+    }
+
+    public function cetakKegiatan(Request $request)
+    {
+        $startDate = $request->query('start_date');
+        $endDate = $request->query('end_date');
+
+        $query = \App\Models\Kegiatan::query();
+
+        if ($startDate && $endDate) {
+            $query->whereBetween('tanggal_kegiatan', [$startDate.' 00:00:00', $endDate.' 23:59:59']);
+            $periode = \Carbon\Carbon::parse($startDate)->translatedFormat('d M Y').' s/d '.\Carbon\Carbon::parse($endDate)->translatedFormat('d M Y');
+        } else {
+            $periode = 'Semua Waktu (All Time)';
+        }
+
+        $kegiatans = $query->orderBy('tanggal_kegiatan', 'asc')->get();
+
+        $pdf = Pdf::loadView('pdf.laporan_kegiatan', compact('kegiatans', 'periode'))
+            ->setPaper('a4', 'landscape');
+
+        return $pdf->stream('Laporan_Kegiatan.pdf');
     }
 
     public function cetakInventaris()
@@ -139,45 +195,6 @@ class ReportController extends Controller
             ->setPaper('a4', 'portrait');
 
         return $pdf->stream('Laporan_Inventaris_SiagaBPK.pdf');
-    }
-
-    public function cetakMaintenance(Request $request)
-    {
-        $bulan = $request->query('bulan');
-        $tahun = $request->query('tahun');
-
-        $maintenances = Maintenance::with('inventaris')
-            ->whereMonth('tanggal_servis', $bulan)
-            ->whereYear('tanggal_servis', $tahun)
-            ->orderBy('tanggal_servis', 'asc')
-            ->get();
-
-        $totalBiaya = $maintenances->where('status', 'Selesai')->sum('biaya');
-
-        $namaBulan = Carbon::create()->month((int) $bulan)->translatedFormat('F');
-
-        $pdf = Pdf::loadView('pdf.laporan_maintenance', compact('maintenances', 'totalBiaya', 'namaBulan', 'tahun'))
-            ->setPaper('a4', 'portrait');
-
-        return $pdf->stream("Laporan_Maintenance_{$namaBulan}_{$tahun}.pdf");
-    }
-
-    public function cetakKegiatan(Request $request)
-    {
-        $bulan = $request->query('bulan');
-        $tahun = $request->query('tahun');
-
-        $kegiatans = \App\Models\Kegiatan::whereMonth('tanggal_kegiatan', $bulan)
-            ->whereYear('tanggal_kegiatan', $tahun)
-            ->orderBy('tanggal_kegiatan', 'asc')
-            ->get();
-
-        $namaBulan = \Carbon\Carbon::create()->month((int) $bulan)->translatedFormat('F');
-
-        $pdf = Pdf::loadView('pdf.laporan_kegiatan', compact('kegiatans', 'namaBulan', 'tahun'))
-            ->setPaper('a4', 'landscape');
-
-        return $pdf->stream("Laporan_Kegiatan_{$namaBulan}_{$tahun}.pdf");
     }
 
     public function cetakKontak()
