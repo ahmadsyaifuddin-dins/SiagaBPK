@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
             'role' => 'kepala_bpk',
             'jenis_kelamin' => 'Laki-laki',
-            'no_hp' => '6281111111111',
+            'no_hp' => '081111111111',
             'tanggal_lahir' => '1970-01-01',
             'alamat' => 'Jl. Pangeran Antasari, Banjarmasin',
             'jabatan' => 'Kepala BPK',
@@ -32,7 +32,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
             'role' => 'admin',
             'jenis_kelamin' => 'Laki-laki',
-            'no_hp' => '6282222222222',
+            'no_hp' => '082222222222',
             'tanggal_lahir' => '1985-07-10',
             'alamat' => 'Jl. Brigadir Jenderal Hasan Basri No. 3',
             'jabatan' => 'Kepala Logistik',
@@ -40,36 +40,30 @@ class UserSeeder extends Seeder
             'status_aktif' => true,
         ]);
 
-        // 3. Petugas Lapangan
+        // 3. Petugas Lapangan (10 Data)
         $petugas = [
             [
-                'name' => 'Ahmad Syaifuddin',
+                'name' => 'Budi Santoso', // NAMA SAMARAN UNTUK NOMORMU
                 'jenis_kelamin' => 'Laki-laki',
-                'email' => 'ahmadsyai598@gmail.com',
+                'email' => 'budi@gmail.com', // Email disamarkan
                 'jabatan' => 'Petugas Lapangan',
-                'no_hp' => '6285849910396', // NOMOR ASLI MU
+                'no_hp' => '085849910396', // NOMOR ASLI (Ahmad Syaifuddin)
             ],
             [
-                'name' => 'Muhammad Riza Maulana Ibsan (Eza)',
+                'name' => 'Muhammad Riza Maulana Ibsan (Eza)', // NAMA ASLI EZA
                 'jenis_kelamin' => 'Laki-laki',
                 'email' => 'eza@gmail.com',
                 'jabatan' => 'Petugas Teknik',
-                'no_hp' => '6285389115562',
+                'no_hp' => '085389115562', // NOMOR ASLI EZA
             ],
-            // [
-            //     'name' => 'Siti Rahmawati',
-            //     'jenis_kelamin' => 'Perempuan',
-            //     'email' => 'siti@gmail.com',
-            //     'jabatan' => 'Petugas Lapangan',
-            //     'no_hp' => '62813'.rand(10000000, 99999999), // Dummy Acak
-            // ],
-            // [
-            //     'name' => 'Aang Samudra',
-            //     'jenis_kelamin' => 'Laki-laki',
-            //     'email' => 'aang@gmail.com',
-            //     'jabatan' => 'Komandan Regu',
-            //     'no_hp' => '62841'.rand(10000000, 99999999), // Dummy Acak
-            // ],
+            ['name' => 'Siti Rahmawati', 'jenis_kelamin' => 'Perempuan', 'email' => 'siti@gmail.com', 'jabatan' => 'Petugas Medis', 'no_hp' => '081312345678'],
+            ['name' => 'Hendra Gunawan', 'jenis_kelamin' => 'Laki-laki', 'email' => 'hendra@gmail.com', 'jabatan' => 'Komandan Regu 1', 'no_hp' => '081298765432'],
+            ['name' => 'Rina Amelia', 'jenis_kelamin' => 'Perempuan', 'email' => 'rina@gmail.com', 'jabatan' => 'Operator Radio', 'no_hp' => '085711223344'],
+            ['name' => 'Faisal Rahman', 'jenis_kelamin' => 'Laki-laki', 'email' => 'faisal@gmail.com', 'jabatan' => 'Driver Armada', 'no_hp' => '081988776655'],
+            ['name' => 'Dwi Cahyo', 'jenis_kelamin' => 'Laki-laki', 'email' => 'dwi@gmail.com', 'jabatan' => 'Petugas Lapangan', 'no_hp' => '082155443322'],
+            ['name' => 'Ahmad Fauzi', 'jenis_kelamin' => 'Laki-laki', 'email' => 'fauzi@gmail.com', 'jabatan' => 'Petugas Lapangan', 'no_hp' => '085244556677'],
+            ['name' => 'Yusuf Maulana', 'jenis_kelamin' => 'Laki-laki', 'email' => 'yusuf@gmail.com', 'jabatan' => 'Petugas Lapangan', 'no_hp' => '081399887766'],
+            ['name' => 'Kurniawan', 'jenis_kelamin' => 'Laki-laki', 'email' => 'kurniawan@gmail.com', 'jabatan' => 'Komandan Regu 2', 'no_hp' => '081233445566'],
         ];
 
         foreach ($petugas as $index => $data) {
@@ -81,7 +75,7 @@ class UserSeeder extends Seeder
                 'jenis_kelamin' => $data['jenis_kelamin'],
                 'no_hp' => $data['no_hp'],
                 'tanggal_lahir' => now()->subYears(rand(22, 35))->format('Y-m-d'),
-                'alamat' => 'Jl. Kayutangi No.'.($index + 1).', Banjarmasin',
+                'alamat' => 'Jl. Kayutangi Blok '.chr(65 + $index).' No. '.rand(1, 50),
                 'jabatan' => $data['jabatan'],
                 'golongan_darah' => collect(['A+', 'B+', 'O+', 'AB+'])->random(),
                 'status_aktif' => true,

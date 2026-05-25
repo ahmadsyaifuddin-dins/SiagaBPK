@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
             JadwalSiagaSeeder::class,
             InventarisSeeder::class,
             KegiatanSeeder::class,
+            MaintenanceSeeder::class,
         ]);
     }
 }
