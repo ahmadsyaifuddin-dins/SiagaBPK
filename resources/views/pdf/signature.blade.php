@@ -1,4 +1,4 @@
-<table style="width: 100%; margin-top: 50px;">
+<table style="width: 100%; margin-top: 50px; font-family: sans-serif;">
     <tr>
         <td style="width: 60%;"></td>
 
@@ -10,7 +10,7 @@
             <br><br><br><br>
 
             <p style="margin: 0; font-weight: bold; text-decoration: underline;">H. Eza</p>
-            <p style="margin: 0;">NIP. 2210010234</p>
+            <p style="margin: 0;">ID: {{ $kepalaReguId ?? 'KTC-001' }}</p>
         </td>
     </tr>
 </table>
