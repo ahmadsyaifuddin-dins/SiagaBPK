@@ -29,11 +29,8 @@
 
     <nav class="absolute top-0 left-0 right-0 z-50 px-6 py-4 flex justify-between items-center">
         <div class="flex items-center gap-2">
-            <div
-                class="w-10 h-10 bg-gradient-to-br from-red-600 to-orange-500 rounded-xl flex items-center justify-center shadow-lg">
-                <i class="fa-solid fa-fire text-white text-xl"></i>
-            </div>
-            <span class="font-bold text-xl tracking-wider text-gray-800 dark:text-white">SiagaBPK</span>
+            <x-application-logo class="block h-8 w-auto fill-current text-indigo-600 dark:text-indigo-400" />
+            <span class="font-bold text-xl tracking-wider text-gray-800 dark:text-white">SiagaBPK KTC Fire</span>
         </div>
 
         <div>

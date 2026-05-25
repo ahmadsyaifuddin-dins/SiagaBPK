@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="py-8 bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors duration-300">
+    <div class="bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors duration-300">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
             <div

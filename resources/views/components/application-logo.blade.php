@@ -1,1 +1,1 @@
-<img src="{{ asset('logo_app/fire.png') }}" alt="Logo" class="w-16 h-16">
+<img src="{{ asset('logo_app/ktc-fire.png') }}" alt="Logo" class="w-16 h-16">

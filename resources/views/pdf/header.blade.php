@@ -1,7 +1,7 @@
 <table style="width: 100%; border-bottom: 3px solid black; padding-bottom: 10px; margin-bottom: 20px;">
     <tr>
         <td style="width: 15%; text-align: left; vertical-align: middle;">
-            <img src="{{ public_path('logo_app/fire.png') }}" alt="Logo Instansi" style="width: 80px; height: auto;">
+            <img src="{{ public_path('logo_app/ktc-fire.png') }}" alt="Logo Instansi" style="width: 80px; height: auto;">
         </td>
 
         <td style="width: 70%; text-align: center; vertical-align: middle;">
