@@ -143,7 +143,7 @@ class ReportController extends Controller
         $startDate = $request->query('start_date');
         $endDate = $request->query('end_date');
 
-        $query = Maintenance::with('inventaris');
+        $query = Maintenance::with('inventaris')->whereIn('status', ['Selesai', 'Proses', 'Terjadwal']);
 
         if ($startDate && $endDate) {
             $query->whereBetween('tanggal_servis', [$startDate, $endDate]);
@@ -153,7 +153,7 @@ class ReportController extends Controller
         }
 
         $maintenances = $query->orderBy('tanggal_servis', 'asc')->get();
-        $totalBiaya = $maintenances->where('status', 'Selesai')->sum('biaya');
+        $totalBiaya = $maintenances->sum('biaya');
 
         $pdf = Pdf::loadView('pdf.laporan_maintenance', compact('maintenances', 'totalBiaya', 'periode'))
             ->setPaper('a4', 'portrait');
