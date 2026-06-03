@@ -7,7 +7,10 @@
             <p style="margin: 0;">Mengetahui,</p>
             <p style="margin: 0; font-weight: bold;">Kepala Regu SiagaBPK KTC FIRE Banjarmasin</p>
 
-            <br><br><br><br>
+            <div style="margin: 10px 0; text-align: center;">
+                <img src="{{ public_path('ttd/ttd.png') }}" style="height: 65px; width: auto; display: inline-block;"
+                    alt="Tanda Tangan H. Eza">
+            </div>
 
             <p style="margin: 0; font-weight: bold; text-decoration: underline;">H. Eza</p>
             <p style="margin: 0;">ID: {{ $kepalaReguId ?? 'KTC-001' }}</p>
