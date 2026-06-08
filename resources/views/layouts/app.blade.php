@@ -29,9 +29,9 @@
 
     <div class="fixed inset-0 z-0 pointer-events-none">
         <img src="{{ asset('tempat/bpk-fire-3.jpg') }}" alt="Background Posko"
-            class="w-full h-full object-cover opacity-80 dark:opacity-60 blur-[2px] scale-105">
+            class="w-full h-full object-cover opacity-80 dark:opacity-60 scale-105">
 
-        <div class="absolute inset-0 bg-gray-100/50 dark:bg-gray-900/60 backdrop-blur-sm"></div>
+        <div class="absolute inset-0 bg-gray-100 dark:bg-gray-900/60 backdrop-blur-xs"></div>
     </div>
 
     <div x-data="{ sidebarOpen: false }" class="flex h-screen bg-transparent relative z-10 overflow-hidden">
