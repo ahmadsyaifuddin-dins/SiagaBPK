@@ -25,8 +25,16 @@
     </script>
 </head>
 
-<body class="font-sans antialiased">
-    <div x-data="{ sidebarOpen: false }" class="flex h-screen bg-gray-100 dark:bg-gray-900 overflow-hidden">
+<body class="font-sans antialiased text-gray-900 dark:text-gray-100 relative">
+
+    <div class="fixed inset-0 z-0 pointer-events-none">
+        <img src="{{ asset('tempat/bpk-fire-3.jpg') }}" alt="Background Posko"
+            class="w-full h-full object-cover opacity-80 dark:opacity-60 blur-[2px] scale-105">
+
+        <div class="absolute inset-0 bg-gray-100/50 dark:bg-gray-900/60 backdrop-blur-sm"></div>
+    </div>
+
+    <div x-data="{ sidebarOpen: false }" class="flex h-screen bg-transparent relative z-10 overflow-hidden">
 
         @include('layouts.navigation')
 
@@ -34,7 +42,7 @@
 
             @include('layouts.partials.topbar')
 
-            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 dark:bg-gray-900 p-4 sm:p-6 lg:p-8">
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-transparent p-4 sm:p-6 lg:p-8">
                 {{ $slot }}
             </main>
 

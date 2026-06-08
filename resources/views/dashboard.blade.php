@@ -9,14 +9,14 @@
             </h2>
 
             <div
-                class="flex items-center space-x-2 text-sm font-semibold text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 px-4 py-2.5 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                class="flex items-center space-x-2 text-sm font-semibold text-gray-700 dark:text-gray-300 bg-white/80 dark:bg-gray-800/80 backdrop-blur-md px-4 py-2.5 rounded-xl shadow-sm border border-gray-200/50 dark:border-gray-700/50">
                 <i class="fa-regular fa-clock text-blue-500 animate-pulse"></i>
                 <span>{{ now()->translatedFormat('l, d M Y | H:i') }} WITA</span>
             </div>
         </div>
     </x-slot>
 
-    <div class="py-8 bg-gray-50 dark:bg-gray-900 min-h-screen transition-colors duration-300">
+    <div class="py-8 bg-transparent min-h-screen transition-colors duration-300">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-8">
 
             <div x-data="{
@@ -34,7 +34,7 @@
                     document.body.classList.remove('overflow-hidden');
                 }
             }" @keydown.escape.window="closeModal()"
-                class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 md:p-8 relative">
+                class="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md rounded-2xl shadow-sm border border-gray-200/50 dark:border-gray-700/50 p-6 md:p-8 relative">
 
                 <div class="flex flex-col md:flex-row items-center gap-10">
                     <div class="flex-1 text-left">
@@ -50,7 +50,7 @@
                             tanggap dalam menghadapi insiden darurat.
                         </p>
                         <div
-                            class="flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-900/50 p-3 rounded-lg border border-gray-100 dark:border-gray-700">
+                            class="flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400 bg-gray-50/50 dark:bg-gray-900/30 p-3 rounded-lg border border-gray-100 dark:border-gray-700/50">
                             <i class="fa-solid fa-magnifying-glass-plus text-indigo-500 text-lg"></i>
                             <p>Arahkan kursor ke gambar untuk melihat detail, dan <b>klik</b> untuk memperbesar
                                 tampilan.</p>
@@ -101,6 +101,7 @@
                     </div>
                 </div>
             </div>
+
             @include('dashboard.partials.stats')
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -111,7 +112,7 @@
                 <div>
                     @if (isset($totalNotif) && $totalNotif > 0)
                         <div
-                            class="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-2xl p-4 flex items-start gap-3 shadow-sm animate-pulse mb-6">
+                            class="bg-red-50/90 dark:bg-red-900/40 backdrop-blur-md border border-red-200/50 dark:border-red-800/50 rounded-2xl p-4 flex items-start gap-3 shadow-sm animate-pulse mb-6">
                             <div class="mt-0.5 text-red-500 dark:text-red-400">
                                 <i class="fa-solid fa-triangle-exclamation text-xl"></i>
                             </div>
