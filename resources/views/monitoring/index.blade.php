@@ -26,10 +26,28 @@
 
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const fontDark = getComputedStyle(document.documentElement).classList.contains('dark');
+        function tampilkanFallbackGrafik() {
+            document.querySelectorAll('[data-chart-fallback]').forEach(function(el) {
+                el.parentElement.innerHTML = '<div class="h-full flex flex-col items-center justify-center text-center">' +
+                    '<i class="fa-solid fa-chart-simple text-4xl text-gray-300 dark:text-gray-600 mb-3"></i>' +
+                    '<p class="text-sm text-gray-500 dark:text-gray-400">Grafik tidak dapat dimuat.<br>Periksa koneksi internet lalu muat ulang halaman.</p></div>';
+            });
+        }
+
+        function initGrafikMonitoring() {
+            if (typeof Chart === 'undefined') return false;
+            if (window.__grafikMonitoringSudah) return true;
+
+            const canvasBulanan = document.getElementById('chartBulanan');
+            const canvasKecamatan = document.getElementById('chartKecamatan');
+            const canvasJenis = document.getElementById('chartJenis');
+            if (!canvasBulanan || !canvasKecamatan) return false;
+
+            window.__grafikMonitoringSudah = true;
+
+            const fontDark = document.documentElement.classList.contains('dark');
             const warnaTeks = fontDark ? '#d1d5db' : '#4b5563';
             const warnaGrid = fontDark ? 'rgba(75, 85, 99, 0.35)' : 'rgba(209, 213, 219, 0.6)';
 
@@ -51,7 +69,7 @@
             };
 
             // ===== 1. TREN BULANAN =====
-            new Chart(document.getElementById('chartBulanan'), {
+            new Chart(canvasBulanan, {
                 type: 'bar',
                 data: {
                     labels: @js($chartBulanLabels),
@@ -98,7 +116,7 @@
             });
 
             // ===== 2. INSIDEN PER KECAMATAN =====
-            new Chart(document.getElementById('chartKecamatan'), {
+            new Chart(canvasKecamatan, {
                 type: 'bar',
                 data: {
                     labels: @js($chartKecamatanLabels),
@@ -142,22 +160,47 @@
             });
 
             // ===== 3. DISTRIBUSI JENIS INSIDEN =====
-            const palet = ['#ef4444', '#f97316', '#eab308', '#22c55e', '#3b82f6', '#8b5cf6', '#ec4899', '#14b8a6'];
-            new Chart(document.getElementById('chartJenis'), {
-                type: 'doughnut',
-                data: {
-                    labels: @js($chartJenisLabels),
-                    datasets: [{
-                        data: @js($chartJenisValues),
-                        backgroundColor: palet,
-                        borderWidth: 2,
-                        borderColor: fontDark ? '#1f2937' : '#ffffff'
-                    }]
-                },
-                options: { ...opsiDasar,
-                    cutout: '58%'
+            if (canvasJenis) {
+                const palet = ['#ef4444', '#f97316', '#eab308', '#22c55e', '#3b82f6', '#8b5cf6', '#ec4899', '#14b8a6'];
+                new Chart(canvasJenis, {
+                    type: 'doughnut',
+                    data: {
+                        labels: @js($chartJenisLabels),
+                        datasets: [{
+                            data: @js($chartJenisValues),
+                            backgroundColor: palet,
+                            borderWidth: 2,
+                            borderColor: fontDark ? '#1f2937' : '#ffffff'
+                        }]
+                    },
+                    options: { ...opsiDasar,
+                        cutout: '58%'
+                    }
+                });
+            }
+
+            return true;
+        }
+
+        function mulaiGrafikMonitoring() {
+            // Beri waktu CDN hingga ±6 detik, lalu tampilkan pesan fallback
+            let percobaan = 0;
+            const timer = setInterval(function() {
+                percobaan++;
+                if (initGrafikMonitoring() || percobaan >= 24) {
+                    clearInterval(timer);
+                    if (!initGrafikMonitoring()) {
+                        console.warn('Chart.js (CDN) gagal dimuat - grafik monitoring tidak ditampilkan.');
+                        tampilkanFallbackGrafik();
+                    }
                 }
-            });
-        });
+            }, 250);
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', mulaiGrafikMonitoring);
+        } else {
+            mulaiGrafikMonitoring();
+        }
     </script>
 </x-app-layout>

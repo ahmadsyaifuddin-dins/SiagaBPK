@@ -9,7 +9,7 @@
             </h3>
         </div>
         <div class="h-72 md:h-80">
-            <canvas id="chartBulanan"></canvas>
+            <canvas id="chartBulanan" data-chart-fallback></canvas>
         </div>
     </div>
 
@@ -21,7 +21,7 @@
         </h3>
         @if ($chartJenisValues->count() > 0)
             <div class="h-72 md:h-80">
-                <canvas id="chartJenis"></canvas>
+                <canvas id="chartJenis" data-chart-fallback></canvas>
             </div>
         @else
             <div class="h-72 flex flex-col items-center justify-center text-center">
@@ -38,7 +38,7 @@
             <i class="fa-solid fa-map-location-dot text-cyan-500 mr-2"></i> Sebaran Insiden per Kecamatan Kota Banjarmasin
         </h3>
         <div class="h-64">
-            <canvas id="chartKecamatan"></canvas>
+            <canvas id="chartKecamatan" data-chart-fallback></canvas>
         </div>
     </div>
 </div>
