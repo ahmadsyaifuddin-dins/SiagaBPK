@@ -50,7 +50,8 @@ class InsidenController extends Controller
             $data['foto'] = 'uploads/insiden/'.$filename;
         }
 
-        // 4. Simpan Data Insiden
+        // 4. Simpan Data Insiden (termasuk normalisasi detail korban & kerugian)
+        $data = $this->normalizeDetailKejadian($data);
         $insiden = Insiden::create($data);
 
         // 5. Sync Petugas (Hanya jika Admin/petugas_lapangan yang menginputnya)
@@ -128,7 +129,8 @@ class InsidenController extends Controller
             $data['foto'] = 'uploads/insiden/'.$filename;
         }
 
-        // Update data
+        // Update data (termasuk normalisasi detail korban & kerugian)
+        $data = $this->normalizeDetailKejadian($data);
         $insiden->update($data);
 
         // Sync Petugas
@@ -147,6 +149,45 @@ class InsidenController extends Controller
         $insiden->delete();
 
         return redirect()->route('insidens.index')->with('success', 'Insiden berhasil dihapus.');
+    }
+
+    /**
+     * Rapikan data detail kejadian sebelum disimpan:
+     * - Field angka kosong diubah menjadi 0
+     * - Sinkronkan kolom legacy kerugian (teks) dengan kerugian_material (angka)
+     * - Hitung otomatis jumlah_korban dari detail korban jiwa
+     */
+    private function normalizeDetailKejadian(array $data): array
+    {
+        $fieldAngka = [
+            'korban_meninggal', 'korban_luka_berat', 'korban_luka_ringan',
+            'korban_jiwa_terdampak', 'korban_mengungsi_kk', 'korban_mengungsi_jiwa',
+            'rumah_terbakar', 'rumah_rusak', 'bangunan_lain_terdampak',
+            'kendaraan_terbakar', 'luas_area_dampak',
+        ];
+
+        foreach ($fieldAngka as $field) {
+            if (!isset($data[$field]) || $data[$field] === '' || $data[$field] === null) {
+                $data[$field] = 0;
+            }
+        }
+
+        // Sinkronkan teks kerugian lama agar PDF/laporan lama tetap tampil benar
+        $kerugianMaterial = (int) round((float) ($data['kerugian_material'] ?? 0));
+        if ($kerugianMaterial > 0) {
+            $data['kerugian_material'] = $kerugianMaterial;
+            $data['kerugian'] = 'Rp '.number_format($kerugianMaterial, 0, ',', '.');
+        } else {
+            $data['kerugian_material'] = 0;
+        }
+
+        // Total korban jiwa otomatis untuk kompatibilitas laporan lama
+        $totalKorbanDetail = ($data['korban_meninggal'] ?? 0)
+            + ($data['korban_luka_berat'] ?? 0)
+            + ($data['korban_luka_ringan'] ?? 0);
+        $data['jumlah_korban'] = max($totalKorbanDetail, (int) ($data['jumlah_korban'] ?? 0));
+
+        return $data;
     }
 
     // --- REPORTING SECTION ---

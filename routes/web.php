@@ -6,6 +6,7 @@ use App\Http\Controllers\InventarisController;
 use App\Http\Controllers\JadwalSiagaController;
 use App\Http\Controllers\KegiatanController;
 use App\Http\Controllers\MaintenanceController;
+use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
@@ -24,6 +25,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Dashboard Utama
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Monitoring BPK Kota Banjarmasin (Ruang lingkup 5 kecamatan)
+    Route::get('/monitoring', [MonitoringController::class, 'index'])->name('monitoring.index');
 
     // Profile bawaan Breeze (Semua user berhak mengedit profil dan password mereka sendiri)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -8,6 +8,7 @@
                 <div class="lg:col-span-2 space-y-6">
                     @include('insidens.partials.show.status-kejadian')
                     @include('insidens.partials.show.info-kejadian')
+                    @include('insidens.partials.show.detail-korban-kerugian')
                     @include('insidens.partials.show.catatan-dokumentasi')
                 </div>
 

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('password');
 
             // Perubahan Role Utama
-            $table->enum('role', ['admin', 'petugas_lapangan', 'kepala_bpk'])->default('petugas_lapangan');
+            $table->enum('role', ['admin', 'petugas_lapangan', 'kepala_bpk', 'masyarakat'])->default('petugas_lapangan');
 
             // Detail Field
             $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan'])->nullable();

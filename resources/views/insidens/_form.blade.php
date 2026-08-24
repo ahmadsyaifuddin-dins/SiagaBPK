@@ -73,22 +73,156 @@
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
     <div class="group">
-        <x-forms.label for="jenis_insiden" value="Jenis Insiden" required="true">
-            <i class="fa-solid fa-fire text-orange-500"></i>
+        <x-forms.label for="kecamatan" value="Kecamatan">
+            <i class="fa-solid fa-city text-cyan-500"></i>
         </x-forms.label>
-        <x-forms.input type="text" name="jenis_insiden" id="jenis_insiden"
-            placeholder="Kebakaran Rumah, Ada Ular didalam rumah, dll..."
-            value="{{ old('jenis_insiden', $insiden->jenis_insiden ?? '') }}" required />
+        @php $currentKecamatan = old('kecamatan', $insiden->kecamatan ?? ''); @endphp
+        <select name="kecamatan" id="kecamatan"
+            class="w-full rounded-xl border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 px-4 py-2.5 text-sm text-gray-900 dark:text-white focus:border-blue-500 focus:ring-blue-500 transition-colors duration-200">
+            <option value="">-- Pilih Kecamatan --</option>
+            @foreach (\App\Models\Insiden::KECAMATAN_BANJARMASIN as $kec)
+                <option value="{{ $kec }}" {{ $currentKecamatan == $kec ? 'selected' : '' }}>{{ $kec }}</option>
+            @endforeach
+            <option value="Luar Kota Banjarmasin" {{ $currentKecamatan == 'Luar Kota Banjarmasin' ? 'selected' : '' }}>
+                Luar Kota Banjarmasin</option>
+        </select>
     </div>
 
     <div class="group">
-        <x-forms.label for="jumlah_korban" value="Jumlah Korban (Jika Diketahui)">
-            <i class="fa-solid fa-users text-gray-500"></i>
+        <x-forms.label for="kelurahan" value="Kelurahan / Desa">
+            <i class="fa-solid fa-map-pin text-teal-500"></i>
         </x-forms.label>
-        <x-forms.input type="number" name="jumlah_korban" id="jumlah_korban" placeholder="0" min="0"
-            value="{{ old('jumlah_korban', $insiden->jumlah_korban ?? '') }}" />
+        <input type="text" name="kelurahan" id="kelurahan" list="daftar-kelurahan"
+            value="{{ old('kelurahan', $insiden->kelurahan ?? '') }}"
+            placeholder="Ketik atau pilih kelurahan..."
+            class="w-full rounded-xl border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 px-4 py-2.5 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500 transition-colors duration-200" />
+        <datalist id="daftar-kelurahan">
+            <option value="">-- Pilih Kelurahan --</option>
+        </datalist>
+        <small class="text-xs text-gray-500 mt-1 block">Pilihan kelurahan menyesuaikan kecamatan yang dipilih.</small>
     </div>
 </div>
+
+<script>
+    // Daftar kelurahan resmi Kota Banjarmasin per kecamatan
+    const dataKelurahan = {
+        "Banjarmasin Barat": ["Basirih", "Belitung Selatan", "Belitung Utara", "Kuin Cerucuk", "Kuin Selatan", "Pelambuan", "Telaga Biru", "Telawang", "Teluk Tiram"],
+        "Banjarmasin Selatan": ["Basirih Selatan", "Kelayan Barat", "Kelayan Dalam", "Kelayan Tengah", "Kelayan Timur", "Kelayan Selatan", "Mantuil", "Murung Raya", "Pekauman", "Pemurus Baru", "Pemurus Dalam", "Tanjung Pagar"],
+        "Banjarmasin Tengah": ["Antasan Besar", "Gadang", "Kertak Baru Ilir", "Kertak Baru Ulu", "Kelayan Luar", "Mawar", "Melayu", "Pasar Lama", "Pekapuran Laut", "Seberang Mesjid", "Sungai Baru", "Teluk Dalam"],
+        "Banjarmasin Timur": ["Benua Anyar", "Karang Mekar", "Kebun Bunga", "Kuripan", "Pekapuran Raya", "Pemurus Luar", "Pengambangan", "Sungai Bilu", "Sungai Lulut"],
+        "Banjarmasin Utara": ["Alalak Utara", "Alalak Tengah", "Alalak Selatan", "Antasan Kecil Timur", "Kuin Utara", "Pangeran", "Sungai Andai", "Sungai Jingah", "Sungai Miai", "Surgi Mufti"]
+    };
+
+    function perbaruiKelurahan() {
+        const kec = document.getElementById('kecamatan');
+        const kel = document.getElementById('kelurahan');
+        const list = document.getElementById('daftar-kelurahan');
+        if (!kec || !list) return;
+
+        list.innerHTML = '';
+        (dataKelurahan[kec.value] || []).forEach(function(nama) {
+            const opt = document.createElement('option');
+            opt.value = nama;
+            list.appendChild(opt);
+        });
+
+        // Kosongkan kelurahan jika berganti kecamatan ke wilayah lain
+        const opsi = Array.from(list.options).map(o => o.value);
+        if (opsi.length > 0 && !opsi.includes(kel.value)) {
+            kel.value = '';
+        }
+    }
+
+    document.getElementById('kecamatan').addEventListener('change', perbaruiKelurahan);
+    document.addEventListener('DOMContentLoaded', perbaruiKelurahan);
+</script>
+
+<div class="group mb-6">
+    <x-forms.label for="jenis_insiden" value="Jenis Insiden" required="true">
+        <i class="fa-solid fa-fire text-orange-500"></i>
+    </x-forms.label>
+    <x-forms.input type="text" name="jenis_insiden" id="jenis_insiden"
+        placeholder="Kebakaran Rumah, Ada Ular didalam rumah, dll..."
+        value="{{ old('jenis_insiden', $insiden->jenis_insiden ?? '') }}" required />
+</div>
+
+{{-- ===== DETAIL DATA KORBAN ===== --}}
+<div
+    class="bg-red-50/60 dark:bg-red-900/10 p-4 rounded-xl border border-red-100 dark:border-red-800/50 mb-6">
+    <h4 class="text-sm font-bold text-gray-700 dark:text-gray-300 mb-4 flex items-center">
+        <i class="fa-solid fa-users-viewfinder text-red-500 mr-2"></i> Detail Data Korban Kejadian
+    </h4>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="group">
+            <x-forms.label for="korban_meninggal" value="Korban Meninggal Dunia">
+                <i class="fa-solid fa-heart-crack text-red-600"></i>
+            </x-forms.label>
+            <div class="relative">
+                <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-xs text-gray-400">jiwa</span>
+                <x-forms.input type="number" name="korban_meninggal" id="korban_meninggal" min="0"
+                    value="{{ old('korban_meninggal', $insiden->korban_meninggal ?? 0) }}" class="pr-12" />
+            </div>
+        </div>
+
+        <div class="group">
+            <x-forms.label for="korban_luka_berat" value="Korban Luka Berat">
+                <i class="fa-solid fa-user-injured text-orange-500"></i>
+            </x-forms.label>
+            <div class="relative">
+                <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-xs text-gray-400">jiwa</span>
+                <x-forms.input type="number" name="korban_luka_berat" id="korban_luka_berat" min="0"
+                    value="{{ old('korban_luka_berat', $insiden->korban_luka_berat ?? 0) }}" class="pr-12" />
+            </div>
+        </div>
+
+        <div class="group">
+            <x-forms.label for="korban_luka_ringan" value="Korban Luka Ringan">
+                <i class="fa-solid fa-band-aid text-yellow-500"></i>
+            </x-forms.label>
+            <div class="relative">
+                <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-xs text-gray-400">jiwa</span>
+                <x-forms.input type="number" name="korban_luka_ringan" id="korban_luka_ringan" min="0"
+                    value="{{ old('korban_luka_ringan', $insiden->korban_luka_ringan ?? 0) }}" class="pr-12" />
+            </div>
+        </div>
+
+        <div class="group">
+            <x-forms.label for="korban_jiwa_terdampak" value="Total Jiwa Terdampak">
+                <i class="fa-solid fa-users text-purple-500"></i>
+            </x-forms.label>
+            <div class="relative">
+                <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-xs text-gray-400">jiwa</span>
+                <x-forms.input type="number" name="korban_jiwa_terdampak" id="korban_jiwa_terdampak" min="0"
+                    value="{{ old('korban_jiwa_terdampak', $insiden->korban_jiwa_terdampak ?? 0) }}" class="pr-12" />
+            </div>
+            <small class="text-xs text-gray-500 mt-1 block">Seluruh warga yang terdampak (termasuk selamat).</small>
+        </div>
+
+        <div class="group">
+            <x-forms.label for="korban_mengungsi_kk" value="Pengungsi (Kepala Keluarga)">
+                <i class="fa-solid fa-house-circle-exclamation text-indigo-500"></i>
+            </x-forms.label>
+            <div class="relative">
+                <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-xs text-gray-400">KK</span>
+                <x-forms.input type="number" name="korban_mengungsi_kk" id="korban_mengungsi_kk" min="0"
+                    value="{{ old('korban_mengungsi_kk', $insiden->korban_mengungsi_kk ?? 0) }}" class="pr-8" />
+            </div>
+        </div>
+
+        <div class="group">
+            <x-forms.label for="korban_mengungsi_jiwa" value="Pengungsi (Jiwa)">
+                <i class="fa-solid fa-people-roof text-blue-500"></i>
+            </x-forms.label>
+            <div class="relative">
+                <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-xs text-gray-400">jiwa</span>
+                <x-forms.input type="number" name="korban_mengungsi_jiwa" id="korban_mengungsi_jiwa" min="0"
+                    value="{{ old('korban_mengungsi_jiwa', $insiden->korban_mengungsi_jiwa ?? 0) }}" class="pr-12" />
+            </div>
+        </div>
+    </div>
+</div>
+{{-- ===== AKHIR DETAIL KORBAN ===== --}}
 
 @if (in_array(auth()->user()->role, ['admin', 'petugas_lapangan']))
     <div class="bg-gray-50 dark:bg-gray-800/50 p-4 rounded-xl border border-gray-200 dark:border-gray-700 mb-6">
@@ -96,15 +230,82 @@
             <i class="fa-solid fa-shield-halved text-indigo-500 mr-2"></i> Kolom Khusus Petugas
         </h4>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div class="group">
-                <x-forms.label for="kerugian" value="Taksiran Kerugian Material">
-                    <i class="fa-solid fa-sack-dollar text-red-500"></i>
-                </x-forms.label>
-                <x-forms.input-currency name="kerugian" id="kerugian" placeholder="Contoh: 15.000.000"
-                    value="{{ old('kerugian', $insiden->kerugian ?? '') }}" />
-                <small class="text-xs text-gray-500 mt-1 block">Kosongkan jika tidak ada kerugian material.</small>
+        {{-- Detail Kerusakan & Kerugian --}}
+        <div class="mb-6 pb-6 border-b border-dashed border-gray-200 dark:border-gray-700">
+            <h5 class="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-4 flex items-center">
+                <i class="fa-solid fa-house-crack text-red-500 mr-2"></i> Detail Kerusakan & Kerugian Material
+            </h5>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="group">
+                    <x-forms.label for="rumah_terbakar" value="Rumah Terbakar">
+                        <i class="fa-solid fa-fire text-red-500"></i>
+                    </x-forms.label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-xs text-gray-400">unit</span>
+                        <x-forms.input type="number" name="rumah_terbakar" id="rumah_terbakar" min="0"
+                            value="{{ old('rumah_terbakar', $insiden->rumah_terbakar ?? 0) }}" class="pr-12" />
+                    </div>
+                </div>
+
+                <div class="group">
+                    <x-forms.label for="rumah_rusak" value="Rumah Rusak">
+                        <i class="fa-solid fa-house-chimney-crack text-amber-500"></i>
+                    </x-forms.label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-xs text-gray-400">unit</span>
+                        <x-forms.input type="number" name="rumah_rusak" id="rumah_rusak" min="0"
+                            value="{{ old('rumah_rusak', $insiden->rumah_rusak ?? 0) }}" class="pr-12" />
+                    </div>
+                </div>
+
+                <div class="group">
+                    <x-forms.label for="bangunan_lain_terdampak" value="Bangunan Lain Terdampak">
+                        <i class="fa-solid fa-store text-emerald-500"></i>
+                    </x-forms.label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-xs text-gray-400">unit</span>
+                        <x-forms.input type="number" name="bangunan_lain_terdampak" id="bangunan_lain_terdampak" min="0"
+                            value="{{ old('bangunan_lain_terdampak', $insiden->bangunan_lain_terdampak ?? 0) }}"
+                            class="pr-12" />
+                    </div>
+                    <small class="text-xs text-gray-500 mt-1 block">Toko, gudang, kios, warung, dll.</small>
+                </div>
+
+                <div class="group">
+                    <x-forms.label for="kendaraan_terbakar" value="Kendaraan Terbakar">
+                        <i class="fa-solid fa-motorcycle text-sky-500"></i>
+                    </x-forms.label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-xs text-gray-400">unit</span>
+                        <x-forms.input type="number" name="kendaraan_terbakar" id="kendaraan_terbakar" min="0"
+                            value="{{ old('kendaraan_terbakar', $insiden->kendaraan_terbakar ?? 0) }}" class="pr-12" />
+                    </div>
+                </div>
+
+                <div class="group">
+                    <x-forms.label for="luas_area_dampak" value="Luas Area Terdampak">
+                        <i class="fa-solid fa-ruler-combined text-lime-500"></i>
+                    </x-forms.label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 right-0 flex items-center pr-4 text-xs text-gray-400">m²</span>
+                        <x-forms.input type="number" step="0.01" name="luas_area_dampak" id="luas_area_dampak" min="0"
+                            value="{{ old('luas_area_dampak', $insiden->luas_area_dampak ?? '') }}" class="pr-10" />
+                    </div>
+                </div>
+
+                <div class="group">
+                    <x-forms.label for="kerugian_material" value="Taksiran Kerugian Material">
+                        <i class="fa-solid fa-sack-dollar text-red-500"></i>
+                    </x-forms.label>
+                    <x-forms.input-currency name="kerugian_material" id="kerugian_material" placeholder="Contoh: 15.000.000"
+                        value="{{ old('kerugian_material', $insiden->kerugian_material ?? '') }}" />
+                    <small class="text-xs text-gray-500 mt-1 block">Kosongkan / 0 jika tidak ada kerugian material.</small>
+                </div>
             </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
             <div class="group">
                 <x-forms.label for="status" value="Status Laporan" required="true">

@@ -62,6 +62,21 @@
                         <p class="text-gray-900 dark:text-white font-semibold text-lg leading-tight mb-2">
                             {{ $insiden->lokasi }}</p>
 
+                        @if ($insiden->kelurahan || $insiden->kecamatan)
+                            <div class="flex flex-wrap gap-1.5 mb-2">
+                                @if ($insiden->kelurahan)
+                                    <span
+                                        class="inline-flex items-center gap-1 px-2 py-0.5 bg-teal-100 text-teal-700 dark:bg-teal-900/40 dark:text-teal-400 rounded-md text-xs font-semibold">
+                                        <i class="fa-solid fa-map-pin"></i> Kel. {{ $insiden->kelurahan }}</span>
+                                @endif
+                                @if ($insiden->kecamatan)
+                                    <span
+                                        class="inline-flex items-center gap-1 px-2 py-0.5 bg-cyan-100 text-cyan-700 dark:bg-cyan-900/40 dark:text-cyan-400 rounded-md text-xs font-semibold">
+                                        <i class="fa-solid fa-city"></i> Kec. {{ $insiden->kecamatan }}</span>
+                                @endif
+                            </div>
+                        @endif
+
                         @if ($insiden->latitude && $insiden->longitude)
                             <a href="https://www.google.com/maps/search/?api=1&query={{ $insiden->latitude }},{{ $insiden->longitude }}"
                                 target="_blank"
@@ -108,8 +123,8 @@
                     </div>
                     <div class="flex-1 mt-1">
                         <p class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-0.5">
-                            Jumlah Korban</p>
-                        <p class="text-gray-900 dark:text-white font-medium">{{ $insiden->jumlah_korban ?? 0 }} orang
+                            Total Korban Jiwa</p>
+                        <p class="text-gray-900 dark:text-white font-medium">{{ $insiden->total_korban_jiwa }} orang
                         </p>
                     </div>
                 </div>
@@ -122,7 +137,9 @@
                         <p class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-0.5">
                             Taksiran Kerugian</p>
                         <p class="text-gray-900 dark:text-white font-medium">
-                            @if (is_numeric($insiden->kerugian))
+                            @if ((int) $insiden->kerugian_material > 0)
+                                {{ $insiden->kerugian_material_format }}
+                            @elseif (is_numeric($insiden->kerugian))
                                 Rp {{ number_format((float) $insiden->kerugian, 0, ',', '.') }}
                             @else
                                 {{ $insiden->kerugian ?? 'Belum diketahui' }}

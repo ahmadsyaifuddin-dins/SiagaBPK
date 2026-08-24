@@ -23,6 +23,13 @@
             {{ __('Dashboard') }}
         </a>
 
+        <!-- Monitoring BPK Kota Banjarmasin (Semua Role) -->
+        <a href="{{ route('monitoring.index') }}"
+            class="flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors {{ request()->routeIs('monitoring.*') ? 'bg-red-50 text-red-700 dark:bg-red-900/50 dark:text-red-400' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200' }}">
+            <i class="fa-solid fa-chart-line w-5 text-center"></i>
+            {{ __('Monitoring BPK') }}
+        </a>
+
         <!-- Khusus Admin: Manajemen SDM -->
         @if (auth()->user()->role === 'admin')
             <div class="pt-4 pb-1">
